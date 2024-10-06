@@ -1,6 +1,8 @@
-# proyek-tengah-semester
+# Proyek Tengah Semester B02
 
-### Anggota kelompok B02:
+## Aplikasi: ....
+
+### Anggota kelompok B02
 1. Abella Maya Santi - 2306275462
 2. Fakhriyah Ghania Putri - 2306245466
 3. Hizounya Maycinto Alkian - 2306245661
