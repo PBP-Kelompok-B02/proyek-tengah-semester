@@ -1,6 +1,6 @@
 # Proyek Tengah Semester B02
 
-## Aplikasi: ....
+## Aplikasi: tar aja lah. lisa (klo bisa)
 
 ### Anggota kelompok B02
 1. Abella Maya Santi - 2306275462
@@ -9,12 +9,29 @@
 4. Lisa Margaretha Esron Tobing - 2306245541
 5. Trias Fahri Naufal - 2306212096
 
-## Deskripsi aplikasi (cerita aplikasi yang diajukan serta kebermanfaatannya)
+## Deskripsi aplikasi (cerita aplikasi yang diajukan serta kebermanfaatannya) ghania
+Aplikasi  yang akan kami buat adalah sebuah platform yang menampilkan daftar makanan yang tersedia di Yogyakarta, lengkap dengan informasi tentang tempat makannya. Pengguna dapat mencari berbagai makanan dan menemukan rekomendasi tempat makan yang menyajikan makanan tersebut.
 
-## Daftar modul yang akan diimplementasikan
+## Daftar modul yang akan diimplementasikan lisa ghnaia
+- Authentication & Dashboard
+  
+- Homepage, guest bisa
+
+- Bookmark, user
+- Review, guest lihat tp gabisa kasi review
+- Detail Makanan, all bisa
 
 ## Sumber initial dataset kategori utama produk
+csv
 
-## Role atau peran pengguna beserta deskripsinya (karena bisa saja lebih dari satu jenis pengguna yang mengakses aplikasi)
+
+## Role atau peran pengguna beserta deskripsinya (karena bisa saja lebih dari satu jenis pengguna yang mengakses aplikasi) abel hizo
+- Guest
+  
+- User
+  
+- Admin
+  
 
 ## Tautan deployment aplikasi
+
