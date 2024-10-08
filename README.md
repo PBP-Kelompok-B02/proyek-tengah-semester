@@ -52,11 +52,11 @@ csv
 
 
 ## Role atau peran pengguna beserta deskripsinya (karena bisa saja lebih dari satu jenis pengguna yang mengakses aplikasi) abel hizo
-- Guest
+- Guest : Dapat menjelajahi aplikasi, tetapi hanya bisa melihat informasi tanpa melakukan tindakan lebih lanjut, seperti memberikan ulasan atau menyimpan bookmark.
   
-- User
+- User : Memiliki akses lebih luas, seperti menyimpan daftar makanan (bookmark) dan berinteraksi dengan konten, misalnya memberikan ulasan.
   
-- Admin
+- Admin : Memiliki akses penuh untuk mengelola seluruh aspek aplikasi, termasuk mengontrol data dan mengawasi aktivitas pengguna.
   
 
 ## Tautan deployment aplikasi
