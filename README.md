@@ -62,7 +62,7 @@
 Dataset yang digunakan dalam aplikasi YumYogya berasal dari hasil scraping data melalui aplikasi layanan transportasi dan pemesanan makanan/minuman online, seperti Gojek, ShopeeFood, dan lainnya. Data yang diambil mencakup informasi terkait makanan dan tempat makan di Yogyakarta, seperti nama makanan, harga, rating, dan lokasi tempat makan. Dataset mencakup 100 jenis makanan atau minuman yang dijamin unik.
 
 
-## Role atau peran pengguna beserta deskripsinya (karena bisa saja lebih dari satu jenis pengguna yang mengakses aplikasi)
+## Role pengguna aplikasi
 - Guest : Dapat menjelajahi aplikasi, tetapi hanya bisa melihat informasi tanpa melakukan tindakan lebih lanjut, seperti memberikan ulasan atau menyimpan bookmark.
   
 - User : Memiliki akses lebih luas, seperti menyimpan daftar makanan (bookmark) dan berinteraksi dengan konten, misalnya memberikan ulasan.
