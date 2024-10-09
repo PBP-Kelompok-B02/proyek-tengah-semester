@@ -23,7 +23,7 @@
 
 2. **Homepage**
 
-   Modul Homepage berfungsi sebagai beranda utama aplikasi yang menampilkan berbagai informasi mengenai makanan serta berbagai fitur yang dapat diakses oleh **user** maupun **guest**. Ketika makanan diklik, **user**/**guest** akan diarahkan ke **halaman detail makanan**.
+   Modul **Homepage** berfungsi sebagai beranda utama aplikasi yang menampilkan berbagai informasi mengenai makanan serta berbagai fitur yang dapat diakses oleh **user** maupun **guest**. Ketika makanan diklik, **user**/**guest** akan diarahkan ke **halaman detail makanan**.
    Fitur-fitur yang akan diterapkan dalam modul ini:
      - **Pencarian dan Rekomendasi Makanan**
        Pengguna dapat mencari berbagai jenis makanan yang tersedia di Yogyakarta melalui **search bar**. Kemudian, makanan akan ditampilkan dengan urutan berdasarkan **rating tertinggi**.
@@ -59,13 +59,13 @@
 
 
 ## Dataset yang Digunakan
-Dataset yang digunakan dalam aplikasi YumYogya berasal dari hasil scraping data melalui aplikasi layanan transportasi dan pemesanan makanan/minuman online, seperti Gojek, ShopeeFood, dan lainnya. Data yang diambil mencakup informasi terkait makanan dan tempat makan di Yogyakarta, seperti nama makanan, harga, rating, dan lokasi tempat makan. Dataset mencakup 100 jenis makanan atau minuman yang dijamin unik.
+Dataset yang digunakan dalam aplikasi **YumYogya** berasal dari hasil scraping data melalui aplikasi layanan transportasi dan pemesanan makanan/minuman online, seperti Gojek, ShopeeFood, dan lainnya. Data yang diambil mencakup informasi terkait makanan dan tempat makan di Yogyakarta, seperti nama makanan, harga, rating, dan lokasi tempat makan. Dataset mencakup 100 jenis makanan atau minuman yang dijamin unik.
 
 
 ## Role Pengguna Aplikasi
-- Guest : Dapat menjelajahi aplikasi, tetapi hanya bisa melihat informasi tanpa melakukan tindakan lebih lanjut, seperti memberikan ulasan atau menyimpan bookmark.
+- **Guest** : Dapat menjelajahi aplikasi, tetapi hanya bisa melihat informasi tanpa melakukan tindakan lebih lanjut, seperti memberikan ulasan atau menyimpan bookmark.
   
-- User : Memiliki akses lebih luas, seperti menyimpan daftar makanan (bookmark) dan berinteraksi dengan konten, misalnya memberikan ulasan.
+- **User** : Memiliki akses lebih luas, seperti menyimpan daftar makanan (bookmark) dan berinteraksi dengan konten, misalnya memberikan ulasan.
 
 ## Tautan Deployment Aplikasi
 http://lisa-margaretha-yumyogya.pbp.cs.ui.ac.id
