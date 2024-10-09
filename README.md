@@ -59,7 +59,7 @@
 
 
 ## Dataset yang Digunakan
-Dataset yang digunakan dalam aplikasi **YumYogya** berasal dari hasil scraping data melalui aplikasi layanan transportasi dan pemesanan makanan/minuman online, seperti Gojek, ShopeeFood, dan lainnya. Data yang diambil mencakup informasi terkait makanan dan tempat makan di Yogyakarta, seperti nama makanan, harga, rating, dan lokasi tempat makan. Dataset mencakup 100 jenis makanan atau minuman yang dijamin unik.
+[Dataset](https://github.com/PBP-Kelompok-B02/proyek-tengah-semester/blob/main/dataset/dataset.csv) yang digunakan dalam aplikasi **YumYogya** berasal dari hasil scraping data melalui aplikasi layanan transportasi dan pemesanan makanan/minuman online, seperti Gojek, ShopeeFood, dan lainnya. Data yang diambil mencakup informasi terkait makanan dan tempat makan di Yogyakarta, seperti nama makanan, harga, rating, dan lokasi tempat makan. Dataset mencakup 100 jenis makanan atau minuman yang dijamin unik.
 
 
 ## Role Pengguna Aplikasi
