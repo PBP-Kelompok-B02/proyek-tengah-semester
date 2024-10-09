@@ -1,6 +1,6 @@
 # Proyek Tengah Semester B02
 
-## Aplikasi: **ManganYog**
+## Aplikasi: **YumYogya**
 
 ### Anggota kelompok B02:
 1. Abella Maya Santi - 2306275462
@@ -10,7 +10,7 @@
 5. Trias Fahri Naufal - 2306212096
 
 ## Deskripsi aplikasi
-**ManganYog** adalah sebuah platform yang menampilkan daftar makanan yang tersedia di Yogyakarta lengkap dengan informasi tentang tempat makannya. Pengguna dapat mencari berbagai makanan dan menemukan rekomendasi tempat makan yang menyajikan makanan tersebut. Berikut ini adalah manfaat dari aplikasi:
+**YumYogya** adalah sebuah platform yang menampilkan daftar makanan yang tersedia di Yogyakarta lengkap dengan informasi tentang tempat makannya. Pengguna dapat mencari berbagai makanan dan menemukan rekomendasi tempat makan yang menyajikan makanan tersebut. Berikut ini adalah manfaat dari aplikasi:
 - Aplikasi ini berguna bagi wisatawan atau penduduk lokal yang ingin mengeksplor kuliner di Yogyakarta.
 - Pengguna bisa dengan cepat menemukan tempat makan sesuai makanan yang mereka cari serta mendapatkan informasi tambahan mengenai rating dan review makanan.
 - Dengan adanya rating dan ulasan, pengguna dapat memilih tempat makan terbaik berdasarkan pengalaman orang lain.
@@ -54,7 +54,7 @@ Pengguna juga dapat melihat **review** mengenai makanan tersebut. **Guest** dan 
 
 
 ## Sumber initial dataset kategori utama produk
-Dataset yang digunakan dalam aplikasi ManganYog berasal dari hasil scraping data melalui aplikasi Gojek. Data yang diambil mencakup informasi terkait makanan dan tempat makan di Yogyakarta, seperti nama makanan, harga, rating, dan lokasi tempat makan. Dataset mencakup 100 jenis makanan atau minuman yang dijamin unik.
+Dataset yang digunakan dalam aplikasi YumYogya berasal dari hasil scraping data melalui aplikasi Gojek. Data yang diambil mencakup informasi terkait makanan dan tempat makan di Yogyakarta, seperti nama makanan, harga, rating, dan lokasi tempat makan. Dataset mencakup 100 jenis makanan atau minuman yang dijamin unik.
 
 
 ## Role atau peran pengguna beserta deskripsinya (karena bisa saja lebih dari satu jenis pengguna yang mengakses aplikasi)
