@@ -1,6 +1,6 @@
 # Proyek Tengah Semester B02
 
-## Aplikasi: **YumYogya**
+## Aplikasi: **YumYogya** :plate_with_cutlery:
 
 ### Anggota kelompok B02:
 1. Abella Maya Santi - 2306275462
