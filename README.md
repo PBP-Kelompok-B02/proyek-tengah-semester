@@ -10,8 +10,7 @@
 5. Trias Fahri Naufal - 2306212096
 
 ## Deskripsi aplikasi
-**YumYogya** adalah sebuah platform yang menampilkan daftar makanan yang tersedia di Yogyakarta lengkap dengan informasi tentang tempat makannya. Pengguna dapat mencari berbagai makanan dan menemukan rekomendasi tempat makan yang menyajikan makanan tersebut. 
-Berikut ini adalah manfaat dari aplikasi ****:
+**YumYogya** adalah sebuah platform yang menampilkan daftar makanan yang tersedia di Yogyakarta lengkap dengan informasi tentang tempat makannya. Pengguna dapat mencari berbagai makanan dan menemukan rekomendasi tempat makan yang menyajikan makanan tersebut. Berikut ini adalah manfaat dari aplikasi:
 - Aplikasi ini berguna bagi wisatawan atau penduduk lokal yang ingin mengeksplor kuliner di Yogyakarta.
 - Pengguna bisa dengan cepat menemukan tempat makan sesuai makanan yang mereka cari serta mendapatkan informasi tambahan mengenai rating dan review makanan.
 - Dengan adanya rating dan ulasan, pengguna dapat memilih tempat makan terbaik berdasarkan pengalaman orang lain.
@@ -23,29 +22,23 @@ Modul **Account dan Dashboard** berfungsi sebagai pusat autentikasi sekaligus pu
 
 2. **Homepage**
 Modul Homepage berfungsi sebagai beranda utama aplikasi yang menampilkan berbagai informasi mengenai makanan serta berbagai fitur yang dapat diakses oleh **user** maupun **guest**. Ketika makanan diklik, **user**/**guest** akan diarahkan ke **halaman detail makanan**.
-  ### Fitur-fitur yang akan diterapkan dalam modul ini:
-  1. **Pencarian dan Rekomendasi Makanan**
+Fitur-fitur yang akan diterapkan dalam modul ini:
+- **Pencarian dan Rekomendasi Makanan**
      Pengguna dapat mencari berbagai jenis makanan yang tersedia di Yogyakarta melalui **search bar**. Kemudian, makanan akan ditampilkan dengan urutan berdasarkan **rating tertinggi**.
-  2. **Filter dan Sorting**
+- **Filter dan Sorting**
      Pengguna bisa menggunakan **filter** untuk memilih makanan berdasarkan kategori tertentu, seperti **harga**, **jenis kuliner**, dan lainnya.
      
 3. **Bookmark**
-Modul **Bookmark** memberikan fitur kepada **user** untuk menyimpan makanan atau tempat makan favorit mereka agar dapat diakses kembali dengan mudah di lain waktu. Fitur ini hanya tersedia untuk **user** yang sudah login, sedangkan **guest** tidak memiliki akses untuk menambahkan bookmark dan akan diarahkan ke **halaman login** jika mencoba menggunakannya.
-++ Bookmarknya dibuat fitur tambahan, kaya pas bookmark tuh dia ada labelnya jadi bisa bedain (pinterest)
-
+Modul **Bookmark** memberikan fitur kepada **user** untuk menyimpan makanan atau tempat makan favorit mereka agar dapat diakses kembali dengan mudah di lain waktu. Fitur ini hanya tersedia untuk **user** yang sudah login, sedangkan **guest** tidak memiliki akses untuk menambahkan bookmark dan akan diarahkan ke **halaman login** jika mencoba menggunakannya. Selain itu, pengguna juga dapat membuat label dan menyimpan makanan pada label tersebut 
 
 4. **Forum**  
-Modul **Forum** memungkinkan **user** untuk membuat dan berpartisipasi dalam diskusi terkait topik tertentu. Pengguna dapat memulai diskusi, memberikan tanggapan, serta berbagi informasi atau pengalaman mereka.  
-### Fitur-fitur yang diterapkan dalam modul ini:
-1. **Membuat Forum Diskusi**  
+Modul **Forum** memungkinkan **user** untuk membuat dan berpartisipasi dalam diskusi terkait topik tertentu. Pengguna dapat memulai diskusi, memberikan tanggapan, serta berbagi informasi atau pengalaman mereka. Fitur-fitur yang diterapkan dalam modul ini:
+- **Membuat Forum Diskusi**  
    Pengguna yang terautentikasi dapat membuat forum baru terkait topik tertentu, seperti makanan, tempat makan, atau rekomendasi kuliner di Yogyakarta.
-   
-2. **Memberi Tanggapan**  
+- **Memberi Tanggapan**  
    Pengguna yang terautentikasi juga dapat memberikan tanggapan atau komentar pada thread yang sudah ada, memperluas diskusi dan berbagi pendapat mereka.
-
-3. **Akses Terbatas untuk Guest**  
+- **Akses Terbatas untuk Guest**  
    **Guest** hanya bisa melihat diskusi yang ada, tetapi tidak dapat membuat thread atau memberikan tanggapan. Mereka akan diarahkan ke halaman login jika mencoba berpartisipasi dalam diskusi.
-
        
 5. **Detail Makanan**
 Modul **Detail Makanan** berfungsi untuk menampilkan informasi lengkap tentang suatu makanan tertentu yang dipilih pengguna dari halaman **Homepage** atau **Bookmark**.
@@ -56,7 +49,7 @@ Informasi yang ditampilkan meliputi:
     - Harga
     - Nama tempat makan
     - Alamat tempat makan
-Pengguna juga dapat melihat **review** mengenai makanan tersebut. **Guest** dan **user** yang sudah login dapat mengakses dan melihat detail makanan pada halaman ini, tetapi **guest** tidak dapat menulis review atau menambah bookmark. **Review** memberikan akses bagi **pengguna** untuk memberikan ulasan atau penilaian terhadap makanan atau tempat makan yang telah mereka kunjungi. Pengguna dapat menilai berdasarkan bintang, memberikan komentar disertai foto. Selain itu, pengguna juga dapat menghapus komentar milik mereka.
+Pengguna juga dapat melihat **review** mengenai makanan tersebut. **Guest** dan **user** yang sudah login dapat mengakses dan melihat detail makanan pada halaman ini, tetapi **guest** tidak dapat menulis review atau menambah bookmark. **Review** memberikan akses bagi **pengguna** untuk memberikan ulasan atau penilaian terhadap makanan atau tempat makan yang telah mereka kunjungi. Pengguna dapat menilai berdasarkan bintang dan memberikan komentar disertai foto. Selain itu, pengguna juga dapat menghapus komentar milik mereka.
 
 
 ## Sumber initial dataset kategori utama produk
