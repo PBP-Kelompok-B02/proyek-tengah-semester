@@ -33,12 +33,11 @@ Modul **Bookmark** memberikan fitur kepada **user** untuk menyimpan makanan atau
 
 4. **Forum**  
 Modul **Forum** memungkinkan **user** untuk membuat dan berpartisipasi dalam diskusi terkait topik tertentu. Pengguna dapat memulai diskusi, memberikan tanggapan, serta berbagi informasi atau pengalaman mereka. Fitur-fitur yang diterapkan dalam modul ini:
-     - **Membuat Forum Diskusi**
+     - **Membuat Forum Diskusi** 
        Pengguna yang terautentikasi dapat membuat forum baru terkait topik tertentu, seperti makanan, tempat makan, atau rekomendasi kuliner di Yogyakarta.
      - **Memberi Tanggapan**  
        Pengguna yang terautentikasi juga dapat memberikan tanggapan atau komentar pada thread yang sudah ada, memperluas diskusi dan berbagi pendapat mereka.
      - **Akses Terbatas untuk Guest**  
-
        **Guest** hanya bisa melihat diskusi yang ada, tetapi tidak dapat membuat thread atau memberikan tanggapan. Mereka akan diarahkan ke halaman login jika mencoba berpartisipasi dalam diskusi.
        
 5. **Detail Makanan**
