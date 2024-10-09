@@ -38,6 +38,7 @@ Modul **Forum** memungkinkan **user** untuk membuat dan berpartisipasi dalam dis
      - **Memberi Tanggapan**  
        Pengguna yang terautentikasi juga dapat memberikan tanggapan atau komentar pada thread yang sudah ada, memperluas diskusi dan berbagi pendapat mereka.
      - **Akses Terbatas untuk Guest**  
+
        **Guest** hanya bisa melihat diskusi yang ada, tetapi tidak dapat membuat thread atau memberikan tanggapan. Mereka akan diarahkan ke halaman login jika mencoba berpartisipasi dalam diskusi.
        
 5. **Detail Makanan**
