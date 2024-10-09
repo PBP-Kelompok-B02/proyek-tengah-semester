@@ -32,7 +32,7 @@ Fitur-fitur yang akan diterapkan dalam modul ini:
 Modul **Bookmark** memberikan fitur kepada **user** untuk menyimpan makanan atau tempat makan favorit mereka agar dapat diakses kembali dengan mudah di lain waktu. Fitur ini hanya tersedia untuk **user** yang sudah login, sedangkan **guest** tidak memiliki akses untuk menambahkan bookmark dan akan diarahkan ke **halaman login** jika mencoba menggunakannya. Selain itu, pengguna juga dapat membuat label dan menyimpan makanan pada label tersebut 
 
 4. **Forum**  
-Modul **Forum** memungkinkan **user** untuk membuat dan berpartisipasi dalam diskusi terkait topik tertentu. Pengguna dapat memulai diskusi, memberikan tanggapan, serta berbagi informasi atau pengalaman mereka. Fitur-fitur yang diterapkan dalam modul ini:
+Modul **Forum** memberikan akses kepada **user** untuk membuat dan berpartisipasi dalam diskusi terkait topik tertentu. Pengguna dapat memulai diskusi, memberikan tanggapan, serta berbagi informasi atau pengalaman mereka. Fitur-fitur yang diterapkan dalam modul ini:
      - **Membuat Forum Diskusi** 
        Pengguna yang terautentikasi dapat membuat forum baru terkait topik tertentu, seperti makanan, tempat makan, atau rekomendasi kuliner di Yogyakarta.
      - **Memberi Tanggapan**  
