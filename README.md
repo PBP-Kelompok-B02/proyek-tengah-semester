@@ -18,7 +18,7 @@
 
 ## Daftar modul
 1. **Account & Dashboard**
-Modul **Account dan Dashboard** berfungsi sebagai pusat autentikasi sekaligus pusat kendali akun bagi pengguna yang sudah login. Pengguna yang terautentikasi dapat melakukan **login**, **logout**, **penggantian password**, dan pengelolaan informasi terkait **profil** mereka. Hanya pengguna yang terautentikasi (bukan guest) yang dapat mengubah **password** dan **profil** mereka melalui dashboard. Jika **guest** mencoba mengakses dashboard, mereka akan langsung diarahkan ke *halaman login* atau **register**.
+Modul **Account dan Dashboard** berfungsi sebagai pusat autentikasi sekaligus pusat kendali akun bagi pengguna yang sudah login. Pengguna yang terautentikasi dapat melakukan **login**, **logout**, **penggantian password**, dan pengelolaan informasi terkait **profil** mereka. Hanya pengguna yang terautentikasi (bukan guest) yang dapat mengubah **password** dan **profil** mereka melalui dashboard. Jika **guest** mencoba mengakses dashboard, mereka akan langsung diarahkan ke **halaman login** atau **register**.
 
 2. **Homepage**
 Modul Homepage berfungsi sebagai beranda utama aplikasi yang menampilkan berbagai informasi mengenai makanan serta berbagai fitur yang dapat diakses oleh **user** maupun **guest**. Ketika makanan diklik, **user**/**guest** akan diarahkan ke **halaman detail makanan**.
