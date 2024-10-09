@@ -1,0 +1,101 @@
+Nama Makanan/Minuman,Harga,Rating/Ulasan,Nama Resto,Alamat,Kontak,Waktu Buka-Tutup,Deskripsi
+Gudeg,36500,4.7,Wedang Tahu Pak Joe,Jl. Gejayan No.3,085789012345,6:00 - 19:00,"Makanan khas Yogyakarta yang terbuat dari nangka muda dimasak dengan santan, disajikan dengan telur, ayam, dan krecek"
+Bakpia,40500,3.4,Bakpia Pathok 25,Jl. Prawirotaman No.9,085678901234,6:00 - 22:00,"Kue tradisional Yogyakarta berbentuk bulat berisi kacang hijau atau varian isi lainnya, seperti coklat dan keju."
+Sate Klathak,16000,3.5,Es Dawet Bu Sum,Jl. Affandi No.5,081345678901,9:00 - 18:00,Sate khas Yogyakarta yang terbuat dari daging sapi muda yang dipanggang dengan bumbu kecap manis.
+Wedang Uwuh,19500,4.1,Gudeg Pawon,Jl. Suryodiningratan No.21,089234567890,6:00 - 21:00,"Minuman herbal dari rempah-rempah seperti jahe, serai, kayu secang, daun pala, dan gula batu, memberikan rasa hangat dan manis."
+Ayam Geprek,32000,3.1,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,Ayam goreng tepung yang dihancurkan dan dilumuri dengan sambal pedas.
+Tengkleng,42000,4.8,Mie Ayam Tumini,Jl. Wates No.22,089123456789,9:00 - 22:00,Hidangan dari tulang kambing yang dimasak dalam kuah gurih berbumbu rempah khas Solo.
+Cilok Gajahan,18000,4.5,Gudeg Pawon,Jl. Suryodiningratan No.21,089234567890,6:00 - 21:00,"Cilok khas Solo yang terbuat dari tepung tapioka, disajikan dengan saus kacang pedas."
+Mangut Lele,40500,4.7,Soto Kadipiro,Jl. Parangtritis KM 7,087654321234,10:00 - 23:00,Lele yang dimasak dengan kuah santan pedas dan bumbu rempah khas.
+Oseng Mercon,34500,3.5,Gudeg Yu Djum,Jl. Malioboro No.12,081234567890,8:00 - 22:00,Tumis daging sapi dengan cabai rawit yang sangat pedas.
+Es Dawet,24500,4.2,Resto Kopi Joss,Jl. Magelang No.6,081908123456,9:00 - 18:00,"Minuman es yang terdiri dari cendol dari tepung beras, gula merah, dan santan."
+Wedang Ronde,31500,3.8,Warung Angkringan Kopi Joss,Jl. Pakem-Turi No.2,081998123456,6:00 - 18:00,Minuman jahe dengan bola-bola ketan berisi kacang tanah dan taburan kolang-kaling.
+Bakmi Jawa,30000,4.6,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,"Mie rebus atau goreng khas Jawa dengan campuran ayam, telur, dan bumbu tradisional."
+Nasi Kucing,42500,4.8,Pecel Bu Wiwik,Jl. Kusumanegara No.14,081678901234,6:00 - 18:00,"Nasi porsi kecil dengan lauk sederhana, sering dijual di angkringan."
+Es Teh Manis,40000,3.1,Wedang Tahu Pak Joe,Jl. Gejayan No.3,085789012345,6:00 - 19:00,Minuman es teh manis yang populer sebagai pendamping makanan.
+Es Campur,16000,4.5,Bakpia Pathok 25,Jl. Prawirotaman No.9,085678901234,6:00 - 22:00,"Es dengan campuran buah, jelly, sirup, dan santan."
+Es Buah,22500,3.2,Warung Sate Kere,Jl. Monjali No.4,082178901234,9:00 - 22:00,Minuman es berisi berbagai macam buah segar dengan sirup atau susu.
+Kopi Joss,13000,3.9,Bakso Malang Cak Man,Jl. Seturan No.8,082456789012,8:00 - 23:00,Kopi hitam yang disajikan dengan bara arang panas yang dicelupkan ke dalamnya.
+Sate Kere,34000,3.4,Soto Kadipiro,Jl. Parangtritis KM 7,087654321234,10:00 - 23:00,Sate berbahan dasar tempe gembus yang biasa disantap oleh masyarakat sederhana.
+Lumpia Jogja,17500,3.9,Ayam Geprek Bu Rum,Jl. Tugu No.17,081567890123,6:00 - 19:00,"Lumpia khas Yogyakarta berisi sayuran, daging ayam, atau udang."
+Wedang Bajigur,32000,3.0,Gudeg Pawon,Jl. Suryodiningratan No.21,089234567890,6:00 - 21:00,"Minuman hangat dari santan, gula aren, dan jahe, sering disajikan dengan pisang atau kacang rebus."
+Jadah Tempe,42000,4.5,Sate Pak Jono,Jl. Sultan Agung No.7,081378901234,9:00 - 21:00,"Makanan tradisional yang terbuat dari ketan (jadah) dan tempe bacem, perpaduan gurih dan manis."
+Bakso Pedas,46500,3.5,Wedang Tahu Pak Joe,Jl. Gejayan No.3,085789012345,6:00 - 19:00,Bakso daging sapi dengan kuah pedas.
+Sate Kambing,34000,3.0,Wedang Tahu Pak Joe,Jl. Gejayan No.3,085789012345,6:00 - 19:00,Sate daging kambing yang dibakar dengan bumbu kecap manis dan sambal.
+Nasi Goreng Magelangan,37000,4.1,Bakpia Pathok 25,Jl. Prawirotaman No.9,085678901234,6:00 - 22:00,Nasi goreng khas Magelang yang dicampur dengan mie dan bahan pelengkap lainnya.
+Tiwul,16000,3.8,Angkringan Lek Man,Jl. Solo KM 3,081278901234,10:00 - 21:00,"Makanan tradisional yang terbuat dari singkong, biasanya dijadikan pengganti nasi."
+Gathot,49000,3.2,Gudeg Yu Djum,Jl. Malioboro No.12,081234567890,8:00 - 22:00,"Makanan dari singkong yang dikeringkan, kemudian dikukus dan disajikan dengan kelapa parut."
+Mie Lethek,22500,3.6,Mie Ayam Tumini,Jl. Wates No.22,089123456789,9:00 - 22:00,"Mie tradisional Bantul yang dibuat dari tepung singkong, dimasak dengan bumbu khas tanpa bahan pengawet."
+Rujak Es Krim,20500,4.5,Gudeg Yu Djum,Jl. Malioboro No.12,081234567890,8:00 - 22:00,Rujak buah yang disajikan dengan tambahan es krim di atasnya.
+Angkringan Kopi,21500,3.5,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,Warung kecil khas Yogyakarta yang menjual kopi dan makanan sederhana.
+Wedang Jahe,47000,4.1,Warung Angkringan Kopi Joss,Jl. Pakem-Turi No.2,081998123456,6:00 - 18:00,Minuman jahe hangat yang populer di musim dingin atau untuk menghangatkan badan.
+Kipo,20500,3.1,Soto Kadipiro,Jl. Parangtritis KM 7,087654321234,10:00 - 23:00,Makanan tradisional dari Kotagede yang berbentuk kecil dan terbuat dari tepung ketan dengan isi kelapa dan gula merah.
+Pecel Jogja,38500,3.8,Gudeg Pawon,Jl. Suryodiningratan No.21,089234567890,6:00 - 21:00,Hidangan nasi dengan sayuran segar yang disiram dengan bumbu kacang.
+Tahu Bacem,43500,3.5,Gudeg Pawon,Jl. Suryodiningratan No.21,089234567890,6:00 - 21:00,Tahu yang dimasak dengan gula jawa dan bumbu rempah hingga manis dan gurih.
+Klepon,19500,3.5,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,Kue berbentuk bulat kecil berisi gula merah dan dibalut kelapa parut.
+Jenang Gendul,43000,4.2,Lesehan Malioboro,Jl. Tamansiswa No.10,082289012345,9:00 - 23:00,"Bubur yang terbuat dari tepung ketan hitam, disajikan dengan santan dan gula merah cair."
+Wedang Tahu,34500,4.2,Warung Sate Kere,Jl. Monjali No.4,082178901234,9:00 - 22:00,Minuman hangat dari sari kedelai yang disajikan dengan kuah jahe manis.
+Peyek Tumpuk,23500,3.5,Wedang Tahu Pak Joe,Jl. Gejayan No.3,085789012345,6:00 - 19:00,Keripik berbahan kacang tanah yang digoreng dengan adonan tepung hingga garing.
+Bakwan Jagung,49500,4.2,Resto Kopi Joss,Jl. Magelang No.6,081908123456,9:00 - 18:00,Gorengan berbahan dasar jagung yang dicampur dengan adonan tepung dan digoreng renyah.
+Sosis Solo,22500,3.1,Lesehan Malioboro,Jl. Tamansiswa No.10,082289012345,9:00 - 23:00,Makanan yang mirip lumpia dengan isi daging ayam atau sapi yang dibungkus dengan kulit tipis.
+Keripik Tempe,38500,3.9,Soto Kadipiro,Jl. Parangtritis KM 7,087654321234,10:00 - 23:00,Makanan ringan yang terbuat dari tempe yang diiris tipis dan digoreng hingga renyah.
+Tape Ketan,39500,3.5,Warung Makan Sari Rasa,Jl. Cik Di Tiro No.19,087765432123,8:00 - 20:00,"Fermentasi ketan yang menghasilkan rasa manis dan sedikit asam, sering disajikan sebagai kudapan."
+Nasi Langgi,36500,3.1,Wedang Bajigur Bu Sri,Jl. Gondomanan No.13,083289012345,10:00 - 19:00,"Nasi khas Jawa yang disajikan dengan lauk pauk seperti telur, abon, sambal, dan kering tempe."
+Es Pisang Ijo,33000,3.9,Warung Sate Kere,Jl. Monjali No.4,082178901234,9:00 - 22:00,"Hidangan pisang yang dibalut adonan hijau, disajikan dengan es dan sirup."
+Nasi Gandul,20000,4.6,Es Dawet Bu Sum,Jl. Affandi No.5,081345678901,9:00 - 18:00,"Nasi dengan kuah gurih dari daging sapi dan rempah, khas Pati."
+Empal Gentong,21000,4.5,Wedang Bajigur Bu Sri,Jl. Gondomanan No.13,083289012345,10:00 - 19:00,"Gulai daging sapi yang dimasak dalam gentong tanah liat, khas Cirebon."
+Keripik Belut,43500,4.8,Gudeg Yu Djum,Jl. Malioboro No.12,081234567890,8:00 - 22:00,Camilan yang terbuat dari belut yang digoreng kering hingga renyah.
+Sego Pecel,26000,4.4,Angkringan Lek Man,Jl. Solo KM 3,081278901234,10:00 - 21:00,Nasi dengan sayuran segar yang disiram saus kacang pedas.
+Nasi Liwet,29500,4.0,Wedang Tahu Pak Joe,Jl. Gejayan No.3,085789012345,6:00 - 19:00,"Nasi gurih yang dimasak dengan santan dan kaldu, khas Solo."
+Wedang Secang,22500,4.2,Bakso Malang Cak Man,Jl. Seturan No.8,082456789012,8:00 - 23:00,"Minuman rempah-rempah dengan bahan utama kayu secang, menghasilkan warna merah alami."
+Mie Ayam Grabyas,22500,5.0,Warung Makan Sari Rasa,Jl. Cik Di Tiro No.19,087765432123,8:00 - 20:00,Mie ayam khas dengan tambahan lemak ayam yang digoreng garing.
+Es Cendol,42000,5.0,Wedang Tahu Pak Joe,Jl. Gejayan No.3,085789012345,6:00 - 19:00,"Minuman dingin yang berisi cendol hijau, gula aren, dan santan."
+Lontong Sayur,44000,4.7,Angkringan Lek Man,Jl. Solo KM 3,081278901234,10:00 - 21:00,"Hidangan lontong dengan kuah santan, sayuran, dan lauk seperti telur atau daging."
+Gudangan,29500,3.9,Warung Angkringan Kopi Joss,Jl. Pakem-Turi No.2,081998123456,6:00 - 18:00,Hidangan sayuran rebus dengan kelapa parut yang dibumbui.
+Es Kelapa Muda,39500,3.3,Ayam Geprek Bu Rum,Jl. Tugu No.17,081567890123,6:00 - 19:00,Minuman es dengan daging kelapa muda dan air kelapa yang menyegarkan.
+Pindang Serani,11500,4.0,Warung Angkringan Kopi Joss,Jl. Pakem-Turi No.2,081998123456,6:00 - 18:00,Sup ikan dengan kuah bening yang berisi rempah-rempah khas.
+Bubur Sumsum,27000,3.6,Oseng Mercon Bu Narti,Jl. Godean No.11,083178901234,6:00 - 23:00,Bubur dari tepung beras dengan kuah gula merah yang manis.
+Nasi Tumpeng,36500,4.6,Wedang Bajigur Bu Sri,Jl. Gondomanan No.13,083289012345,10:00 - 19:00,Nasi kuning berbentuk kerucut yang disajikan dengan berbagai lauk sebagai simbol syukur.
+Ayam Betutu,10500,4.8,Angkringan Lek Man,Jl. Solo KM 3,081278901234,10:00 - 21:00,Ayam yang dimasak dengan bumbu rempah khas Bali yang pedas dan gurih.
+Soto Kadipiro,40000,3.7,Bakso Malang Cak Man,Jl. Seturan No.8,082456789012,8:00 - 23:00,Soto ayam khas Yogyakarta dengan kuah bening yang gurih.
+Tempe Garit,10000,3.9,Wedang Tahu Pak Joe,Jl. Gejayan No.3,085789012345,6:00 - 19:00,Tempe yang digoreng kering setelah digariti (diiris tipis) dan diberi bumbu gurih.
+Kopi Tubruk,43000,4.5,Ayam Geprek Bu Rum,Jl. Tugu No.17,081567890123,6:00 - 19:00,"Kopi hitam yang diseduh tanpa disaring, menyisakan ampas kopi di dasar gelas."
+Sate Ayam,27000,3.9,Oseng Mercon Bu Narti,Jl. Godean No.11,083178901234,6:00 - 23:00,Sate berbahan dasar daging ayam yang dibakar dan disajikan dengan bumbu kacang atau kecap.
+Tongseng,26000,4.5,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,"Masakan daging kambing dengan kuah santan yang kaya rempah, biasanya lebih pedas."
+Wedang Kopi,36000,3.8,Bakpia Pathok 25,Jl. Prawirotaman No.9,085678901234,6:00 - 22:00,Minuman kopi yang disajikan hangat dengan tambahan rempah seperti jahe.
+Wedang Rempah,32500,4.5,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,"Minuman hangat yang dibuat dari berbagai rempah seperti jahe, kayu manis, dan cengkeh."
+Es Kopyor,32000,3.1,Soto Kadipiro,Jl. Parangtritis KM 7,087654321234,10:00 - 23:00,Minuman es dengan kelapa kopyor
+Jus Alpukat,40500,4.4,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,"Minuman segar yang terbuat dari buah alpukat yang dihaluskan, sering ditambah susu kental manis atau coklat."
+Gado-Gado,32500,4.2,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,"Salad sayuran khas Indonesia dengan bumbu kacang, biasanya disajikan dengan lontong, kerupuk, dan telur."
+Soto Jogja,17000,3.7,Soto Kadipiro,Jl. Parangtritis KM 7,087654321234,10:00 - 23:00,"Soto khas Yogyakarta yang berkuah bening dengan bahan dasar ayam, bihun, dan telur rebus."
+Bakpia Pathuk,24500,3.7,Mie Ayam Tumini,Jl. Wates No.22,089123456789,9:00 - 22:00,"Varian bakpia dari Pathuk, Yogyakarta, yang terkenal dengan isian kacang hijau atau berbagai isian lainnya."
+Tempe Mendoan,28000,3.1,Gudeg Pawon,Jl. Suryodiningratan No.21,089234567890,6:00 - 21:00,"Tempe tipis yang digoreng setengah matang dengan adonan tepung berbumbu, menghasilkan tekstur lembut."
+Sate Buntel,38500,4.8,Resto Kopi Joss,Jl. Magelang No.6,081908123456,9:00 - 18:00,"Sate dari daging kambing cincang yang dibungkus dengan lemak kambing, kemudian dipanggang."
+Bubur Ayam,23500,3.4,Lesehan Malioboro,Jl. Tamansiswa No.10,082289012345,9:00 - 23:00,"Bubur nasi yang disajikan dengan ayam suwir, kuah kuning, dan aneka topping seperti kerupuk dan bawang goreng."
+Soto Betawi,44000,4.5,Es Dawet Bu Sum,Jl. Affandi No.5,081345678901,9:00 - 18:00,"Soto khas Betawi dengan kuah santan yang kaya rempah, berisi daging sapi atau jeroan."
+Nasi Campur,23500,4.9,Wedang Bajigur Bu Sri,Jl. Gondomanan No.13,083289012345,10:00 - 19:00,"Hidangan nasi dengan beragam lauk pauk seperti ayam, telur, sambal, dan sayuran."
+Kupat Tahu,42000,3.3,Wedang Tahu Pak Joe,Jl. Gejayan No.3,085789012345,6:00 - 19:00,"Hidangan tahu goreng yang disajikan dengan ketupat, sayuran, dan siraman bumbu kacang."
+Sate Lilit,44000,4.0,Lesehan Malioboro,Jl. Tamansiswa No.10,082289012345,9:00 - 23:00,Sate khas Bali yang terbuat dari daging ikan atau ayam yang dililitkan pada batang serai dan dipanggang.
+Wedang Serai,41000,3.6,Wedang Bajigur Bu Sri,Jl. Gondomanan No.13,083289012345,10:00 - 19:00,Minuman hangat dari serai dan jahe yang memberikan aroma segar dan rasa hangat di tubuh.
+Es Dawet Ayu,36000,3.4,Mie Ayam Tumini,Jl. Wates No.22,089123456789,9:00 - 22:00,"Minuman es dengan cendol yang khas dari Banjarnegara, disajikan dengan gula merah dan santan."
+Rendang,40500,4.0,Warung Angkringan Kopi Joss,Jl. Pakem-Turi No.2,081998123456,6:00 - 18:00,Masakan daging sapi khas Minang yang dimasak dengan santan dan rempah-rempah hingga kering dan kaya rasa.
+Bubur Manado,44500,3.4,Soto Kadipiro,Jl. Parangtritis KM 7,087654321234,10:00 - 23:00,Bubur nasi khas Manado yang dicampur dengan berbagai sayuran dan disajikan dengan ikan asin.
+Lontong Balap,20500,4.2,Mie Ayam Tumini,Jl. Wates No.22,089123456789,9:00 - 22:00,"Hidangan khas Surabaya yang terdiri dari lontong, tauge, tahu goreng, dan lentho, disajikan dengan kuah bening."
+Sate Madura,20000,3.5,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,"Sate ayam khas Madura yang disajikan dengan bumbu kacang dan kecap, sering ditambah lontong."
+Wedang Teki,44500,3.3,Angkringan Lek Man,Jl. Solo KM 3,081278901234,10:00 - 21:00,"Minuman hangat tradisional yang dibuat dari bahan-bahan alami seperti jahe dan pandan, populer di Jawa."
+Wedang Jeruk,36000,5.0,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,Minuman hangat dari perasan jeruk yang disajikan dengan gula atau madu.
+Es Blewah,22500,3.5,Warung Makan Sari Rasa,Jl. Cik Di Tiro No.19,087765432123,8:00 - 20:00,"Minuman es dengan buah blewah yang diserut, dicampur dengan sirup dan air es."
+Arem-Arem,11000,3.9,Gudeg Pawon,Jl. Suryodiningratan No.21,089234567890,6:00 - 21:00,"Hidangan berupa nasi yang dibungkus daun pisang dan diisi dengan sayuran atau daging, lalu dikukus."
+Karedok,24500,3.8,Warung Sate Kere,Jl. Monjali No.4,082178901234,9:00 - 22:00,Salad sayuran mentah khas Sunda dengan bumbu kacang yang segar dan pedas.
+Ayam Penyet,37500,3.3,Mie Ayam Tumini,Jl. Wates No.22,089123456789,9:00 - 22:00,"Ayam goreng yang dipenyet dan disajikan dengan sambal pedas, biasanya disajikan dengan nasi."
+Pecel Lele,46000,3.2,Resto Kopi Joss,Jl. Magelang No.6,081908123456,9:00 - 18:00,"Hidangan lele goreng yang disajikan dengan sambal dan lalapan, populer di warung kaki lima."
+Es Teler,43500,3.9,Gudeg Pawon,Jl. Suryodiningratan No.21,089234567890,6:00 - 21:00,"Minuman es dengan campuran alpukat, kelapa muda, nangka, dan santan, disiram sirup manis."
+Es Timun,42000,3.9,Wedang Bajigur Bu Sri,Jl. Gondomanan No.13,083289012345,10:00 - 19:00,"Minuman segar dari mentimun yang diserut, dicampur dengan sirup dan air es."
+Es Jeruk,37500,4.0,Mie Ayam Tumini,Jl. Wates No.22,089123456789,9:00 - 22:00,"Minuman segar dari perasan jeruk manis yang disajikan dingin, sangat populer di Indonesia."
+Es Sari Kelapa,47000,4.1,Wedang Tahu Pak Joe,Jl. Gejayan No.3,085789012345,6:00 - 19:00,Minuman es yang terbuat dari sari kelapa muda yang manis dan segar.
+Sate Tempe,19500,4.6,Mie Ayam Tumini,Jl. Wates No.22,089123456789,9:00 - 22:00,Sate berbahan dasar tempe yang dipanggang dan disajikan dengan bumbu kecap atau bumbu kacang.
+Nasi Bakar,38500,3.5,Warung Angkringan Kopi Joss,Jl. Pakem-Turi No.2,081998123456,6:00 - 18:00,"Nasi yang dibungkus daun pisang dan dibakar hingga harum, biasanya diisi dengan ayam, ikan, atau teri."
+Sate Usus,36000,3.3,Sate Klathak Pak Pong,Jl. Kaliurang KM 5,082345678901,6:00 - 21:00,Sate berbahan dasar usus ayam yang dibumbui dan dipanggang hingga gurih.
+Jus Mangga,47500,3.6,Sate Pak Jono,Jl. Sultan Agung No.7,081378901234,9:00 - 21:00,"Minuman segar dari mangga yang dihaluskan, sering disajikan dengan es atau susu."
+Sate Sapi,21000,4.9,Angkringan Lek Man,Jl. Solo KM 3,081278901234,10:00 - 21:00,"Potongan daging sapi yang ditusuk pada batang bambu, kemudian dipanggang di atas bara api dengan bumbu kecap atau bumbu kacang."
+Cumi Bakar,10500,3.7,Resto Kopi Joss,Jl. Magelang No.6,081908123456,9:00 - 18:00,"Cumi yang dipanggang hingga matang di atas bara api setelah direndam dalam bumbu khas seperti kecap manis, bawang putih, dan rempah-rempah."
