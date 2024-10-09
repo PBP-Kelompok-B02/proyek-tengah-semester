@@ -40,9 +40,9 @@
      - **Membuat Forum Diskusi** 
        Pengguna yang terautentikasi dapat membuat forum baru terkait topik tertentu, seperti makanan, tempat makan, atau rekomendasi kuliner di Yogyakarta.
      - **Memberi Tanggapan**  
-       Pengguna yang terautentikasi juga dapat memberikan tanggapan atau komentar pada thread yang sudah ada, memperluas diskusi dan berbagi pendapat mereka.
+       Pengguna yang terautentikasi juga dapat memberikan tanggapan atau komentar pada forum yang sudah ada, memperluas diskusi dan berbagi pendapat mereka.
      - **Akses Terbatas untuk Guest**  
-       **Guest** hanya bisa melihat diskusi yang ada, tetapi tidak dapat membuat thread atau memberikan tanggapan. Mereka akan diarahkan ke halaman login jika mencoba berpartisipasi dalam diskusi.
+       **Guest** hanya bisa melihat diskusi yang ada, tetapi tidak dapat membuat forum atau memberikan tanggapan. Mereka akan diarahkan ke halaman login jika mencoba berpartisipasi dalam diskusi.
        
 5. **Detail Makanan**
 
