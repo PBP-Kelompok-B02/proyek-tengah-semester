@@ -18,11 +18,9 @@
 
 ## Daftar modul
 1. **Account & Dashboard**
-
 Modul **Account dan Dashboard** berfungsi sebagai pusat autentikasi sekaligus pusat kendali akun bagi pengguna yang sudah login. Pengguna yang terautentikasi dapat melakukan **login**, **logout**, **penggantian password**, dan pengelolaan informasi terkait **profil** mereka. Hanya pengguna yang terautentikasi (bukan guest) yang dapat mengubah **password** dan **profil** mereka melalui dashboard. Jika **guest** mencoba mengakses dashboard, mereka akan langsung diarahkan ke **halaman login** atau **register**.
 
 2. **Homepage**
-
 Modul Homepage berfungsi sebagai beranda utama aplikasi yang menampilkan berbagai informasi mengenai makanan serta berbagai fitur yang dapat diakses oleh **user** maupun **guest**. Ketika makanan diklik, **user**/**guest** akan diarahkan ke **halaman detail makanan**.
 Fitur-fitur yang akan diterapkan dalam modul ini:
      - **Pencarian dan Rekomendasi Makanan**
@@ -31,11 +29,9 @@ Fitur-fitur yang akan diterapkan dalam modul ini:
        Pengguna bisa menggunakan **filter** untuk memilih makanan berdasarkan kategori tertentu, seperti **harga**, **jenis kuliner**, dan lainnya.
      
 3. **Bookmark**
-
 Modul **Bookmark** memberikan fitur kepada **user** untuk menyimpan makanan atau tempat makan favorit mereka agar dapat diakses kembali dengan mudah di lain waktu. Fitur ini hanya tersedia untuk **user** yang sudah login, sedangkan **guest** tidak memiliki akses untuk menambahkan bookmark dan akan diarahkan ke **halaman login** jika mencoba menggunakannya. Selain itu, pengguna juga dapat membuat label dan menyimpan makanan pada label tersebut 
 
 4. **Forum**  
-
 Modul **Forum** memberikan akses kepada **user** untuk membuat dan berpartisipasi dalam diskusi terkait topik tertentu. Pengguna dapat memulai diskusi, memberikan tanggapan, serta berbagi informasi atau pengalaman mereka. Fitur-fitur yang diterapkan dalam modul ini:
      - **Membuat Forum Diskusi** 
        Pengguna yang terautentikasi dapat membuat forum baru terkait topik tertentu, seperti makanan, tempat makan, atau rekomendasi kuliner di Yogyakarta.
@@ -45,7 +41,6 @@ Modul **Forum** memberikan akses kepada **user** untuk membuat dan berpartisipas
        **Guest** hanya bisa melihat diskusi yang ada, tetapi tidak dapat membuat thread atau memberikan tanggapan. Mereka akan diarahkan ke halaman login jika mencoba berpartisipasi dalam diskusi.
        
 5. **Detail Makanan**
-
 Modul **Detail Makanan** berfungsi untuk menampilkan informasi lengkap tentang suatu makanan tertentu yang dipilih pengguna dari halaman **Homepage** atau **Bookmark**.
 Informasi yang ditampilkan meliputi:
     - Nama makanan
