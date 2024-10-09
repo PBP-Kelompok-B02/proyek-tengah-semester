@@ -63,4 +63,4 @@ Dataset yang digunakan dalam aplikasi ManganYog berasal dari hasil scraping data
 - User : Memiliki akses lebih luas, seperti menyimpan daftar makanan (bookmark) dan berinteraksi dengan konten, misalnya memberikan ulasan.
 
 ## Tautan deployment aplikasi
-
+http://lisa-margaretha-yumyogya.pbp.cs.ui.ac.id
