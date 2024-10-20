@@ -1,2 +1,34 @@
-<h3>Ini detail makanan</h3>
-<h3>ID : {{id}}</h3>
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>
+    Detail Makanan <!-- {{nama_makanan}} -->
+</title>
+{% endblock meta %}
+
+{% block content %}
+
+<h3>Nama Makanan: {{ makanan.nama_makanan }}</h3>
+<h3>Rating: {{ makanan.rating }}</h3>
+<h3>Deskripsi Makanan: {{ makanan.deskripsi_makanan }}</h3>
+<h3>Harga: Rp. {{ makanan.harga }}</h3>
+<h3>Lokasi: {{ makanan.lokasi }}</h3>
+<h3>Nama Tempat Makan: {{ makanan.nama_tempat }}</h3>
+<h3>Alamat: {{ makanan.alamat }}</h3>
+
+<h1>Review</h1>
+<!-- submit review soon -->
+
+
+<!-- Review -->
+{% for row in review %}
+    {% if row.image %}
+        <!-- <img src="#contoh/{{ row.img_path }}"> -->
+    {% endif %}
+    <p>{{ row.name }} : {{ row.review }}</p>
+{% empty %}
+    <li>Belum ada review.</li>
+{% endfor %}
+
+
+{% endblock content %}

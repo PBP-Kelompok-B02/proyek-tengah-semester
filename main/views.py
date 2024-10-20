@@ -49,9 +49,42 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
-def show_detail(request, id):
+
+def show_detail(request, uuid):
+    #get makanan by uuid soon
+
+    #dummy data
+    makanan = {
+        "nama_makanan": "Nasi Goreng",
+        "rating": 4.5,
+        "deskripsi_makanan": "Nasi goreng dengan telur dan ayam",
+        "harga": 20000,
+        "lokasi": "Jakarta",
+        "nama_tempat": "Warung Makan Pak Budi",
+        "alamat": "Jl. Merdeka No. 10, Jakarta"
+    }
+
+    review_users = [
+        {
+            "name": "Hizounya",
+            "review": "Great taste, will come back again!",
+            #"img_path": "images/review1.jpg",
+        },
+        {
+            "name": "Ara",
+            "review": "Nice ambiance but the food was average.",
+            # "img_path": None,
+        },
+        {
+            "name": "Salsa",
+            "review": "Loved the service and the food.",
+            #"img_path": "images/review2.jpg",
+        },
+    ]
+
     context = {
-        "id" : id
+        "makanan" : makanan,
+        "review" : review_users
     }
 
     return render(request, "detail-makanan.html", context)
