@@ -1,4 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1> YumYogya</h1>
 
 <h5>Group: </h5>
 <p>{{ group }}<p>
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
+    
+<a href="{% url 'main:logout' %}">
+    <button>Logout</button>
+</a>
+{% endblock content %}
