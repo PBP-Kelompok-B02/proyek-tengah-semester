@@ -7,7 +7,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-@login_required(login_url='/login')
 def show_main(request):
     context = {
         'group' : 'PBP B02',
