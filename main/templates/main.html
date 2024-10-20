@@ -1,4 +1,18 @@
-<h1> YumYogya</h1>
+{% extends 'base.html' %}
+{% load static %}
 
-<h5>Group: </h5>
-<p>{{ group }}<p>
+{% block meta %}
+<title>YumYogya</title>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+{% endblock meta %}
+
+{% block content %}
+<div id="theme-wrapper">
+  {% include 'navbar.html' %}
+  <main>
+    <h1> YumYogya</h1>
+    <h5>Group: </h5>
+    <p>{{ group }}<p>
+  </main>
+</div>
+{% endblock content %}

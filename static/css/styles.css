@@ -1,0 +1,21 @@
+
+/* Light mode styles */
+#theme-wrapper {
+    background-color: white;
+    color: black;
+  }
+  
+  /* Dark mode styles */
+  #theme-wrapper.dark-mode {
+    background-color: black;
+    color: white;
+  }
+  
+  /* Example for other elements */
+  .navbar {
+    background-color: lightgray;
+  }
+  
+  #theme-wrapper.dark-mode .navbar {
+    background-color: darkgray;
+  }
