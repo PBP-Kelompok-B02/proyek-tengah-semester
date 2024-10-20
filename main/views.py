@@ -8,4 +8,9 @@ def show_main(request):
 
     return render(request, "main.html", context)
 
-# Create your views here.
+def show_detail(request, id):
+    context = {
+        "id" : id
+    }
+
+    return render(request, "detail-makanan.html", context)
