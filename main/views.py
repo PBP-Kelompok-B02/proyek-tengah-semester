@@ -74,7 +74,6 @@ def show_bookmarks(request):
     }
     return render(request, 'bookmarks.html', context)
 
-@login_required
 def show_forum(request):
     user = request.user
     context = {
