@@ -7,13 +7,74 @@
 {% endblock meta %}
 
 {% block content %}
-<div id="theme-wrapper">
-  {% include 'navbar.html' %}
-  <main>
-    <h1> YumYogya</h1>
-    <h5>Group: </h5>
-    <p>{{ group }}<p>
-  </main>
-</div>
+{% include 'navbar.html' %}
 
+<body class="pt-24 bg-[#F2E8C6]">
+  <div id="items"></div>
+</body>  
+
+  <script>
+    async function getProducts(){
+      return fetch("{% url 'main:show_json' %}").then((res) => res.json());
+    }
+
+    async function fetchProducts() {
+      try {
+        const products = await getProducts();
+        displayProducts(products);
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
+    }
+
+    function displayProducts(products) {
+      const itemsDiv = document.getElementById('items');
+      itemsDiv.innerHTML = ''; // Clear existing products
+      itemsDiv.className = '';
+      if (products.length === 0) {
+        itemsDiv.className = "flex flex-col items-center justify-center min-h-[24rem] p-6 bg-black";
+        itemsDiv.innerHTML = `
+          <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+            <img src="{% static 'image/sad-face.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+            <p class="text-center text-gray-600 mt-4">No products available.</p>
+          </div>
+        `;
+      } else {
+        itemsDiv.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-[#F2E8C6]";
+        products.forEach(product => {
+          console.log('Product ID:', product.pk); // Debugging: Log the UUID
+          const productDiv = document.createElement('div');
+          // container for each product
+          productDiv.className = 'bg-white shadow-md rounded-lg p-4 flex flex-col  transform transition-transform duration-300 hover:scale-105';
+          productDiv.innerHTML = `
+            <div class="relative">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/KPU_Alfiansyah_Bustami_Komeng.jpg" alt="${DOMPurify.sanitize(product.fields.name)}" class="w-full h-48 object-cover rounded-t-lg">
+              <div class="absolute top-2 right-2 flex space-x-1">
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-xl mb-2">
+              <a href="/food-details/${product.fields.name}" class="text-black hover:underline hover:text-blue-500">
+                ${DOMPurify.sanitize(product.fields.name)}
+              </a>
+              </h3>
+              <p class="text-gray-600 mb-2">Price: ${DOMPurify.sanitize(product.fields.price)}</p>
+              <span>
+              <i class="fas fa-star" style="color: #FFD43B"> </i>
+              <span class="text-gray-700">${DOMPurify.sanitize(product.fields.rating)}</span>
+              </span>
+              
+            </div>
+          `;
+          itemsDiv.appendChild(productDiv);
+        });
+      }
+    }
+
+    // Fetch products on page load
+    document.addEventListener('DOMContentLoaded', fetchProducts);
+
+    // Refresh products every 60 seconds
+    setInterval(fetchProducts, 60000);
+  </script>
 {% endblock content %}

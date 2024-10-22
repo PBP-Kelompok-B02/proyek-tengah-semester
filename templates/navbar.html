@@ -1,112 +1,71 @@
 <!-- navbar.html -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
 
-<!--horizontal navigations-->
-<div id="dark-navbar" class="p-4 w-full bg-gray-800">
+<div id="navbar" class="fixed z-10 top-0 p-4 w-full bg-[#800000]">
   <!--dark mode - text and icons-->
-  <div class="p-2 text-gray-700 bg-gray-900 rounded-lg shadow-lg font-medium capitalize">
+  <div class="text-gray-700 bg-[#800000] rounded-lg font-medium capitalize">
     <span class="px-2 mr-2 border-r border-gray-800">
       <img src="https://www.freepnglogos.com/uploads/spotify-logo-png/file-spotify-logo-png-4.png"
         alt="alt placeholder" class="w-8 h-8 -mt-1 inline mx-auto">
     </span>
-    <span class="px-2 py-1 cursor-pointer hover:bg-gray-800 hover:text-gray-300 text-sm rounded mb-5">
-      <i class="w-8 fas fa-stream p-2 bg-gray-800 rounded-full"></i>
-      <span class="mx-1">categories</span>
+    <span class="px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-gray-300 text-sm rounded mb-5" onclick="redirectTo('home')">
+      <i class="w-8 fas fa-home p-2 bg-gray-800 rounded-full"></i>
+      <span class="mx-1">Home</span>
     </span>
-    <span class="px-2 py-1 cursor-pointer hover:bg-gray-800 hover:text-gray-300 text-sm rounded mb-5">
-      <i class="w-8 fas fa-th p-2 bg-gray-800 rounded-full"></i>
-      <span class="mx-1">menu</span>
+    <span class="px-6 py-2 cursor-pointer hover:bg-gray-800 hover:text-gray-300 text-sm rounded mb-5" onclick="redirectTo('forum')">
+      <i class="w-8 fas fa-comment p-2 bg-gray-800 rounded-full"></i>
+      <span class="mx-1">Forum</span>
     </span>
-    <span class="px-1 hover:text-white cursor-pointer">
-      <i class="fas fa-search p-2 bg-gray-800 rounded-full"></i>
-    </span>
-    <span class="px-1 hover:text-white cursor-pointer">
-      <i class="w-8 fas fa-calendar-alt p-2 bg-gray-800 rounded-full"></i>
-    </span>
-    <span class="px-1 hover:text-white cursor-pointer w-8 relative">
-      <i class="w-8 fas fa-bell p-2 bg-gray-800 rounded-full"></i>
-      <span class="absolute right-0 top-0 -mt-2 -mr-1 text-xs bg-red-500 text-white font-medium px-2 shadow-lg rounded-full">3</span>
-    </span>
-    <span>
-      <button id="theme-toggle-dark" class="px-2 py-1 cursor-pointer hover:bg-white hover:text-gray-300 text-sm rounded mb-5">
-        Toggle Theme
-      </button>
-    </span>
-    <span class="hover:text-white cursor-pointer w-10 relative float-right mr-3">
-      <i class="fas fa-user p-2 bg-gray-800 rounded-full"></i>
-      <span class="absolute right-0 top-0 -mt-1 -mr-1 text-xs bg-yellow-500 text-black font-medium px-2 rounded-full">3</span>
-    </span>
+    {% if request.user.is_authenticated %}
+    <div class="relative hover:text-white cursor-pointer w-10 float-right mr-3">
+      <i class="fas fa-user p-2 bg-gray-800 rounded-full" onclick="openModal('optionsModal')"></i>
+    </div>
+    {% else %}
+    <div class="relative hover:text-white cursor-pointer w-10 float-right mr-3">
+      <a href="{% url 'main:login' %}" class="text-white">Login</a>
+    </div>
+    {% endif %}
   </div>
 </div>
-<div id="light-navbar" class="p-4 w-full bg-white">
-  <!--light mode - text and icons-->
-  <div class="p-2 text-gray-900 bg-white rounded-lg shadow-lg font-medium capitalize">
-    <span class="px-2 mr-2 border-r border-gray-800">
-      <img src="https://www.freepnglogos.com/uploads/spotify-logo-png/file-spotify-logo-png-4.png"
-        alt="alt placeholder" class="w-8 h-8 -mt-1 inline mx-auto">
-    </span>
-    <span class="px-2 py-1 cursor-pointer hover:bg-gray-200 hover:text-gray-700 text-sm rounded mb-5">
-      <i class="w-8 fas fa-stream p-2 bg-gray-200 rounded-full"></i>
-      <span class="mx-1">categories</span>
-    </span>
-    <span class="px-2 py-1 cursor-pointer hover:bg-gray-200 hover:text-gray-700 text-sm rounded mb-5">
-      <i class="w-8 fas fa-th p-2 bg-gray-200 rounded-full"></i>
-      <span class="mx-1">menu</span>
-    </span>
-    <span class="px-1 cursor-pointer hover:text-gray-700">
-      <i class="fas fa-search p-2 bg-gray-200 rounded-full"></i>
-    </span>
-    <span class="px-1 cursor-pointer hover:text-gray-700">
-      <i class="w-8 fas fa-calendar-alt p-2 bg-gray-200 rounded-full"></i>
-    </span>
-    <span class="px-1 w-8 relative cursor-pointer hover:text-gray-700">
-      <i class="w-8 fas fa-bell p-2 bg-gray-200 rounded-full"></i>
-      <span class="absolute right-0 top-0 -mt-2 -mr-1 text-xs bg-red-500 text-white font-medium px-2 shadow-lg rounded-full">3</span>
-    </span>
-    <span>
-      <button id="theme-toggle-light" class="px-2 py-1 cursor-pointer hover:bg-gray-800 hover:text-gray-300 text-sm rounded mb-5">
-        Toggle Theme
-      </button>
-    </span>
-    <span class="w-10 relative float-right mr-3 cursor-pointer hover:text-gray-700">
-      <i class="w-8 fas fa-user p-2 bg-gray-200 rounded-full"></i>
-      <span class="absolute right-0 top-0 -mt-1 -mr-1 text-xs bg-yellow-500 text-black font-medium px-2 rounded-full">3</span>
-    </span>
+
+<!-- Options Modal -->
+<div id="optionsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-10" onclick="closeModalOnClickOutside(event, 'optionsModal')">
+  <div class="absolute top-20 right-0 mr-4 p-5 border w- shadow-lg rounded-md bg-white" onclick="event.stopPropagation()">
+    <div class="mt-3 text-center">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Options</h3>
+      <div class="mt-2 px-5 py-3">
+        <button onclick="redirectTo('profile')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</button>
+        <button onclick="redirectTo('bookmarks')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Bookmarks</button>
+        <button onclick="redirectTo('logout')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</button>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-  const themeToggleDark = document.getElementById('theme-toggle-dark');
-  const themeToggleLight = document.getElementById('theme-toggle-light');
-  const themeWrapper = document.getElementById('theme-wrapper');
-  const darkNavbar = document.getElementById('dark-navbar');
-  const lightNavbar = document.getElementById('light-navbar');
+  function openModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+  }
 
-  function toggleTheme() {
-    if (themeWrapper.classList.contains('dark-mode')) {
-      themeWrapper.classList.remove('dark-mode');
-      darkNavbar.style.display = 'none';
-      lightNavbar.style.display = 'block';
-      localStorage.setItem('theme', 'light');
-    } else {
-      themeWrapper.classList.add('dark-mode');
-      darkNavbar.style.display = 'block';
-      lightNavbar.style.display = 'none';
-      localStorage.setItem('theme', 'dark');
+  function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+  }
+
+  function closeModalOnClickOutside(event, modalId) {
+    if (event.target.id === modalId) {
+      closeModal(modalId);
     }
   }
 
-  themeToggleDark.addEventListener('click', toggleTheme);
-  themeToggleLight.addEventListener('click', toggleTheme);
-
-  // On page load, set the theme based on local storage
-  if (localStorage.getItem('theme') === 'dark') {
-    themeWrapper.classList.add('dark-mode');
-    darkNavbar.style.display = 'block';
-    lightNavbar.style.display = 'none';
-  } else {
-    themeWrapper.classList.remove('dark-mode');
-    darkNavbar.style.display = 'none';
-    lightNavbar.style.display = 'block';
+  function redirectTo(view) {
+    // Replace with actual URLs for your views
+    const urls = {
+      home: '{% url "main:show_main" %}',
+      profile: '{% url "main:profile" %}',
+      bookmarks: '{% url "main:bookmark" %}',
+      logout: '{% url "main:logout" %}',
+      forum : '{% url "main:forum" %}',
+    };
+    window.location.href = urls[view];
   }
 </script>
