@@ -9,10 +9,16 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers 
 from .models import Food
 from .models import FoodReviews
+from django.shortcuts import get_object_or_404
+from .forms import CustomUserCreationForm
 import uuid
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import update_session_auth_hash
 
 def show_main(request):
     context = {
@@ -61,12 +67,39 @@ def show_json(request):
         food = food.order_by('-rating')
 
     return HttpResponse(serializers.serialize("json", food), content_type="application/json")
+    data = Food.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+@csrf_exempt
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if new_password != confirm_password:
+            return JsonResponse({'error': 'Passwords do not match'}, status=400)
+
+        user = request.user
+        if not user.check_password(old_password):
+            return JsonResponse({'error': 'Old password is incorrect'}, status=400)
+
+        user.set_password(new_password)
+        user.save()
+
+        # Update the session to keep the user logged in after the password change
+        update_session_auth_hash(request, user)
+
+        return JsonResponse({'success': 'Password changed successfully'})
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 def register(request):
-    form = UserCreationForm()
+    form = CustomUserCreationForm()
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Your account has been successfully created!')
@@ -92,7 +125,7 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('main:login'))
+    response = HttpResponseRedirect(reverse('main:show_main'))
     response.delete_cookie('last_login')
     return response
 
@@ -118,10 +151,3 @@ def show_forum(request):
         'user': user if user else None,
     }
     return render(request, 'forum.html', context)
-
-def show_food_details(request, name):
-    food = get_object_or_404(Food, name=name)
-    context = {
-        'food': food,
-    }
-    return render(request, 'food_details.html', context)
