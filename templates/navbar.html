@@ -1,30 +1,25 @@
 <!-- navbar.html -->
+{% load static %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
 
-<div id="navbar" class="fixed z-10 top-0 p-4 w-full bg-[#800000]">
-  <!--dark mode - text and icons-->
-  <div class="text-gray-700 bg-[#800000] rounded-lg font-medium capitalize">
-    <span class="px-2 mr-2 border-r border-gray-800">
-      <img src="https://www.freepnglogos.com/uploads/spotify-logo-png/file-spotify-logo-png-4.png"
-        alt="alt placeholder" class="w-8 h-8 -mt-1 inline mx-auto">
+<div id="navbar" class="fixed z-10 top-0 p-2 w-full bg-[#602234]">
+  <div class="text-gray-700 bg-[#602234] rounded-lg font-medium capitalize">
+    <span class="px-2 mr-2 border-r border-gray-800 hover:cursor-pointer" onclick="redirectTo(event, 'home')">
+      <img src="{% static 'images/logo.png' %}" alt="Logo" class="w-8 h-8 -mt-1 inline mx-auto">
     </span>
-    <span class="px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-gray-300 text-sm rounded mb-5" onclick="redirectTo('home')">
-      <i class="w-8 fas fa-home p-2 bg-gray-800 rounded-full"></i>
-      <span class="mx-1">Home</span>
-    </span>
-    <span class="px-6 py-2 cursor-pointer hover:bg-gray-800 hover:text-gray-300 text-sm rounded mb-5" onclick="redirectTo('forum')">
-      <i class="w-8 fas fa-comment p-2 bg-gray-800 rounded-full"></i>
-      <span class="mx-1">Forum</span>
-    </span>
+    
     {% if request.user.is_authenticated %}
     <div class="relative hover:text-white cursor-pointer w-10 float-right mr-3">
-      <i class="fas fa-user p-2 bg-gray-800 rounded-full" onclick="openModal('optionsModal')"></i>
+      <i class="fas fa-user p-2 bg-gray-800 rounded-full" onclick="openModal(event, 'optionsModal')"></i>
     </div>
     {% else %}
     <div class="relative hover:text-white cursor-pointer w-10 float-right mr-3">
       <a href="{% url 'main:login' %}" class="text-white">Login</a>
     </div>
     {% endif %}
+    <span class="px-6 mr-2  hover:cursor-pointer float-right" onclick="redirectTo(event, 'forum')">
+      <span class="mx-1 text-white">Forum</span>
+    </span>
   </div>
 </div>
 
@@ -34,37 +29,42 @@
     <div class="mt-3 text-center">
       <h3 class="text-lg leading-6 font-medium text-gray-900">Options</h3>
       <div class="mt-2 px-5 py-3">
-        <button onclick="redirectTo('profile')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</button>
-        <button onclick="redirectTo('bookmarks')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Bookmarks</button>
-        <button onclick="redirectTo('logout')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</button>
+        <button onclick="redirectTo(event, 'profile')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</button>
+        <button onclick="redirectTo(event, 'bookmarks')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Bookmarks</button>
+        <button onclick="redirectTo(event, 'logout')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  function openModal(modalId) {
+  function openModal(event, modalId) {
+    event.preventDefault();
+    event.stopPropagation();
     document.getElementById(modalId).classList.remove('hidden');
   }
 
-  function closeModal(modalId) {
+  function closeModal(event, modalId) {
+    event.preventDefault();
+    event.stopPropagation();
     document.getElementById(modalId).classList.add('hidden');
   }
 
   function closeModalOnClickOutside(event, modalId) {
     if (event.target.id === modalId) {
-      closeModal(modalId);
+      closeModal(event, modalId);
     }
   }
 
-  function redirectTo(view) {
-    // Replace with actual URLs for your views
+  function redirectTo(event, view) {
+    event.preventDefault();
+    event.stopPropagation();
     const urls = {
       home: '{% url "main:show_main" %}',
       profile: '{% url "main:profile" %}',
       bookmarks: '{% url "main:bookmark" %}',
       logout: '{% url "main:logout" %}',
-      forum : '{% url "main:forum" %}',
+      forum: '{% url "main:forum" %}',
     };
     window.location.href = urls[view];
   }

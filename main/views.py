@@ -1,17 +1,18 @@
 import datetime
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers 
 from .models import Food
 from .models import FoodReviews
-from django.shortcuts import get_object_or_404
 import uuid
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.utils.html import strip_tags
 
 def show_main(request):
     context = {
@@ -21,9 +22,45 @@ def show_main(request):
     return render(request, 'main.html', context)
 
 def show_json(request):
-    data = Food.objects.all()
-    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+    query = request.GET.get('query', '')
+    sort = request.GET.get('sort', 'name')
+    price_min = request.GET.get('price_min', '')
+    price_max = request.GET.get('price_max', '')
+    rating_min = request.GET.get('rating_min', '')
+    rating_max = request.GET.get('rating_max', '')
+    open_time_min = request.GET.get('open_time_min', '')
+    open_time_max = request.GET.get('open_time_max', '')
 
+    food = Food.objects.all()
+
+    if query:
+        food = food.filter(name__icontains=query)
+
+    if price_min:
+        food = food.filter(price__gte=price_min)
+    if price_max:
+        food = food.filter(price__lte=price_max)
+
+    if rating_min:
+        food = food.filter(rating__gte=rating_min)
+    if rating_max:
+        food = food.filter(rating__lte=rating_max)
+
+    if open_time_min:
+        food = food.filter(open_time__lte=open_time_min)
+    if open_time_max:
+        food = food.filter(open_time__gte=open_time_max)
+
+    if sort == 'price-asc':
+        food = food.order_by('price')
+    elif sort == 'price-desc':
+        food = food.order_by('-price')
+    elif sort == 'rating-asc':
+        food = food.order_by('rating')
+    elif sort == 'rating-desc':
+        food = food.order_by('-rating')
+
+    return HttpResponse(serializers.serialize("json", food), content_type="application/json")
 
 def register(request):
     form = UserCreationForm()
@@ -78,13 +115,12 @@ def show_bookmarks(request):
 def show_forum(request):
     user = request.user
     context = {
-        'user': user,
+        'user': user if user else None,
     }
     return render(request, 'forum.html', context)
 
-@login_required
 def show_food_details(request, name):
-    food = Food.objects.get(name=name)
+    food = get_object_or_404(Food, name=name)
     context = {
         'food': food,
     }
