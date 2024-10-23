@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers 
 from .models import Food
+from .models import FoodReviews
 from django.shortcuts import get_object_or_404
 import uuid
 
