@@ -13,4 +13,5 @@ urlpatterns = [
     path('bookmark/', show_bookmarks, name='bookmark'),
     path('forum/', show_forum, name='forum'),
     path('food-details/<name>', show_food_details, name='food_details'), 
+    path('')
 ]
