@@ -16,16 +16,31 @@
 </head>
 <body class="pt-24">
     <header>
-        <h1>Profile Page</h1>
+        <h1>YumYogya forum</h1>
     </header>
     <main>
         <section>
-            <h2>About Me</h2>
+            <h1>Add New Forum</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <table>
+                  {{ form.as_table }}
+                  <tr>
+                    <td></td>
+                    <td>
+                      <input type="submit" value="Add Forum" />
+                    </td>
+                  </tr>
+                </table>
+              </form>
             <p>This is a simple forum page.</p>
         </section>
     </main>
     <footer>
-        <p>&copy; 2024 {{user.username}} </p>
+        <p>&copy; 2024 YumYogya </p>
     </footer>
 </body>
+<a href="{% url 'main:forum' %}">
+  <button>Add New Mood Entry</button>
+</a>
 {% endblock content %}
