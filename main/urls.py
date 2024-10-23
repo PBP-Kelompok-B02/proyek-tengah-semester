@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import show_main, show_json, register, login_user, logout_user, show_profile, show_bookmarks, show_forum, show_food_details
+from .views import show_main, show_json, register, login_user, logout_user, show_profile, show_bookmarks, show_forum
 
 app_name = 'main'
 
@@ -12,6 +12,4 @@ urlpatterns = [
     path('profile/', show_profile, name='profile'),
     path('bookmark/', show_bookmarks, name='bookmark'),
     path('forum/', show_forum, name='forum'),
-    path('food-details/<name>', show_food_details, name='food_details'), 
-    path('')
 ]

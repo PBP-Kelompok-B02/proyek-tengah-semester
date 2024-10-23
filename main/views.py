@@ -8,7 +8,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core import serializers 
 from .models import Food
-from .models import FoodReviews
 import uuid
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -118,10 +117,3 @@ def show_forum(request):
         'user': user if user else None,
     }
     return render(request, 'forum.html', context)
-
-def show_food_details(request, name):
-    food = get_object_or_404(Food, name=name)
-    context = {
-        'food': food,
-    }
-    return render(request, 'food_details.html', context)
