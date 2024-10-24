@@ -6,7 +6,7 @@ from .forms import FoodReviewForm
 
 def show_food_details(request, name):
     food = get_object_or_404(Food, name=name)
-    food_reviews = food.foodreviews_set.all()
+    food_reviews = food.foodreviews_set.all().order_by('-id')
 
     if request.method == 'POST':
         form = FoodReviewForm(request.POST, request.FILES)
