@@ -2,45 +2,126 @@
 {% load static %}
 
 {% block meta %}
-<title>YumYogya</title>
+<title>YumYogya Forum</title>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 {% endblock meta %}
 
 {% block content %}
 {% include 'navbar.html' %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body class="pt-24">
-    <header>
-        <h1>YumYogya forum</h1>
+
+<body class="pt-24 bg-[#fbfcf8]">
+    <header class="text-center mb-8">
+        <h1 class="text-5xl font-bold text-[#982B1C] mb-4">YumYogya Forum</h1>
+        <p class="text-lg text-gray-500">Tempat berdiskusi dan berbagi pengalaman kuliner Yogyakarta</p>
     </header>
-    <main>
-        <section>
-            <h1>Add New Forum</h1>
-            <form method="POST">
-                {% csrf_token %}
-                <table>
-                  {{ form.as_table }}
-                  <tr>
-                    <td></td>
-                    <td>
-                      <input type="submit" value="Add Forum" />
-                    </td>
-                  </tr>
-                </table>
-              </form>
-            <p>This is a simple forum page.</p>
+
+    <main class="container mx-auto p-6">
+        <section class="mb-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-[#800000]">Diskusi Terbaru</h2>
+                <a href="{% url 'main:create_forum' %}" class="bg-[#800000] text-white px-4 py-2 rounded-lg shadow-md hover:bg-[#982B1C] transition duration-300">
+                    <i class="fas fa-plus mr-2"></i> Tambah Forum Baru
+                </a>
+            </div>
+            
+            <ul class="mt-6 space-y-6">
+                {% if forums %}
+                    {% for forum in forums %}
+                        <li class="bg-white p-6 rounded-lg shadow-md relative">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-2xl font-semibold">{{ forum.title }}</h3>
+                                {% if forum.created_by == user %}
+                                <button class="trash-button text-red-500 hover:text-red-700 transition duration-300 absolute top-4 right-4" 
+                                        onclick="openDeleteModal('{% url 'main:delete_forum' forum.id %}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                            <p class="text-gray-600 mt-2">{{ forum.description }}</p>
+                            <p class="text-sm text-gray-500 mt-4">Dibuat oleh: <span class="font-medium">{{ forum.created_by.username }}</span> pada {{ forum.created_at }}</p>
+
+                            <!-- Menampilkan semua reply pada forum -->
+                            <h4 class="mt-6 text-lg font-bold text-[#800000]">Tanggapan:</h4>
+                            <ul class="ml-4 mt-2 space-y-4">
+                                {% for reply in forum.replies.all %}
+                                    <li class="bg-gray-100 p-4 rounded-lg relative">
+                                        <div class="flex justify-between">
+                                            <p>{{ reply.content }}</p>
+                                            {% if reply.created_by == user %}
+                                            <button class="trash-button text-red-500 hover:text-red-700 transition duration-300" 
+                                                    onclick="openDeleteModal('{% url 'main:delete_reply' reply.id %}')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            {% endif %}
+                                        </div>
+                                        <small class="text-sm text-gray-500">Ditulis oleh: {{ reply.created_by.username }} pada {{ reply.created_at }}</small>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                            <!-- Form untuk menambah tanggapan -->
+                            {% if user.is_authenticated %}
+                            <form id="replyForm-{{ forum.id }}" method="POST" action="{% url 'main:reply_forum' forum.id %}" class="mt-6">
+                                {% csrf_token %}
+                                <textarea name="content" rows="3" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Tulis tanggapan Anda di sini..." required></textarea>
+                                <button type="submit" class="bg-[#800000] text-white px-4 py-2 mt-3 rounded-lg shadow-md hover:bg-[#982B1C] transition duration-300">Kirim Tanggapan</button>
+                            </form>
+                            
+                            {% else %}
+                                <p class="mt-4 text-sm text-gray-500">Login untuk memberi tanggapan.</p>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="text-center text-gray-500">Belum ada topik diskusi.</li>
+                {% endif %}
+            </ul>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2024 YumYogya </p>
-    </footer>
+
+    <!-- Modal Delete -->
+    <div id="deleteModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="modal-content bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="modal-header text-lg font-semibold text-gray-900">Hapus Diskusi</h3>
+            <p class="modal-body mt-2 text-gray-600">Apakah Anda yakin ingin menghapus diskusi ini?</p>
+            <div class="modal-footer mt-4 flex justify-end space-x-4">
+                <button id="cancelButton" class="cancel-button bg-gray-200 px-4 py-2 rounded">Batal</button>
+                <a id="confirmDeleteLink" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const deleteModal = document.getElementById('deleteModal');
+        const confirmDeleteLink = document.getElementById('confirmDeleteLink');
+        const cancelButton = document.getElementById('cancelButton');
+
+        function openDeleteModal(deleteUrl) {
+            deleteModal.classList.remove('hidden');
+            confirmDeleteLink.href = deleteUrl;
+        }
+
+        function closeDeleteModal() {
+            deleteModal.classList.add('hidden');
+        }
+
+        cancelButton.addEventListener('click', closeDeleteModal);
+
+        document.querySelectorAll('.trash-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const deleteUrl = this.getAttribute('onclick').split("'")[1];
+                openDeleteModal(deleteUrl);
+            });
+        });
+
+        deleteModal.addEventListener('click', function(event) {
+            if (event.target === deleteModal) {
+                closeDeleteModal();
+            }
+        });
+    </script>
+    
 </body>
-<a href="{% url 'main:forum' %}">
-  <button>Add New Mood Entry</button>
-</a>
 {% endblock content %}

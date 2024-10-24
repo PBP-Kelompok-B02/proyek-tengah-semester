@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Create New Forum - YumYogya</title>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock meta %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<body class="pt-24 bg-[#fbfcf8]">
+    <header class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-[#982B1C] mb-2">Buat Forum Baru</h1>
+        <p class="text-lg text-gray-500">Diskusikan topik kuliner yang Anda inginkan di YumYogya</p>
+    </header>
+
+    <main class="container mx-auto p-6">
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+            <!-- <form method="POST" action="{% url 'main:submit_forum' %}" class="space-y-6"> -->
+            <form id="createForumForm" method="POST" action="{% url 'main:submit_forum' %}" class="space-y-6">
+
+                {% csrf_token %}
+                <div class="mb-6">
+                    <label for="title" class="block text-lg font-semibold text-[#800000] mb-2">Judul Forum:</label>
+                    <input type="text" id="title" name="title" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-[#982B1C]" placeholder="Masukkan judul forum" required>
+                </div>
+                
+                <div class="mb-6">
+                    <label for="description" class="block text-lg font-semibold text-[#800000] mb-2">Deskripsi:</label>
+                    <textarea id="description" name="description" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-[#982B1C]" rows="5" placeholder="Jelaskan topik forum Anda di sini" required></textarea>
+                </div>
+
+                <div class="flex justify-center">
+                    <button type="submit" class="bg-[#800000] text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-[#982B1C] hover:shadow-lg transition-all duration-300">
+                        <i class="fas fa-plus mr-2"></i> Buat Forum
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('createForumForm');
+    
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();  // Mencegah reload halaman
+                const formData = new FormData(form);
+    
+                fetch("{% url 'main:submit_forum' %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Redirect ke halaman forum setelah berhasil submit
+                        window.location.href = "{% url 'main:forum' %}";
+                    } else {
+                        alert("Gagal membuat forum. Coba lagi.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Terjadi kesalahan. Silakan coba lagi.");
+                });
+            });
+        });
+    </script>
+    
+</body>
+{% endblock content %}

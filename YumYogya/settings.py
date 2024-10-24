@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "lisa-margaretha-yumyogya.pbp.cs.ui.ac.id"]
 
+LOGIN_URL = '/login/'
 
 # Application definition
 
