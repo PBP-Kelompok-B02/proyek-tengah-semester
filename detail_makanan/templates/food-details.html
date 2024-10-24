@@ -9,57 +9,66 @@
 {% include 'navbar.html' %}
 <body class="pt-24 bg-[#F2E8C6]">
     <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold mb-4">{{ food.name }}</h1>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/KPU_Alfiansyah_Bustami_Komeng.jpg" alt="{{ food.name }}" class="w-full h-48 object-cover rounded-lg mb-4">
-        <p class="text-gray-600 mb-2">Price: {{ food.price }}</p>
-        <p class="text-gray-700 mb-4">{{ food.description }}</p>
-        <span>
-        <i class="fas fa-star" style="color: #FFD43B"> </i>
-        <span class="text-gray-700">{{ food.rating }}</span>
-        </span>
-
-        <h2>Berikan review kamu</h2>
-        {% for review in reviews %}
-        <div class="flex flex-col space-y-5">
-            <div class="flex justify-between items-start">
-                <div class="flex flex-col space-y-2">
-                    <p>{{ review.user.username }}</p>
-                    <p>{{ review.review }}</p>
-                </div>
-                {% if review.user == request.user %}
-                    <button class="delete-review bg-red-500 text-white py-1 px-3 rounded" data-review-id="{{ review.id }}">
-                        Delete
-                    </button>
-                {% endif %}
-            </div>
-        
-            {% if review.image_url %}
-                <img class="w-full h-auto object-cover rounded-lg" src="{{ review.image_url }}" alt="Review image" />
-            {% endif %}
+        <div class="mb-4">
+            <h1 class="text-3xl font-bold mb-4">{{ food.name }}</h1>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/KPU_Alfiansyah_Bustami_Komeng.jpg" alt="{{ food.name }}" class="w-full h-48 object-cover rounded-lg mb-4">
+            <p class="text-gray-600 mb-2">Price: {{ food.price }}</p>
+            <p class="text-gray-700 mb-4">{{ food.description }}</p>
+            <span>
+            <i class="fas fa-star" style="color: #FFD43B"> </i>
+            <span class="text-gray-700">{{ food.rating }}</span>
+            </span>
         </div>
-        {% empty %}
-            <p>Hmm belum ada yang review nih. Yuk buat review makanan ini.</p>
-        {% endfor %}
 
-        {% if request.user.is_authenticated %}
-            <h3>Tambah review</h3>
+        <h2 class="text-2xl">Berikan ulasan-mu tentang makanan ini</h2>
+        <div class="container space-y-1">
+            {% if request.user.is_authenticated %}
             <form id="review-form" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <table>
-                    {{ form.as_table }}
-                    <tr>
-                        <td></td>
-                        <td>
-                            <button type="submit" class="bg-[#602234] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded">
-                                Submit Review
-                            </button>
-                        </td>
-                    </tr>
-                </table>
+                <div class="row space-y-2 mb-4">
+                    {% csrf_token %}
+                    <textarea name="review" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-2 py-1" style="height:100px"></textarea>
+                    {{ form.review.errors }}
+                    <div class="flex justify-between">
+                        <div class="flex flex-col">
+                            <p>Upload foto (opsional)</p>
+                            <input type="file" name="image_url" id="id_image_url" class="mt-1 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                        {{ form.image_url.errors }}
+                        <button type="submit" class="bg-[#602234] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded">
+                            Submit Review
+                        </button>
+                    </div>
+                </div>
             </form>
-        {% else %}
-            <p>Kamu harus login untuk memberikan review.</p>
-        {% endif %}
+            {% else %}
+                <p>Kamu harus login untuk memberikan review.</p>
+            {% endif %}
+            {% for review in reviews %}
+            <div class="flex flex-col">
+                    <div class="mb-4 shadow-sm py-2">
+                    <div class="flex justify-between items-start">
+                        <div class="flex flex-col space-y-1">
+                            <h3 class="font-bold">{{ review.user.username }}</h3>
+                            <p>{{ review.review }}</p>
+                        </div>
+                        {% if review.user == request.user %}
+                        <form method="POST" action="{% url 'detail_makanan:delete_review' review.id %}" class="inline-block">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    {% if review.image_url %}
+                        <img class="w-full h-auto object-cover rounded-lg" src="{{ review.image_url.url }}" style="max-width:30%"/>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+                <p>Hmm belum ada yang review nih. Yuk buat review makanan ini.</p>
+            {% endfor %}
+        </div>
     </div>
 </body>
 {% endblock content %}
