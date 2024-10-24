@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -15,5 +16,4 @@ class FoodReviews(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
     review = models.CharField(max_length=500)
-    rating = models.DecimalField(max_digits=2, decimal_places=1)
-    image_url = models.CharField(max_length=50)
+    image_url = models.ImageField(upload_to='review_images/', blank=True, null=True)

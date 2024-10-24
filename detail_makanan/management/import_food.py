@@ -15,7 +15,7 @@ cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
 # Create the table with a UUID as the PRIMARY KEY
 cursor.execute(f'''
     CREATE TABLE IF NOT EXISTS {table_name} (
-        id TEXT PRIMARY KEY,
+        id INTEGER PRIMARY KEY,
         name TEXT,
         price INTEGER,
         rating REAL,
@@ -32,13 +32,13 @@ with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
     reader = csv.reader(csvfile)
     # Insert each row with a UUID as the primary key
     for row in reader:
-        row_id = str(uuid.uuid4())  # Generate a UUID for each row
+        # row_id = str(uuid.uuid4())  # Generate a UUID for each row
         cursor.execute(f'''
             INSERT INTO {table_name} (
-                id, name, price, rating, restaurant,
+                name, price, rating, restaurant,
                 address, contact, open_time, description
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (row_id, *row))
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (row))
 
 # Commit changes and close connection
 conn.commit()
