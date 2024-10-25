@@ -1,15 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 class Food(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=6, decimal_places=0)
-    rating = models.DecimalField(max_digits=2, decimal_places=1)
     restaurant = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
     contact = models.CharField(max_length=15)
     open_time = models.CharField(max_length=15)
     description = models.CharField(max_length=100)
+    image = models.CharField(max_length=255, default='https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.its.ac.id%2Ftmesin%2Ffasilitas%2Flaboratorium-2%2Fno-image%2F&psig=AOvVaw3MxCmHHuz26CagUzVTBH79&ust=1729935269596000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMiWpJudqYkDFQAAAAAdAAAAABAJ')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Forum(models.Model):
     title = models.CharField(max_length=200)
