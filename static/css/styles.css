@@ -19,3 +19,12 @@
   #theme-wrapper.dark-mode .navbar {
     background-color: darkgray;
   }
+
+
+/* Add your custom styles here */
+
+.bg-auth {
+  background-image: url('/static/image/bg.png');
+  background-size: cover;
+  background-position: center;
+}

@@ -1,127 +1,340 @@
-{% extends 'base.html' %}
-{% load static %}
-
+{% extends 'base.html' %} 
+{% load static %} 
 {% block meta %}
 <title>YumYogya Forum</title>
-<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-{% endblock meta %}
+{% endblock meta %} 
 
-{% block content %}
+{% block content %} 
 {% include 'navbar.html' %}
 
-<body class="pt-24 bg-[#fbfcf8]">
-    <header class="text-center mb-8">
-        <h1 class="text-5xl font-bold text-[#982B1C] mb-4">YumYogya Forum</h1>
-        <p class="text-lg text-gray-500">Tempat berdiskusi dan berbagi pengalaman kuliner Yogyakarta</p>
+<body class="pt-24 bg-gradient-to-b from-[#fbfcf8] to-[#f5f6f2]">
+<header class="text-center mb-12 px-4">
+        <h1 class="text-5xl font-bold text-[#982B1C] mb-4 animate-fade-in">
+            <span class="inline-block transform hover:scale-105 transition-transform duration-300">YumYogya Forum</span>
+        </h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Tempat berdiskusi dan berbagi pengalaman kuliner Yogyakarta
+        </p>
     </header>
 
-    <main class="container mx-auto p-6">
-        <section class="mb-6">
-            <div class="flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-[#800000]">Diskusi Terbaru</h2>
-                <a href="{% url 'main:create_forum' %}" class="bg-[#800000] text-white px-4 py-2 rounded-lg shadow-md hover:bg-[#982B1C] transition duration-300">
-                    <i class="fas fa-plus mr-2"></i> Tambah Forum Baru
-                </a>
-            </div>
-            
-            <ul class="mt-6 space-y-6">
-                {% if forums %}
-                    {% for forum in forums %}
-                        <li class="bg-white p-6 rounded-lg shadow-md relative">
-                            <div class="flex justify-between items-center">
-                                <h3 class="text-2xl font-semibold">{{ forum.title }}</h3>
-                                {% if forum.created_by == user %}
-                                <button class="trash-button text-red-500 hover:text-red-700 transition duration-300 absolute top-4 right-4" 
-                                        onclick="openDeleteModal('{% url 'main:delete_forum' forum.id %}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                                {% endif %}
-                            </div>
-                            <p class="text-gray-600 mt-2">{{ forum.description }}</p>
-                            <p class="text-sm text-gray-500 mt-4">Dibuat oleh: <span class="font-medium">{{ forum.created_by.username }}</span> pada {{ forum.created_at }}</p>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl" role="main">
+    <div class="section mb-12">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+            <h2 id="diskusi-terbaru" class="text-2xl font-bold text-[#800000]">Diskusi Terbaru</h2>
+            <a href="{% url 'main:create_forum' %}" class="bg-[#800000] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#982B1C] transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2 w-full sm:w-auto justify-center">
+                <i class="fas fa-plus"></i>
+                <span>Tambah Forum Baru</span>
+            </a>
+        </div>
 
-                            <!-- Menampilkan semua reply pada forum -->
-                            <h4 class="mt-6 text-lg font-bold text-[#800000]">Tanggapan:</h4>
-                            <ul class="ml-4 mt-2 space-y-4">
-                                {% for reply in forum.replies.all %}
-                                    <li class="bg-gray-100 p-4 rounded-lg relative">
-                                        <div class="flex justify-between">
-                                            <p>{{ reply.content }}</p>
-                                            {% if reply.created_by == user %}
-                                            <button class="trash-button text-red-500 hover:text-red-700 transition duration-300" 
-                                                    onclick="openDeleteModal('{% url 'main:delete_reply' reply.id %}')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                            {% endif %}
-                                        </div>
-                                        <small class="text-sm text-gray-500">Ditulis oleh: {{ reply.created_by.username }} pada {{ reply.created_at }}</small>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-
-                            <!-- Form untuk menambah tanggapan -->
-                            {% if user.is_authenticated %}
-                            <form id="replyForm-{{ forum.id }}" method="POST" action="{% url 'main:reply_forum' forum.id %}" class="mt-6">
-                                {% csrf_token %}
-                                <textarea name="content" rows="3" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Tulis tanggapan Anda di sini..." required></textarea>
-                                <button type="submit" class="bg-[#800000] text-white px-4 py-2 mt-3 rounded-lg shadow-md hover:bg-[#982B1C] transition duration-300">Kirim Tanggapan</button>
-                            </form>
-                            
-                            {% else %}
-                                <p class="mt-4 text-sm text-gray-500">Login untuk memberi tanggapan.</p>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                {% else %}
-                    <li class="text-center text-gray-500">Belum ada topik diskusi.</li>
+        {% if forums %}
+        {% for forum in forums %}
+        <div class="forum-item mb-8 p-6 bg-white rounded-lg shadow-md" data-forum-id="{{ forum.id }}">
+            <div class="flex justify-between items-start">
+                <h3 class="text-2xl font-semibold text-[#4A1C17] hover:text-[#982B1C] transition-colors duration-300">
+                    {{ forum.title }}
+                </h3>
+                {% if forum.created_by == user %}
+                <button onclick="deleteForum({{ forum.id }})" class="text-red-500 hover:text-red-700">
+                    <i class="fas fa-trash"></i>
+                </button>
                 {% endif %}
-            </ul>
-        </section>
-    </main>
+            </div>
 
-    <!-- Modal Delete -->
-    <div id="deleteModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div class="modal-content bg-white p-6 rounded-lg shadow-lg">
-            <h3 class="modal-header text-lg font-semibold text-gray-900">Hapus Diskusi</h3>
-            <p class="modal-body mt-2 text-gray-600">Apakah Anda yakin ingin menghapus diskusi ini?</p>
-            <div class="modal-footer mt-4 flex justify-end space-x-4">
-                <button id="cancelButton" class="cancel-button bg-gray-200 px-4 py-2 rounded">Batal</button>
-                <a id="confirmDeleteLink" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</a>
+            <p class="mt-4">{{ forum.description }}</p>
+
+            <div class="flex items-center gap-2 mt-4 text-sm text-gray-500">
+                <i class="fas fa-user-circle"></i>
+                <span class="font-medium">{{ forum.created_by.username }}</span>
+                <span class="text-gray-400">•</span>
+                <span>{{ forum.created_at }}</span>
+            </div>
+
+            <div class="mt-8">
+                <h4 class="text-lg font-bold text-[#800000] mb-4 flex items-center gap-2">
+                    <i class="fas fa-comments"></i> Tanggapan
+                </h4>
+                
+                <div class="replies-container">
+                    {% for reply in forum.replies.all %}
+                    <div class="reply-item mb-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200" data-reply-id="{{ reply.id }}">
+                        <div class="flex justify-between items-start">
+                            <p>{{ reply.content }}</p>
+                            {% if reply.created_by == user %}
+                            <button onclick="deleteReply({{ reply.id }})" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            {% endif %}
+                        </div>
+                        <div class="flex items-center gap-2 mt-3 text-sm text-gray-500">
+                            <i class="fas fa-user-circle"></i>
+                            <span class="font-medium">{{ reply.created_by.username }}</span>
+                            <span class="text-gray-400">•</span>
+                            <span>{{ reply.created_at }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if user.is_authenticated %}
+                <form class="reply-form mt-6" onsubmit="submitReply(event, {{ forum.id }})">
+                    {% csrf_token %}
+                    <textarea name="content" class="w-full p-3 border rounded-lg" placeholder="Tulis tanggapan Anda..." required></textarea>
+                    <button type="submit" 
+                            class="mt-3 px-6 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#982B1C] transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Kirim Tanggapan</span>
+                    </button>
+                </form>
+                {% else %}
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg text-center">
+                    <a href="{% url 'main:login' %}" class="text-[#800000] hover:text-[#982B1C]">
+                        <i class="fas fa-lock mr-2"></i> Login untuk memberi tanggapan
+                    </a>
+                </div>
+                {% endif %}
             </div>
         </div>
+        {% endfor %}
+        {% else %}
+        <div class="text-center py-12 bg-white rounded-xl shadow-md">
+            <i class="fas fa-comments text-4xl text-gray-300 mb-4"></i>
+            <p class="text-gray-500">Belum ada topik diskusi.</p>
+        </div>
+        {% endif %}
     </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div class="modal-content bg-white p-6 rounded-xl shadow-xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0">
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Konfirmasi Hapus</h3>
+        <p>Apakah Anda yakin ingin menghapus? Tindakan ini tidak dapat dibatalkan.</p>
+        <div class="mt-6 flex justify-end gap-4">
+            <button onclick="closeDeleteModal()" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors duration-300">
+                Batal
+            </button>
+            <a id="confirmDeleteLink" class="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors duration-300 cursor-pointer">
+                Hapus
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Add this before the closing body tag -->
+<script>
+    function submitReply(event, forumId) {
+        event.preventDefault();
+        const form = event.target;
+        const content = form.content.value;
+        const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(`/forum/${forumId}/reply/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrfToken
+            },
+            body: `content=${encodeURIComponent(content)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Add the new reply to the DOM
+                const repliesContainer = form.closest('.forum-item').querySelector('.replies-container');
+                const newReplyHTML = `
+                    <div class="reply-item mb-4 p-4 bg-gray-50 rounded-lg" data-reply-id="${data.reply.id}">
+                        <div class="flex justify-between items-start">
+                            <p>${data.reply.content}</p>
+                            <button onclick="deleteReply(${data.reply.id})" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2 mt-3 text-sm text-gray-500">
+                            <span class="font-medium">${data.reply.username}</span>
+                            <span class="text-gray-400">•</span>
+                            <span>Just now</span>
+                        </div>
+                    </div>
+                `;
+                repliesContainer.insertAdjacentHTML('beforeend', newReplyHTML);
+                form.reset();
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function deleteReply(replyId) {
+    // Show the delete confirmation modal
+    const modal = document.getElementById('deleteModal');
+    const modalContent = modal.querySelector('.modal-content');
     
-    <script>
-        const deleteModal = document.getElementById('deleteModal');
-        const confirmDeleteLink = document.getElementById('confirmDeleteLink');
-        const cancelButton = document.getElementById('cancelButton');
+    // Setup delete confirmation action
+    const confirmDeleteLink = document.getElementById('confirmDeleteLink');
+    confirmDeleteLink.onclick = () => {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const replyElement = document.querySelector(`[data-reply-id="${replyId}"]`);
 
-        function openDeleteModal(deleteUrl) {
-            deleteModal.classList.remove('hidden');
-            confirmDeleteLink.href = deleteUrl;
-        }
+        // Add fade-out animation
+        replyElement.style.transition = 'all 0.3s ease-out';
+        replyElement.style.opacity = '0';
+        replyElement.style.transform = 'translateY(-10px)';
 
-        function closeDeleteModal() {
-            deleteModal.classList.add('hidden');
-        }
+        fetch(`/forum/${replyId}/delete-reply/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Wait for fade-out animation to complete
+                setTimeout(() => {
+                    replyElement.remove();
+                    
+                    // Check if there are no more replies
+                    const forumItem = replyElement.closest('.forum-item');
+                    const repliesContainer = forumItem.querySelector('.replies-container');
+                    if (repliesContainer.children.length === 0) {
+                        repliesContainer.innerHTML = `
+                            <div class="text-center py-4 text-gray-500 animate-fade-in">
+                                <p>Belum ada tanggapan</p>
+                            </div>
+                        `;
+                    }
+                }, 300);
 
-        cancelButton.addEventListener('click', closeDeleteModal);
-
-        document.querySelectorAll('.trash-button').forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                const deleteUrl = this.getAttribute('onclick').split("'")[1];
-                openDeleteModal(deleteUrl);
-            });
-        });
-
-        deleteModal.addEventListener('click', function(event) {
-            if (event.target === deleteModal) {
+                // Close modal with animation
                 closeDeleteModal();
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Revert animation if error occurs
+            replyElement.style.opacity = '1';
+            replyElement.style.transform = 'translateY(0)';
         });
-    </script>
+    };
+
+    // Show modal with animation
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        modalContent.classList.remove('scale-95', 'opacity-0');
+        modalContent.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
+    // Delete Forum with animation
+function deleteForum(forumId) {
+    // Show the delete confirmation modal
+    const modal = document.getElementById('deleteModal');
+    const modalContent = modal.querySelector('.modal-content');
     
+    // Setup delete confirmation action
+    const confirmDeleteLink = document.getElementById('confirmDeleteLink');
+    confirmDeleteLink.onclick = () => {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const forumElement = document.querySelector(`[data-forum-id="${forumId}"]`);
+
+        // Add fade-out animation class
+        forumElement.style.transition = 'all 0.3s ease-out';
+        forumElement.style.opacity = '0';
+        forumElement.style.transform = 'translateY(-20px)';
+
+        fetch(`/forum/${forumId}/delete/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Wait for fade-out animation to complete
+                setTimeout(() => {
+                    forumElement.remove();
+                    
+                    // Check if there are no more forums
+                    const remainingForums = document.querySelectorAll('.forum-item');
+                    if (remainingForums.length === 0) {
+                        const container = document.querySelector('.section');
+                        const emptyState = `
+                            <div class="text-center py-12 bg-white rounded-xl shadow-md animate-fade-in">
+                                <i class="fas fa-comments text-4xl text-gray-300 mb-4"></i>
+                                <p class="text-gray-500">Belum ada topik diskusi.</p>
+                            </div>
+                        `;
+                        container.insertAdjacentHTML('beforeend', emptyState);
+                    }
+                }, 300);
+
+                // Close modal with animation
+                closeDeleteModal();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Revert animation if error occurs
+            forumElement.style.opacity = '1';
+            forumElement.style.transform = 'translateY(0)';
+        });
+    };
+
+    // Show modal with animation
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        modalContent.classList.remove('scale-95', 'opacity-0');
+        modalContent.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
+
+    // Modal functions
+    function showDeleteModal(deleteUrl) {
+        const modal = document.getElementById('deleteModal');
+        const modalContent = modal.querySelector('.modal-content');
+        document.getElementById('confirmDeleteLink').setAttribute('data-delete-url', deleteUrl);
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modalContent.classList.remove('scale-95', 'opacity-0');
+            modalContent.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    }
+
+    // Enhanced modal close function
+function closeDeleteModal() {
+    const modal = document.getElementById('deleteModal');
+    const modalContent = modal.querySelector('.modal-content');
+    
+    modalContent.classList.remove('scale-100', 'opacity-100');
+    modalContent.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        // Reset the onclick handler
+        document.getElementById('confirmDeleteLink').onclick = null;
+    }, 300);
+}
+</script>
+
+{% block extra_css %}
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+</style>
+{% endblock %}
+
 </body>
 {% endblock content %}
