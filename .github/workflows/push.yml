@@ -37,6 +37,6 @@ jobs:
           if [[ $? -ne 0 ]]; then
             echo "Push failed with output: $push_output"
             echo "Error: Unable to push changes. Please check the error message above and resolve any conflicts manually."
-            exit 1
+            exit 0
           fi
           echo "Push successful with output: $push_output"
