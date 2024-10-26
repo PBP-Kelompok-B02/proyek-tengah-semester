@@ -68,4 +68,4 @@
 - **User** : Memiliki akses lebih luas, seperti menyimpan daftar makanan (bookmark) dan berinteraksi dengan konten, misalnya memberikan ulasan.
 
 ## Tautan Deployment Aplikasi
-http://lisa-margaretha-yumyogya.pbp.cs.ui.ac.id
+https://yumyogya.up.railway.app/

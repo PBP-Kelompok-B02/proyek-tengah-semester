@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import dj_database_url
 import os
 from pathlib import Path
 
@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-p(x9d7x&_-@@5*54k%af04!+r-j68u6ja5936p1pb0#^((%w49
 # DEBUG = True
 
 PRODUCTION = os.getenv("PRODUCTION", False)
-DEBUG = not PRODUCTION
+DEBUG = False
 
 ALLOWED_HOSTS = ["localhost","lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "127.0.0.1", "yumyogya.up.railway.app"]
 
@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'YumYogya.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='postgresql://postgres:JniZlfJBnGnlrYkMPbBDwgNvinnNhzQy@junction.proxy.rlwy.net:34397/railway',
+        conn_max_age=600,
+    )
 }
 
 
