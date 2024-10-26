@@ -4,28 +4,146 @@
 {% block meta %}
 <title>Profile Page</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 <style>
-    /* Modal styles */
+    /* Dashboard Header */
+    .dashboard-header {
+        /* background: linear-gradient(135deg, #602231 0%, #ae7f8a 100%); */
+        padding: 2rem;
+        color: #602231;
+        /* border-radius: 0 0 20px 20px; */
+        /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); */
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+        margin-top: 3rem;
+        
+    }
+
+    .dashboard-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .dashboard-subtitle {
+        opacity: 0.8;
+        margin-top: 0.5rem;
+    }
+
+    /* Profile section styles */
+    .profile-container {
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        margin: 20px auto;
+        width: 90%;
+        background: linear-gradient(135deg, #ae7f8a 0%, #925d68 100%);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .profile-container:hover {
+        transform: translateY(-5px);
+    }
+
+    .profile-container img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid #602231;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Buttons */
+    .dashboard-btn {
+        padding: 12px 24px;
+        font-size: 16px;
+        background-color: #602231;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-btn:hover {
+        background-color: #421520;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .dashboard-btn i {
+        transition: transform 0.3s ease;
+    }
+
+    .dashboard-btn:hover i {
+        transform: translateX(5px);
+    }
+
+    /* Food Cards Grid */
+    .food-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+    .food-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .food-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .food-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        color: #666;
+    }
+
+    .food-info i {
+        color: #602231;
+    }
+
     .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-        padding-top: 60px;
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); 
+    backdrop-filter: blur(5px);
     }
 
     .modal-content {
         background-color: #fefefe;
-        margin: 5% auto;
+        margin: 15% auto;
         padding: 20px;
         border: 1px solid #888;
-        width: 80%;
+        width: 80%; 
     }
 
     .close {
@@ -41,43 +159,251 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    /* Form styling */
+    .form-group {
+        margin-bottom: 1rem;
+        backdrop-filter: blur(5px);
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #602231;
+        outline: none;
+    }
 </style>
 {% endblock meta %}
 
 {% block content %}
 {% include 'navbar.html' %}
 
-<body class="pt-24">
-    <header>
-        <h1>Profile Page</h1>
+<body class="bg-[#fbfcf8]">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="dashboard-title">
+            <i class="fas fa-user-edit"></i>
+            Dashboard
+        </div>
+        <p class="dashboard-subtitle">Discover and Share Your Culinary Adventures</p>
     </header>
-    <main>
-        <section>
-            <h2>About Me</h2>
-            <p>This is a simple profile page.</p>
-            <button id="change-password-btn">Change Password</button>
-        </section>
-    </main>
-    <footer>
-    </footer>
 
-    <!-- Modal for Change Password -->
+    <main>
+        <!-- Profile Section -->
+        <section class="profile-container">
+            <div style="display: flex; align-items: center; gap: 2rem;">                
+                <img src="{% static 'images/profile.jpg' %}" alt="Profile picture of {{ username }}" id="profile_pic_img">
+                <div>
+                    <h2 style="color: #fff; font-size: 2rem; font-weight: 600;">Hi, {{ user.username }}!</h2>
+                    <p style="color: #fff; opacity: 0.9;">Ready to Explore Culinary Delights?</p>
+                </div>
+            </div>
+            <button class="dashboard-btn" id="change-password-btn" style="width: fit-content; margin-top: 1.5rem;">
+                <span>Change Password</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- Food Products Section -->
+        <div class="flex justify-between items-center mx-12 mt-8">
+            <h2 class="text-2xl font-bold flex items-center gap-2" style="color: #602231;">
+                <i class="fas fa-bookmark"></i>
+                Your Food Collection
+            </h2>
+            <button id="add-food-btn" class="dashboard-btn">
+                <i class="fas fa-plus"></i>
+                <span>Add New Food</span>
+            </button>
+        </div>
+
+        <div id="food-cards" class="food-cards"></div>
+    </main>
+
+    <!-- Change Password Modal -->
     <div id="change-password-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
+        <div class="modal-content text-">
+            <div class="flex justify-between items-center mb-4 text-2xl font-bold">
+                <h3><i class="fas fa-key me-2"></i> Change Password</h3>
+                <button type="button" class="close">&times;</button>
+            </div>
             <form id="change-password-form">
-                <label for="old_password">Old Password:</label>
-                <input type="password" id="old_password" name="old_password" required>
-                <label for="new_password">New Password:</label>
-                <input type="password" id="new_password" name="new_password" required>
-                <label for="confirm_password">Confirm Password:</label>
-                <input type="password" id="confirm_password" name="confirm_password" required>
-                <button type="submit">Submit</button>
+                <div class="grid gap-4">
+                    <div class="form-group">
+                        <label for="old_password" class="block text-sm font-medium mb-1">Old Password</label>
+                        <input type="password" id="old_password" name="old_password" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new_password" class="block text-sm font-medium mb-1">New Password</label>
+                        <input type="password" id="new_password" name="new_password" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm_password" class="block text-sm font-medium mb-1">Confirm Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required class="form-control">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" class="dashboard-btn bg-gray-500" id="cancel-add">Cancel</button>
+                    <button type="submit" class="dashboard-btn">Change Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Add Food Modal -->
+    <div id="add-food-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold">
+                    <i class="fas fa-utensils"></i>
+                    Add New Food Product
+                </h3>
+                <span class="close">&times;</span>
+            </div>
+            
+            <form id="add-food-form" style="overflow: auto;">
+                {% csrf_token %}
+                <div class="grid gap-4">
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Name</label>
+                        <input type="text" name="name" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Price (Rp)</label>
+                        <input type="number" name="price" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Rating (1-5)</label>
+                        <input type="number" name="rating" min="1" max="5" step="0.1" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Restaurant</label>
+                        <input type="text" name="restaurant" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Address</label>
+                        <input type="text" name="address" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Contact</label>
+                        <input type="text" name="contact" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Open Time</label>
+                        <input type="time" name="open_time" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Description</label>
+                        <textarea name="description" required class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" class="dashboard-btn bg-gray-500" id="cancel-add">Cancel</button>
+                    <button type="submit" class="dashboard-btn">Save Food</button>
+                </div>
             </form>
         </div>
     </div>
 
     <script>
+        $(document).ready(function() {
+            // Load user's food products
+            function loadUserFoods() {
+                $.ajax({
+                    url: "{% url 'main:get_user_foods' %}",  // You'll need to create this URL
+                    method: "GET",
+                    success: function(response) {
+                        // const foods = JSON.parse(response.foods);
+                        const foodCards = $('#food-cards');
+                        foodCards.empty();
+                        
+                        if (response.foods.length === 0) {
+                            foodCards.html(`
+                                <div class="col-span-full text-center py-12">
+                                    <img src="{% static 'image/sedih-banget.png' %}" alt="No foods" class="mx-auto w-32 h-32">
+                                    <p class="mt-4 text-gray-600">No food products available yet.</p>
+                                </div>
+                            `);
+                            return;
+                        }
+
+                        response.foods.forEach(food => {
+                            foodCards.append(`
+                                <div class="food-card">
+                                    <h3 class="text-xl font-bold mb-2">${food.fields.name}</h3>
+                                    <p class="mb-1">Rating: ${food.fields.rating}/5</p>
+                                    <p class="mb-1">Price: Rp${food.fields.price},00</p>
+                                    <p class="mb-1">Restaurant: ${food.fields.restaurant}</p>
+                                    <p class="mt-3 text-gray-600">${food.fields.description}</p>
+                                </div>
+                            `);
+                        });
+                    }
+                });
+            }
+
+            // Modal handling
+            const modal = $('#add-food-modal');
+            const backdrop = $('#modal-backdrop');
+
+            $(window).click(function(event) {
+                if (event.target == modal[0]) {
+                    modal.hide();
+                }
+            });
+
+            $('#add-food-btn').click(function() {
+                modal.show();
+                backdrop.show();
+            });
+
+            $('.close, #cancel-add').click(function() {
+                modal.hide();
+                backdrop.hide();
+            });
+
+            // Form submission
+            $('#add-food-form').submit(function(e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    url: "{% url 'main:add_food_entry_ajax' %}",  // You'll need to create this URL
+                    method: "POST",
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            modal.hide();
+                            backdrop.hide();
+                            $('#add-food-form')[0].reset();
+                            loadUserFoods();
+                        } else {
+                            alert('Failed to add food product');
+                        }
+                    },
+                    error: function() {
+                        alert('An error occurred');
+                    }
+                });
+            });
+
+            // Initial load
+            loadUserFoods();
+        });
         $(document).ready(function() {
             var modal = $('#change-password-modal');
             var btn = $('#change-password-btn');
@@ -95,6 +421,11 @@
                 if (event.target == modal[0]) {
                     modal.hide();
                 }
+            });
+
+            $('.close, #cancel-add').click(function() {
+                modal.hide();
+                backdrop.hide();
             });
 
             $('#change-password-form').submit(function(event) {
