@@ -225,68 +225,67 @@
 }
 
     // Delete Forum with animation
-function deleteForum(forumId) {
-    // Show the delete confirmation modal
-    const modal = document.getElementById('deleteModal');
-    const modalContent = modal.querySelector('.modal-content');
-    
-    // Setup delete confirmation action
-    const confirmDeleteLink = document.getElementById('confirmDeleteLink');
-    confirmDeleteLink.onclick = () => {
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        const forumElement = document.querySelector(`[data-forum-id="${forumId}"]`);
+    function deleteForum(forumId) {
+        // Show the delete confirmation modal
+        const modal = document.getElementById('deleteModal');
+        const modalContent = modal.querySelector('.modal-content');
+        
+        // Setup delete confirmation action
+        const confirmDeleteLink = document.getElementById('confirmDeleteLink');
+        confirmDeleteLink.onclick = () => {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const forumElement = document.querySelector(`[data-forum-id="${forumId}"]`);
 
-        // Add fade-out animation class
-        forumElement.style.transition = 'all 0.3s ease-out';
-        forumElement.style.opacity = '0';
-        forumElement.style.transform = 'translateY(-20px)';
+            // Add fade-out animation class
+            forumElement.style.transition = 'all 0.3s ease-out';
+            forumElement.style.opacity = '0';
+            forumElement.style.transform = 'translateY(-20px)';
 
-        fetch(`/forum/${forumId}/delete/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': csrfToken
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                // Wait for fade-out animation to complete
-                setTimeout(() => {
-                    forumElement.remove();
-                    
-                    // Check if there are no more forums
-                    const remainingForums = document.querySelectorAll('.forum-item');
-                    if (remainingForums.length === 0) {
-                        const container = document.querySelector('.section');
-                        const emptyState = `
-                            <div class="text-center py-12 bg-white rounded-xl shadow-md animate-fade-in">
-                                <i class="fas fa-comments text-4xl text-gray-300 mb-4"></i>
-                                <p class="text-gray-500">Belum ada topik diskusi.</p>
-                            </div>
-                        `;
-                        container.insertAdjacentHTML('beforeend', emptyState);
-                    }
-                }, 300);
+            fetch(`/forum/${forumId}/delete/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Wait for fade-out animation to complete
+                    setTimeout(() => {
+                        forumElement.remove();
+                        
+                        // Check if there are no more forums
+                        const remainingForums = document.querySelectorAll('.forum-item');
+                        if (remainingForums.length === 0) {
+                            const container = document.querySelector('.section');
+                            const emptyState = `
+                                <div class="text-center py-12 bg-white rounded-xl shadow-md animate-fade-in">
+                                    <i class="fas fa-comments text-4xl text-gray-300 mb-4"></i>
+                                    <p class="text-gray-500">Belum ada topik diskusi.</p>
+                                </div>
+                            `;
+                            container.insertAdjacentHTML('beforeend', emptyState);
+                        }
+                    }, 300);
 
-                // Close modal with animation
-                closeDeleteModal();
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // Revert animation if error occurs
-            forumElement.style.opacity = '1';
-            forumElement.style.transform = 'translateY(0)';
-        });
-    };
+                    // Close modal with animation
+                    closeDeleteModal();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Revert animation if error occurs
+                forumElement.style.opacity = '1';
+                forumElement.style.transform = 'translateY(0)';
+            });
+        };
 
-    // Show modal with animation
-    modal.classList.remove('hidden');
-    setTimeout(() => {
-        modalContent.classList.remove('scale-95', 'opacity-0');
-        modalContent.classList.add('scale-100', 'opacity-100');
-    }, 10);
-}
-
+        // Show modal with animation
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modalContent.classList.remove('scale-95', 'opacity-0');
+            modalContent.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    }
 
     // Modal functions
     function showDeleteModal(deleteUrl) {
@@ -302,19 +301,19 @@ function deleteForum(forumId) {
     }
 
     // Enhanced modal close function
-function closeDeleteModal() {
-    const modal = document.getElementById('deleteModal');
-    const modalContent = modal.querySelector('.modal-content');
-    
-    modalContent.classList.remove('scale-100', 'opacity-100');
-    modalContent.classList.add('scale-95', 'opacity-0');
-    
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        // Reset the onclick handler
-        document.getElementById('confirmDeleteLink').onclick = null;
-    }, 300);
-}
+    function closeDeleteModal() {
+        const modal = document.getElementById('deleteModal');
+        const modalContent = modal.querySelector('.modal-content');
+        
+        modalContent.classList.remove('scale-100', 'opacity-100');
+        modalContent.classList.add('scale-95', 'opacity-0');
+        
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            // Reset the onclick handler
+            document.getElementById('confirmDeleteLink').onclick = null;
+        }, 300);
+    }
 </script>
 
 {% block extra_css %}
@@ -335,6 +334,5 @@ function closeDeleteModal() {
     }
 </style>
 {% endblock %}
-
 </body>
 {% endblock content %}
