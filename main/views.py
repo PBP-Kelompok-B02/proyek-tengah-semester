@@ -1,5 +1,5 @@
 import datetime
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -8,10 +8,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core import serializers 
 from .models import Food, Forum, Reply
+from django.shortcuts import get_object_or_404
+from .forms import CustomUserCreationForm
 import uuid
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import update_session_auth_hash
 
 def show_main(request):
     context = {
@@ -60,12 +66,39 @@ def show_json(request):
         food = food.order_by('-rating')
 
     return HttpResponse(serializers.serialize("json", food), content_type="application/json")
+    data = Food.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+@csrf_exempt
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if new_password != confirm_password:
+            return JsonResponse({'error': 'Passwords do not match'}, status=400)
+
+        user = request.user
+        if not user.check_password(old_password):
+            return JsonResponse({'error': 'Old password is incorrect'}, status=400)
+
+        user.set_password(new_password)
+        user.save()
+
+        # Update the session to keep the user logged in after the password change
+        update_session_auth_hash(request, user)
+
+        return JsonResponse({'success': 'Password changed successfully'})
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 def register(request):
-    form = UserCreationForm()
+    form = CustomUserCreationForm()
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Your account has been successfully created!')
@@ -91,7 +124,7 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('main:login'))
+    response = HttpResponseRedirect(reverse('main:show_main'))
     response.delete_cookie('last_login')
     return response
 
@@ -114,25 +147,28 @@ def show_bookmarks(request):
 def show_forum(request):
     user = request.user
     forums = Forum.objects.all().order_by('-created_at')
+
     context = {
-        'user': user if user else None,
         'user': user,
         'forums': forums,
     }
     return render(request, 'forum.html', context)
 
+from django.shortcuts import render
 
 @login_required
 def create_forum(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
+
         # Buat topik diskusi baru dan assign created_by dengan request.user
         Forum.objects.create(
             title=title,
             description=description,
             created_by=request.user  # Tambahkan user sebagai pembuat
         )
+
         # Redirect setelah forum berhasil dibuat
         return redirect('main:forum')
     return render(request, 'create_forum.html')
@@ -143,6 +179,7 @@ def submit_forum(request):
         # For example, save the form data to the database
         title = request.POST.get('title')
         description = request.POST.get('description')
+
         if title and description:
             new_forum = Forum.objects.create(
                 title=title,
@@ -155,6 +192,12 @@ def submit_forum(request):
     
     return JsonResponse({'success': False, 'message': 'Invalid request'})
 
+@login_required
+@require_POST
+def delete_forum(request, forum_id):
+    forum = get_object_or_404(Forum, id=forum_id, created_by=request.user)
+    forum.delete()
+    return JsonResponse({'success': True})
 
 @login_required
 @require_POST
@@ -179,12 +222,6 @@ def reply_forum(request, forum_id):
         })
     return JsonResponse({'success': False, 'error': 'Content is required'}, status=400)
 
-@login_required
-@require_POST
-def delete_forum(request, forum_id):
-    forum = get_object_or_404(Forum, id=forum_id, created_by=request.user)
-    forum.delete()
-    return JsonResponse({'success': True})
 
 @login_required
 @require_POST

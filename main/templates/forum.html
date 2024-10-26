@@ -164,6 +164,66 @@
         .catch(error => console.error('Error:', error));
     }
 
+    function deleteReply(replyId) {
+    // Show the delete confirmation modal
+    const modal = document.getElementById('deleteModal');
+    const modalContent = modal.querySelector('.modal-content');
+    
+    // Setup delete confirmation action
+    const confirmDeleteLink = document.getElementById('confirmDeleteLink');
+    confirmDeleteLink.onclick = () => {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const replyElement = document.querySelector(`[data-reply-id="${replyId}"]`);
+
+        // Add fade-out animation
+        replyElement.style.transition = 'all 0.3s ease-out';
+        replyElement.style.opacity = '0';
+        replyElement.style.transform = 'translateY(-10px)';
+
+        fetch(`/forum/${replyId}/delete-reply/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Wait for fade-out animation to complete
+                setTimeout(() => {
+                    replyElement.remove();
+                    
+                    // Check if there are no more replies
+                    const forumItem = replyElement.closest('.forum-item');
+                    const repliesContainer = forumItem.querySelector('.replies-container');
+                    if (repliesContainer.children.length === 0) {
+                        repliesContainer.innerHTML = `
+                            <div class="text-center py-4 text-gray-500 animate-fade-in">
+                                <p>Belum ada tanggapan</p>
+                            </div>
+                        `;
+                    }
+                }, 300);
+
+                // Close modal with animation
+                closeDeleteModal();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Revert animation if error occurs
+            replyElement.style.opacity = '1';
+            replyElement.style.transform = 'translateY(0)';
+        });
+    };
+
+    // Show modal with animation
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        modalContent.classList.remove('scale-95', 'opacity-0');
+        modalContent.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
     // Delete Forum with animation
 function deleteForum(forumId) {
     // Show the delete confirmation modal
@@ -227,65 +287,6 @@ function deleteForum(forumId) {
     }, 10);
 }
 
-function deleteReply(replyId) {
-    // Show the delete confirmation modal
-    const modal = document.getElementById('deleteModal');
-    const modalContent = modal.querySelector('.modal-content');
-    
-    // Setup delete confirmation action
-    const confirmDeleteLink = document.getElementById('confirmDeleteLink');
-    confirmDeleteLink.onclick = () => {
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        const replyElement = document.querySelector(`[data-reply-id="${replyId}"]`);
-
-        // Add fade-out animation
-        replyElement.style.transition = 'all 0.3s ease-out';
-        replyElement.style.opacity = '0';
-        replyElement.style.transform = 'translateY(-10px)';
-
-        fetch(`/forum/${replyId}/delete-reply/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': csrfToken
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                // Wait for fade-out animation to complete
-                setTimeout(() => {
-                    replyElement.remove();
-                    
-                    // Check if there are no more replies
-                    const forumItem = replyElement.closest('.forum-item');
-                    const repliesContainer = forumItem.querySelector('.replies-container');
-                    if (repliesContainer.children.length === 0) {
-                        repliesContainer.innerHTML = `
-                            <div class="text-center py-4 text-gray-500 animate-fade-in">
-                                <p>Belum ada tanggapan</p>
-                            </div>
-                        `;
-                    }
-                }, 300);
-
-                // Close modal with animation
-                closeDeleteModal();
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // Revert animation if error occurs
-            replyElement.style.opacity = '1';
-            replyElement.style.transform = 'translateY(0)';
-        });
-    };
-
-    // Show modal with animation
-    modal.classList.remove('hidden');
-    setTimeout(() => {
-        modalContent.classList.remove('scale-95', 'opacity-0');
-        modalContent.classList.add('scale-100', 'opacity-100');
-    }, 10);
-}
 
     // Modal functions
     function showDeleteModal(deleteUrl) {
