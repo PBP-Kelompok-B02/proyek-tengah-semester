@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-p(x9d7x&_-@@5*54k%af04!+r-j68u6ja5936p1pb0#^((%w49
 PRODUCTION = os.getenv("PRODUCTION", False)
 DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "lisa-margaretha-yumyogya.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost","lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "127.0.0.1"]
 
 LOGIN_URL = '/login/'
 
