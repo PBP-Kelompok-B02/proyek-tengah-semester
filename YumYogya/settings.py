@@ -24,7 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-p(x9d7x&_-@@5*54k%af04!+r-j68u6ja5936p1pb0#^((%w49'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+
+PRODUCTION = os.getenv("PRODUCTION", False)
+DEBUG = not PRODUCTION
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "lisa-margaretha-yumyogya.pbp.cs.ui.ac.id"]
 
@@ -137,3 +140,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "https://lisa-margaretha-yumyogya.pbp.cs.ui.ac.id"]
