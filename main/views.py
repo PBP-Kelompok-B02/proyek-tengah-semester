@@ -317,7 +317,8 @@ def add_food_entry_ajax(request):
             address=request.POST.get('address'),
             contact=request.POST.get('contact'),
             open_time=request.POST.get('open_time'),
-            description=request.POST.get('description')
+            description=request.POST.get('description'),
+            image=request.POST.get('image')
         )
         
         if 'image' in request.FILES:

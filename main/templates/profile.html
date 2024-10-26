@@ -394,8 +394,7 @@
                     <div class="form-group">
                         <label class="block text-sm font-medium mb-1">Image</label>
                         <div class="flex items-center space-x-4">
-                            <input type="file" name="image" class="form-control" accept="image/png" required>
-                            <img id="image-preview" class="hidden h-20 w-20 object-cover rounded-lg">
+                            <input type="text" name="image" class="form-control" required>
                         </div>
                     </div>
                 </div>
@@ -619,6 +618,7 @@
         }
         // Create food card HTML
         function createFoodCard(food) {
+            console.log('createFoodCard dipanggil untuk:', food);
             const card = document.createElement('div');
             card.className = 'bg-white shadow-md rounded-lg flex flex-col transform transition-transform duration-300 hover:scale-105';
             card.innerHTML = `

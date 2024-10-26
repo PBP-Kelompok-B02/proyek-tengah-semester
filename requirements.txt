@@ -4,3 +4,6 @@ whitenoise
 psycopg2-binary
 requests
 urllib3
+Pillow
+psycopg2-binary
+dj-database-url
