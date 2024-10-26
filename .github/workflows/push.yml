@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - master
+      - develop
   pull_request:
     branches:
       - main
       - master
+      - develop
 
 jobs:
   build-and-push:
@@ -24,35 +26,22 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         
-    - name: Test Authentication
-      env:
-        PWS_URL: ${{ secrets.PWS_URL }}
-      run: |
-        if ! git ls-remote $PWS_URL &>/dev/null; then
-          echo "Error: Cannot connect to remote repository"
-          echo "Please check PWS_URL secret and credentials"
-          exit 1
-        fi
-        
     - name: Push Changes
       env:
         PWS_URL: ${{ secrets.PWS_URL }}
       run: |
-        # Add remote and pull first
-        git remote add pws $PWS_URL
-        git pull pws master --allow-unrelated-histories || true
-        
-        # Cleanup old tmp branch if exists
-        git branch -D tmp || true
-        
-        # Create new branch
-        git checkout -b tmp
-        
-        # Push to master
-        if git push $PWS_URL tmp:master; then
-          echo "Push successful!"
-          exit 0
-        else
-          echo "Push failed. Check the error message above."
+        echo "Creating tmp branch..."
+        if ! git checkout -b tmp; then
+          echo "❌ Error creating branch: $?" >&2
           exit 1
         fi
+        
+        echo "Pushing to master..."
+        push_output=$(git push -f $PWS_URL tmp:master 2>&1) || {
+          echo "❌ Push failed with error:"
+          echo "$push_output"
+          exit 1
+        }
+        
+        echo "✅ Push successful"
+        echo "Output: $push_output"
