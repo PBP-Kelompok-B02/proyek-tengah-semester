@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block meta %}
-<title>YumYogya</title>
+<title>YumYogya Bookmarks</title>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
 {% endblock meta %}
 
@@ -14,18 +14,33 @@
     <title>Profile Page</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="pt-24">
-    <header>
-        <h1>Profile Page</h1>
+<body class="pt-24 bg-[#F2E8C6]">
+    <header class="text-center mb-12 px-4">
+        <h1 class="text-5xl font-bold text-[#982B1C] mb-4 animate-fade-in">
+            <span class="inline-block transform hover:scale-105 transition-transform duration-300">Bookmarks</span>
+        </h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Simpan makanan dan minuman favoritmu!   
+        </p>
     </header>
-    <main>
-        <section>
-            <h2>About Me</h2>
-            <p>This is a simple bookmark page.</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 {{user.username}} </p>
-    </footer>
+
+    {% block extra_css %}
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+    {% endblock %}
 </body>
 {% endblock content %}
