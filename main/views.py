@@ -18,6 +18,11 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import update_session_auth_hash
+from .forms import CSVUploadForm
+from .models import Food
+import csv
+from django.shortcuts import render
+
 
 def show_main(request):
     context = {
@@ -66,8 +71,6 @@ def show_json(request):
         food = food.order_by('-rating')
 
     return HttpResponse(serializers.serialize("json", food), content_type="application/json")
-    data = Food.objects.all()
-    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 @csrf_exempt
 @login_required
@@ -154,7 +157,7 @@ def show_forum(request):
     }
     return render(request, 'forum.html', context)
 
-from django.shortcuts import render
+
 
 @login_required
 def create_forum(request):
@@ -230,9 +233,36 @@ def delete_reply(request, reply_id):
     reply.delete()
     return JsonResponse({'success': True})
 
-def show_food_details(request, name):
-    food = get_object_or_404(Food, name=name)
-    context = {
-        'food': food,
-    }
-    return render(request, 'food_details.html', context)
+
+def add_products_from_csv(request):
+    user_now = request.user
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['csv_file']
+            decoded_file = csv_file.read().decode('utf-8').splitlines()
+            reader = csv.reader(decoded_file)
+
+            for row in reader:
+                try:
+                    Food.objects.create(
+                        name=row[0],
+                        price=row[1],
+                        restaurant=row[2],
+                        address=row[3],
+                        contact=row[4],
+                        open_time=row[5],
+                        description=row[6],
+                        image=row[7],
+                        user=user_now
+                    )
+                except IndexError:
+                    messages.error(request, f"Error processing row: {row}")
+                    continue
+
+            messages.success(request, "Products added successfully!")
+            return redirect('add_products_from_csv')
+    else:
+        form = CSVUploadForm()
+
+    return render(request, 'add_products_from_csv.html', {'form': form})
