@@ -23,6 +23,9 @@ from .models import Food
 import csv
 from django.shortcuts import render
 
+import os
+from django.conf import settings
+from pathlib import Path
 
 def show_main(request):
     context = {
@@ -112,13 +115,15 @@ def register(request):
 def login_user(request):
    if request.method == 'POST':
       form = AuthenticationForm(data=request.POST)
-
+      
       if form.is_valid():
         user = form.get_user()
         login(request, user)
         response = HttpResponseRedirect(reverse("main:show_main"))
         response.set_cookie('last_login', str(datetime.datetime.now()))
         return response
+      else:
+        messages.error(request, "Invalid username or password. Please try again.")
 
    else:
       form = AuthenticationForm(request)
@@ -133,11 +138,12 @@ def logout_user(request):
 
 @login_required
 def show_profile(request):
-    user = request.user
-    context = {
-        'user': user,
-    }
-    return render(request, 'profile.html', context)
+    if request.user.is_authenticated:
+        user_foods = Food.objects.filter(user=request.user)  
+        context = { 'user_foods': user_foods }
+        return render(request, 'profile.html', context)
+    else:
+        return redirect('login') 
 
 @login_required
 def show_bookmarks(request):
@@ -266,3 +272,125 @@ def add_products_from_csv(request):
         form = CSVUploadForm()
 
     return render(request, 'add_products_from_csv.html', {'form': form})
+
+@login_required
+def get_user_foods(request):
+    try:
+        user_foods = Food.objects.filter(user=request.user) 
+        foods_data = []
+        
+        for food in user_foods:
+            foods_data.append({
+                'id': food.id,
+                'name': food.name,
+                'price': food.price,
+                'restaurant': food.restaurant,
+                'address': food.address,
+                'contact': food.contact,
+                'open_time': food.open_time,
+                'description': food.description,
+                'image': food.image
+            })
+
+        return JsonResponse({
+            'status': 'success',
+            'foods': foods_data
+        })
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': str(e)
+        }, status=400)
+
+@csrf_exempt
+@require_POST
+def add_food_entry_ajax(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 'error', 'message': 'User not authenticated'}, status=401)
+    
+    try:
+        new_food = Food(
+            user=request.user,  # Assign the current user
+            name=request.POST.get('name'),
+            price=request.POST.get('price'),
+            restaurant=request.POST.get('restaurant'),
+            address=request.POST.get('address'),
+            contact=request.POST.get('contact'),
+            open_time=request.POST.get('open_time'),
+            description=request.POST.get('description'),
+            image=request.POST.get('image')
+        )
+        
+        if 'image' in request.FILES:
+            new_food.image = request.FILES['image']
+            
+        new_food.save()
+        return JsonResponse({'status': 'success'})
+        
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+@login_required
+@require_POST
+def edit_food_ajax(request, food_id):
+    try:
+        # Get food object that belongs to current user
+        food = get_object_or_404(Food, user=request.user)
+        
+        # Update fields
+        food.name = request.POST.get('name', food.name)
+        food.price = request.POST.get('price', food.price)
+        food.restaurant = request.POST.get('restaurant', food.restaurant)
+        food.address = request.POST.get('address', food.address)
+        food.contact = request.POST.get('contact', food.contact)
+        food.open_time = request.POST.get('open_time', food.open_time)
+        food.description = request.POST.get('description', food.description)
+        
+        if 'image' in request.FILES:
+            food.image = request.FILES['image']
+            
+        food.save()
+        return JsonResponse({'status': 'success'})
+        
+    except Food.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+@login_required
+@require_POST
+def delete_food_ajax(request, food_id):
+    try:
+        # Get and delete food object that belongs to current user
+        food = get_object_or_404(Food, pk=food_id, user=request.user)
+        food.delete()
+        return JsonResponse({'status': 'success'})
+        
+    except Food.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+@login_required
+def get_food_detail(request, food_id):
+    try:
+        # Get food object that belongs to current user
+        food = get_object_or_404(Food, pk=food_id, user=request.user)
+        return JsonResponse({
+            'status': 'success',
+            'food': {
+                'id': food.id,
+                'name': food.name,
+                'price': food.price,
+                'restaurant': food.restaurant,
+                'address': food.address,
+                'contact': food.contact,
+                'open_time': food.open_time,
+                'description': food.description,
+                'image': food.image.url if food.image else None
+            }
+        })
+    except Food.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
