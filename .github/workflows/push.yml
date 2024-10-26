@@ -38,15 +38,15 @@ jobs:
       env:
         PWS_URL: ${{ secrets.PWS_URL }}
       run: |
+        # Add remote and pull first
+        git remote add pws $PWS_URL
+        git pull pws master --allow-unrelated-histories || true
+        
         # Cleanup old tmp branch if exists
         git branch -D tmp || true
         
         # Create new branch
         git checkout -b tmp
-        
-        # Sync with remote
-        git fetch $PWS_URL master || true
-        git merge FETCH_HEAD --allow-unrelated-histories || true
         
         # Push to master
         if git push $PWS_URL tmp:master; then
