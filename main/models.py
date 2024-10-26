@@ -10,8 +10,8 @@ class Food(models.Model):
     address = models.CharField(max_length=100)
     contact = models.CharField(max_length=15)
     open_time = models.CharField(max_length=15)
-    description = models.CharField(max_length=100)
-    image = models.CharField(max_length=255, default='https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.its.ac.id%2Ftmesin%2Ffasilitas%2Flaboratorium-2%2Fno-image%2F&psig=AOvVaw3MxCmHHuz26CagUzVTBH79&ust=1729935269596000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMiWpJudqYkDFQAAAAAdAAAAABAJ')
+    description = models.TextField()
+    image = models.TextField(default='https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.its.ac.id%2Ftmesin%2Ffasilitas%2Flaboratorium-2%2Fno-image%2F&psig=AOvVaw3MxCmHHuz26CagUzVTBH79&ust=1729935269596000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMiWpJudqYkDFQAAAAAdAAAAABAJ')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Forum(models.Model):
