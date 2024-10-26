@@ -22,31 +22,16 @@
     </div>
   </div>
   <div class="container mx-auto p-6">
+    <button id="filter-button" class="border p-2 rounded mb-4">Filter</button>
+    <a href="{% url 'main:add_products_from_csv' %}" class="border p-2 rounded mb-4 inline-block bg-blue-500 text-white">Upload Products from CSV</a>
     <div class="flex mt-4">
       <select id="sort-options" class="border p-2 rounded w-full">
         <option value="price-asc">Price: Low to High</option>
         <option value="price-desc">Price: High to Low</option>
-        <option value="rating-asc">Rating: Low to High</option>
-        <option value="rating-desc">Rating: High to Low</option>
       </select>
       <button id="filter-button" class="border p-2 rounded ml-4">Filter</button>
     </div>
     <div id="filter-section" class="hidden mb-4">
-      <div class="flex flex-col mb-4">
-        <label for="rating-filter">Rating:</label>
-        <select id="rating-filter" class="border p-2 rounded">
-          <option value="none">None</option>
-          <option value="over">Over</option>
-          <option value="below">Below</option>
-          <option value="between">Between</option>
-        </select>
-        <div id="rating-slider" class="mt-2 hidden"></div>
-        <div class="flex mt-2">
-          <input type="number" id="rating-min" class="border p-2 rounded w-20 hidden" placeholder="Min">
-          <span id="rating-separator" class="mx-2 hidden">-</span>
-          <input type="number" id="rating-max" class="border p-2 rounded w-20 hidden" placeholder="Max">
-        </div>
-      </div>
       <div class="flex flex-col mb-4">
         <label for="price-filter">Price:</label>
         <select id="price-filter" class="border p-2 rounded">
@@ -100,8 +85,6 @@
     const filters = {
       price_min: document.getElementById('price-min').value,
       price_max: document.getElementById('price-max').value,
-      rating_min: document.getElementById('rating-min').value,
-      rating_max: document.getElementById('rating-max').value,
       open_time_min: document.getElementById('open-time-min').value,
       open_time_max: document.getElementById('open-time-max').value,
     };
@@ -112,7 +95,8 @@
       console.error('There was a problem with the fetch operation:', error);
     }
   }
-
+  const baseUrl = "{% url 'detail_makanan:show-food-details' '00000000-0000-0000-0000-000000000000' %}".replace('00000000-0000-0000-0000-000000000000', '');
+  // Assuming you have a function to fetch and display food items
   function displayFood(food) {
     const itemsDiv = document.getElementById('items');
     itemsDiv.innerHTML = ''; // Clear existing food
@@ -133,20 +117,12 @@
         foodDiv.className = 'bg-white shadow-md rounded-lg flex flex-col transform transition-transform duration-300 hover:scale-105';
         foodDiv.innerHTML = `
             <div class="w-full h-full rounded-2xl">
-            <img src="https://finnsbeachclub.com/wp-content/uploads/2023/07/top-10-must-try-balinese-dishes-1024x683.jpg" alt="${DOMPurify.sanitize(item.fields.name)}" class="w-full h-48 object-cover rounded-t-2xl">
+            <img src="${item.fields.image}" alt="${DOMPurify.sanitize(item.fields.name)}" class="w-full h-48 object-cover rounded-t-2xl">
           </div>
             <div class="p-4">
             <h3 class="font-bold text-xl mb-2">
-              <a href="/food-details/${item.fields.name}" class="text-black hover:underline hover:text-blue-500">
-              ${DOMPurify.sanitize(item.fields.name)}
-              </a>
-            </h3>
+              <a href="${baseUrl}${item.pk}">${DOMPurify.sanitize(item.fields.name)}</a>
             <p class="text-gray-600 mb-2">Price: ${DOMPurify.sanitize(item.fields.price)}</p>
-            <span>
-              <i class="fas fa-star" style="color: #FFD43B"> </i>
-              <span class="text-gray-700">${DOMPurify.sanitize(item.fields.rating)}</span>
-            </span>
-
             <button class="bookmark-button" data-id="${item.pk}">
                 <i class="fas fa-bookmark ${item.fields.bookmarked ? 'text-yellow-500' : 'text-gray-400'}"></i>
             </button>
@@ -165,8 +141,6 @@
   document.getElementById('sort-options').addEventListener('change', fetchFood);
   document.getElementById('price-min').addEventListener('input', fetchFood);
   document.getElementById('price-max').addEventListener('input', fetchFood);
-  document.getElementById('rating-min').addEventListener('input', fetchFood);
-  document.getElementById('rating-max').addEventListener('input', fetchFood);
   document.getElementById('open-time-min').addEventListener('input', fetchFood);
   document.getElementById('open-time-max').addEventListener('input', fetchFood);
 
@@ -178,7 +152,6 @@
 
   // Initialize sliders
   const priceSlider = document.getElementById('price-slider');
-  const ratingSlider = document.getElementById('rating-slider');
   const openTimeSlider = document.getElementById('open-time-slider');
 
   noUiSlider.create(priceSlider, {
@@ -195,19 +168,6 @@
     fetchFood();
   });
 
-  noUiSlider.create(ratingSlider, {
-    start: [0, 5],
-    connect: true,
-    range: {
-      'min': 0,
-      'max': 5
-    },
-    tooltips: [true, true]
-  }).on('update', (values, handle) => {
-    document.getElementById('rating-min').value = values[0];
-    document.getElementById('rating-max').value = values[1];
-    fetchFood();
-  });
 
   noUiSlider.create(openTimeSlider, {
     start: [0, 24],
@@ -234,34 +194,6 @@
     fetchFood();
   });
 
-  // Show/hide sliders and text fields based on filter selection
-  document.getElementById('rating-filter').addEventListener('change', (event) => {
-    const value = event.target.value;
-    const ratingMin = document.getElementById('rating-min');
-    const ratingMax = document.getElementById('rating-max');
-    const ratingSeparator = document.getElementById('rating-separator');
-    if (value === 'between') {
-      ratingSlider.classList.remove('hidden');
-      ratingMin.classList.add('hidden');
-      ratingMax.classList.add('hidden');
-      ratingSeparator.classList.add('hidden');
-    } else if (value === 'over') {
-      ratingSlider.classList.add('hidden');
-      ratingMin.classList.remove('hidden');
-      ratingMax.classList.add('hidden');
-      ratingSeparator.classList.add('hidden');
-    } else if (value === 'below') {
-      ratingSlider.classList.add('hidden');
-      ratingMin.classList.add('hidden');
-      ratingMax.classList.remove('hidden');
-      ratingSeparator.classList.add('hidden');
-    } else {
-      ratingSlider.classList.add('hidden');
-      ratingMin.classList.add('hidden');
-      ratingMax.classList.add('hidden');
-      ratingSeparator.classList.add('hidden');
-    }
-  });
 
   document.getElementById('price-filter').addEventListener('change', (event) => {
     const value = event.target.value;

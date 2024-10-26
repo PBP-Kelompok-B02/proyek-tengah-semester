@@ -25,3 +25,7 @@ class CustomUserCreationForm(UserCreationForm):
             'password1': forms.PasswordInput(),
             'password2': forms.PasswordInput(),
         }
+        
+
+class CSVUploadForm(forms.Form):
+    csv_file = forms.FileField()
