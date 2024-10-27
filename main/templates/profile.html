@@ -3,43 +3,194 @@
 
 {% block meta %}
 <title>Profile Page</title>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 <style>
-    /* Modal styles */
-    .modal {
-        display: none;
+    .dashboard-header {
+        padding: 2rem;
+        color: #602231;
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+        margin-top: 3rem;
+        
+    }
+
+    .dashboard-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        animation: fadeIn 0.5s ease forwards; 
+    }
+
+    .dashboard-subtitle {
+        opacity: 0.8;
+        margin-top: 0.5rem;
+        animation: fadeIn 0.5s ease forwards; 
+    }
+
+    /* Profile section styles */
+    .profile-container {
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        margin: 20px auto;
+        width: 90%;
+        background: linear-gradient(135deg, #ae7f8a 0%, #925d68 100%);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease; 
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px); /* Menggeser ke atas saat muncul */
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .profile-container:hover {
+        transform: translateY(-5px);
+    }
+
+    .profile-container img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid #602231;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Buttons */
+    .dashboard-btn {
+        padding: 12px 24px;
+        font-size: 16px;
+        background-color: #602231;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-btn:hover {
+        background-color: #421520;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .food-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    }
+
+    /* Alert Styles */
+    .alert {
         position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-        padding-top: 60px;
+        top: 1rem;
+        right: 1rem;
+        padding: 1rem 2rem;
+        border-radius: 4px;
+        color: white;
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    .alert-success {
+        background-color: #48bb78;
+    }
+
+    .alert-error {
+        background-color: #f56565;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .modal {
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); 
+    backdrop-filter: blur(5px);
     }
 
     .modal-content {
         background-color: #fefefe;
-        margin: 5% auto;
+        margin: 15% auto;
         padding: 20px;
         border: 1px solid #888;
-        width: 80%;
+        width: 80%; 
     }
 
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
+    /* Form styling */
+    .form-group {
+        margin-bottom: 1rem;
+        backdrop-filter: blur(5px);
     }
 
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #602231;
+        outline: none;
+    }
+
+    #delete-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+    }
+
+    #delete-modal .modal-content {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        max-width: 400px;
+        margin: 0 auto;
+        box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
     }
 </style>
 {% endblock meta %}
@@ -47,37 +198,499 @@
 {% block content %}
 {% include 'navbar.html' %}
 
-<body class="pt-24">
-    <header>
-        <h1>Profile Page</h1>
+<body class="bg-[#fbfcf8]">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="dashboard-title">
+            <i class="fas fa-user-edit"></i>
+            Dashboard
+        </div>
+        <p class="dashboard-subtitle">Jelajahi dan Bagikan Pengalamanmu!</p>
     </header>
-    <main>
-        <section>
-            <h2>About Me</h2>
-            <p>This is a simple profile page.</p>
-            <button id="change-password-btn">Change Password</button>
-        </section>
-    </main>
-    <footer>
-    </footer>
 
-    <!-- Modal for Change Password -->
+    <main>
+        <!-- Profile Section -->
+        <section class="profile-container">
+            <div style="display: flex; align-items: center; gap: 2rem; margin-left: 17px;">                
+                <img src="{% static 'images/profile.jpg' %}" alt="Profile picture of {{ username }}" id="profile_pic_img">
+                <div>
+                    <h2 style="color: #fff; font-size: 2rem; font-weight: 600;">
+                        <span id="greeting"></span> {{ user.username }}!
+                    </h2>
+                    <p style="color: #fff; opacity: 0.9;">Siap Jelajahi Kelezatan Kuliner Hari Ini?</p>
+                </div>
+            </div>
+            <button class="dashboard-btn" id="change-password-btn" style="width: fit-content; margin-top: 1.5rem;">
+                <span>Ubah Kata Sandi</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- Food Products Section -->
+        <div class="flex justify-between items-center mx-12 mt-8">
+            <h2 class="text-2xl font-bold flex items-center gap-2" style="color: #602231;">
+                <i class="fas fa-bookmark"></i>
+                Koleksi Makanan
+            </h2>
+            <button id="add-food-btn" class="dashboard-btn">
+                <i class="fas fa-plus"></i>
+                <span>Tambah Makanan</span>
+            </button>
+        </div>
+
+        <div id="food-cards" class="food-cards"></div>
+    </main>
+
+    <!-- Change Password Modal -->
     <div id="change-password-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
+        <div class="modal-content text-">
+            <div class="flex justify-between items-center mb-4 text-2xl font-bold">
+                <h3><i class="fas fa-key me-2"></i> Change Password</h3>
+                <button type="button" class="close">&times;</button>
+            </div>
             <form id="change-password-form">
-                <label for="old_password">Old Password:</label>
-                <input type="password" id="old_password" name="old_password" required>
-                <label for="new_password">New Password:</label>
-                <input type="password" id="new_password" name="new_password" required>
-                <label for="confirm_password">Confirm Password:</label>
-                <input type="password" id="confirm_password" name="confirm_password" required>
-                <button type="submit">Submit</button>
+                <div class="grid gap-4">
+                    <div class="form-group">
+                        <label for="old_password" class="block text-sm font-medium mb-1">Old Password</label>
+                        <input type="password" id="old_password" name="old_password" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new_password" class="block text-sm font-medium mb-1">New Password</label>
+                        <input type="password" id="new_password" name="new_password" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm_password" class="block text-sm font-medium mb-1">Confirm Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required class="form-control">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" class="dashboard-btn bg-gray-500" id="cancel-add">Cancel</button>
+                    <button type="submit" class="dashboard-btn">Change Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Add Food Modal -->
+    <div id="add-food-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold">
+                    <i class="fas fa-utensils"></i>
+                    Add New Food Product
+                </h3>
+                <span class="close">&times;</span>
+            </div>
+            
+            <form id="add-food-form" style="overflow: auto;" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="grid gap-4">
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Name</label>
+                        <input type="text" name="name" maxlength="100" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Price (Rp)</label>
+                        <input type="number" name="price" required class="form-control" max="999999">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Restaurant</label>
+                        <input type="text" name="restaurant" maxlength="50" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Address</label>
+                        <input type="text" name="address" maxlength="100" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Contact</label>
+                        <input type="text" name="contact" maxlength="15" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Open Time</label>
+                        <input type="time" name="open_time" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Description</label>
+                        <textarea name="description" maxlength="100" required class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Image</label>
+                        <div class="flex items-center space-x-4">
+                            <input type="text" name="image" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" class="dashboard-btn bg-gray-500" id="cancel-add">Cancel</button>
+                    <button type="submit" class="dashboard-btn">Save Food</button>
+                </div>
             </form>
         </div>
     </div>
 
+    <!-- Edit Food Modal -->
+    <div id="edit-food-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold">
+                    <i class="fas fa-edit"></i>
+                    Edit Food Product
+                </h3>
+                <span class="close">&times;</span>
+            </div>
+            
+            <form id="edit-food-form" style="overflow: auto;" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="edit-food-id" name="food_id">
+                <div class="grid gap-4">
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Name</label>
+                        <input type="text" id="edit-name" name="name" maxlength="100" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Price (Rp)</label>
+                        <input type="number" id="edit-price" name="price" required class="form-control" max="999999">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Restaurant</label>
+                        <input type="text" id="edit-restaurant" name="restaurant" maxlength="50" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Address</label>
+                        <input type="text" id="edit-address" name="address" maxlength="100" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Contact</label>
+                        <input type="text" id="edit-contact" name="contact" maxlength="15" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Open Time</label>
+                        <input type="time" name="open_time" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Description</label>
+                        <textarea id="edit-description" name="description" maxlength="100" required class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="block text-sm font-medium mb-1">Image</label>
+                        <div class="flex items-center space-x-4">
+                            <input type="text" name="image" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" class="dashboard-btn bg-gray-500" id="cancel-edit">Cancel</button>
+                    <button type="submit" class="dashboard-btn">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi -->
+    <div id="delete-modal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div class="bg-white rounded-lg p-6 max-w-sm w-full shadow-lg text-center">
+            <h2 class="text-lg font-semibold mb-4">Apakah Anda yakin ingin menghapus item ini?</h2>
+            <p class="text-gray-500 mb-6">Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="flex justify-center gap-4">
+                <button id="confirm-delete" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Hapus</button>
+                <button id="cancel-delete" class="bg-gray-300 py-2 px-4 rounded hover:bg-gray-400">Batal</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greeting = '';
+            
+            if (hour >= 4 && hour < 11) {
+                greeting = 'Selamat Pagi,';
+            } else if (hour >= 11 && hour < 15) {
+                greeting = 'Selamat Siang,';
+            } else if (hour >= 15 && hour < 18) {
+                greeting = 'Selamat Sore,';
+            } else {
+                greeting = 'Selamat Malam,';
+            }
+            
+            document.getElementById('greeting').textContent = greeting;
+        }
+
+        function setupModals() {
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.close');
+            const cancelButtons = document.querySelectorAll('[id^="cancel-"]');
+
+            window.addEventListener('click', (e) => {
+                modals.forEach(modal => {
+                    if (e.target === modal) {
+                        closeModal(modal);
+                    }
+                });
+            });
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = button.closest('.modal');
+                    closeModal(modal);
+                });
+            });
+
+            cancelButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = button.closest('.modal');
+                    closeModal(modal);
+                });
+            });
+        }
+
+        function closeModal(modal) {
+            modal.style.display = 'none';
+            const form = modal.querySelector('form');
+            if (form) form.reset();
+        }
+
+        function setupFoodOperations() {
+            const addFoodBtn = document.getElementById('add-food-btn');
+            const addFoodModal = document.getElementById('add-food-modal');
+            
+            addFoodBtn.addEventListener('click', () => {
+                addFoodModal.style.display = 'block';
+            });
+
+            const addFoodForm = document.getElementById('add-food-form');
+            addFoodForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(addFoodForm);
+                
+                try {
+                    const response = await fetch('/add-food/', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        closeModal(addFoodModal);
+                        refreshFoodCards();
+                        showAlert('Makanan Berhasil Ditambahkan!', 'success');
+                    } else {
+                        showAlert('Error adding food: ' + data.message, 'error');
+                    }
+                } catch (error) {
+                    showAlert('Error adding food: ' + error.message, 'error');
+                }
+            });
+
+            const editFoodForm = document.getElementById('edit-food-form');
+            editFoodForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(editFoodForm);
+                const foodId = document.getElementById('edit-food-id').value;
+                
+                try {
+                    const response = await fetch(`/edit-food/${foodId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCsrfToken()
+                        },
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        closeModal(document.getElementById('edit-food-modal'));
+                        refreshFoodCards();
+                        showAlert('Makanan Berhasil Diperbarui!', 'success');
+                    } else {
+                        showAlert('Error updating food: ' + data.message, 'error');
+                    }
+                } catch (error) {
+                    showAlert('Error updating food: ' + error.message, 'error');
+                }
+            });
+        }
+
+        async function refreshFoodCards() {
+            try {
+                const response = await fetch('/get-user-foods/');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    const foodCardsContainer = document.getElementById('food-cards');
+                    foodCardsContainer.innerHTML = '';
+
+                    if (!data.foods || data.foods.length === 0) {
+                        foodCardsContainer.appendChild(createEmptyState());
+                        return;
+                    } else {
+                        data.foods.forEach(food => {
+                        const card = createFoodCard(food);
+                        foodCardsContainer.appendChild(card);
+                    });
+                    }
+                }
+            } catch (error) {
+                showAlert('Error refreshing food list: ' + error.message, 'error');
+            }
+        }
+
+        function createEmptyState() {
+            const emptyContainer = document.createElement('div');
+            emptyContainer.className = 'items-place-center justify-center min-h-screen w-full';
+            
+            emptyContainer.innerHTML = `
+                <div class="flex flex-col items-center justify-center w-96 h-80 p-4 bg-white rounded-xl shadow-md">
+                    <div class="mb-6">
+                        <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Belum ada produk</h3>
+                    <p class="text-gray-500 text-center">Silakan tambahkan produk baru untuk ditampilkan</p>
+                </div>
+            `;
+            return emptyContainer;
+        }
+
+        function createFoodCard(food) {
+            console.log('createFoodCard dipanggil untuk:', food);
+            const card = document.createElement('div');
+            card.className = 'bg-white shadow-md rounded-lg flex flex-col transform transition-transform duration-300 hover:scale-105';
+            card.innerHTML = `
+                <div class="w-full h-full rounded-2xl">
+                    <img src="${food.image}" alt="${DOMPurify.sanitize(food.name)}" class="w-full h-48 object-cover rounded-t-2xl">
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-xl mb-2">
+                        <p>${DOMPurify.sanitize(food.name)}</p>
+                    </h3>
+                    <p class="text-gray-600 mb-2">Price: ${DOMPurify.sanitize(food.price)}</p>
+                    <div class="flex gap-2 mt-3">
+                        <button onclick="editFood('${food.id}')" class="bg-[#f59e0b] hover:bg-[#d97706] text-white px-3 py-1 rounded-md">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button onclick="deleteFood('${food.id}')" class="bg-[#7f1d1d] hover:bg-[#450a0a] text-white px-3 py-1 rounded-md">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        async function editFood(foodId) {
+            try {
+                const response = await fetch(`/get-food/${foodId}/`);
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    const food = data.food;
+                    document.getElementById('edit-food-id').value = food.id;
+                    document.getElementById('edit-name').value = food.name;
+                    document.getElementById('edit-price').value = food.price;
+                    document.getElementById('edit-restaurant').value = food.restaurant;
+                    document.getElementById('edit-address').value = food.address;
+                    document.getElementById('edit-contact').value = food.contact;
+                    document.getElementById('edit-description').value = food.description;
+                    
+                    const modal = document.getElementById('edit-food-modal');
+                    modal.style.display = 'block';
+                } else {
+                    showAlert('Error loading food details: ' + data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('Error loading food details: ' + error.message, 'error');
+            }
+        }
+
+        async function deleteFood(foodId) {
+            console.log('deleteFood dipanggil untuk ID:', foodId);
+            
+            const deleteModal = document.getElementById('delete-modal');
+            deleteModal.classList.remove('hidden');
+            deleteModal.style.display = 'flex';
+            
+            const confirmDeleteButton = document.getElementById('confirm-delete');
+            const cancelDeleteButton = document.getElementById('cancel-delete');
+
+            const confirmDelete = async () => {
+                try {
+                    const response = await fetch(`/delete-food/${foodId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCsrfToken()
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        refreshFoodCards();
+                        showAlert('Makanan Berhasil Dihapus!', 'success');
+                    } else {
+                        showAlert('Error deleting food: ' + data.message, 'error');
+                    }
+                } catch (error) {
+                    showAlert('Error deleting food: ' + error.message, 'error');
+                } finally {
+                    closeDeleteModal();
+                }
+            };
+
+            const closeDeleteModal = () => {
+                deleteModal.classList.add('hidden');
+                deleteModal.style.display = 'none';
+                confirmDeleteButton.removeEventListener('click', confirmDelete);
+            };
+
+            confirmDeleteButton.addEventListener('click', confirmDelete);
+            cancelDeleteButton.addEventListener('click', closeDeleteModal);
+        }
+
+        function getCsrfToken() {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'csrftoken') return value;
+            }
+            return '';
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+        const baseUrl = "{% url 'main:profile' %}";
+        
         $(document).ready(function() {
             var modal = $('#change-password-modal');
             var btn = $('#change-password-btn');
@@ -97,6 +710,11 @@
                 }
             });
 
+            $('.close, #cancel-add').click(function() {
+                modal.hide();
+                backdrop.hide();
+            });
+
             $('#change-password-form').submit(function(event) {
                 event.preventDefault();
                 $.ajax({
@@ -109,15 +727,22 @@
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
                     success: function(response) {
-                        alert('Password changed successfully!');
+                        showAlert('Kata Sandi Berhasil Diperbarui!', 'success');
                         modal.hide();
-                        $('#change-password-form')[0].reset(); // Clear input fields
+                        $('#change-password-form')[0].reset();
                     },
                     error: function(response) {
-                        alert('Error changing password.');
+                        showAlert('Error Changing Password: ' + error.message, 'error');
                     }
                 });
             });
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            setupModals();
+            setupFoodOperations();
+            refreshFoodCards();
+            updateGreeting();
+            setInterval(updateGreeting, 60000);
         });
     </script>
 </body>
