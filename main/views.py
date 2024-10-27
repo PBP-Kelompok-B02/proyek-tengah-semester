@@ -22,7 +22,6 @@ from .forms import CSVUploadForm
 from .models import Food
 import csv
 from django.shortcuts import render
-
 import os
 from django.conf import settings
 from pathlib import Path
@@ -74,30 +73,6 @@ def show_json(request):
         food = food.order_by('-rating')
 
     return HttpResponse(serializers.serialize("json", food), content_type="application/json")
-
-@csrf_exempt
-@login_required
-def change_password(request):
-    if request.method == 'POST':
-        old_password = request.POST.get('old_password')
-        new_password = request.POST.get('new_password')
-        confirm_password = request.POST.get('confirm_password')
-
-        if new_password != confirm_password:
-            return JsonResponse({'error': 'Passwords do not match'}, status=400)
-
-        user = request.user
-        if not user.check_password(old_password):
-            return JsonResponse({'error': 'Old password is incorrect'}, status=400)
-
-        user.set_password(new_password)
-        user.save()
-
-        update_session_auth_hash(request, user)
-
-        return JsonResponse({'success': 'Password changed successfully'})
-
-    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 def register(request):
     form = CustomUserCreationForm()

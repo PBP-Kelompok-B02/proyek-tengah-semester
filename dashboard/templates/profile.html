@@ -6,193 +6,6 @@
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
-<style>
-    .dashboard-header {
-        padding: 2rem;
-        color: #602231;
-        align-items: center;
-        justify-content: center;
-        justify-items: center;
-        margin-top: 3rem;
-        
-    }
-
-    .dashboard-title {
-        font-size: 2rem;
-        font-weight: 700;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        animation: fadeIn 0.5s ease forwards; 
-    }
-
-    .dashboard-subtitle {
-        opacity: 0.8;
-        margin-top: 0.5rem;
-        animation: fadeIn 0.5s ease forwards; 
-    }
-
-    /* Profile section styles */
-    .profile-container {
-        display: flex;
-        flex-direction: column;
-        padding: 2rem;
-        margin: 20px auto;
-        width: 90%;
-        background: linear-gradient(135deg, #ae7f8a 0%, #925d68 100%);
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease; 
-    }
-    
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-20px); /* Menggeser ke atas saat muncul */
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .profile-container:hover {
-        transform: translateY(-5px);
-    }
-
-    .profile-container img {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 5px solid #602231;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Buttons */
-    .dashboard-btn {
-        padding: 12px 24px;
-        font-size: 16px;
-        background-color: #602231;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 25px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .dashboard-btn:hover {
-        background-color: #421520;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .food-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
-    }
-
-    /* Alert Styles */
-    .alert {
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        padding: 1rem 2rem;
-        border-radius: 4px;
-        color: white;
-        z-index: 1000;
-        animation: slideIn 0.3s ease-out;
-    }
-
-    .alert-success {
-        background-color: #48bb78;
-    }
-
-    .alert-error {
-        background-color: #f56565;
-    }
-
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-
-    .modal {
-    display: none;
-    position: fixed; 
-    z-index: 1; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4); 
-    backdrop-filter: blur(5px);
-    }
-
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%; 
-    }
-
-    /* Form styling */
-    .form-group {
-        margin-bottom: 1rem;
-        backdrop-filter: blur(5px);
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 0.75rem;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        transition: border-color 0.3s ease;
-    }
-
-    .form-control:focus {
-        border-color: #602231;
-        outline: none;
-    }
-
-    #delete-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-        backdrop-filter: blur(5px);
-    }
-
-    #delete-modal .modal-content {
-        background-color: #fff;
-        padding: 2rem;
-        border-radius: 0.5rem;
-        max-width: 400px;
-        margin: 0 auto;
-        box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
-    }
-</style>
 {% endblock meta %}
 
 {% block content %}
@@ -200,212 +13,234 @@
 
 <body class="bg-[#fbfcf8]">
     <!-- Dashboard Header -->
-    <header class="dashboard-header">
-        <div class="dashboard-title">
+    <header class="p-4 md:p-8 text-[#602231] mt-8 md:mt-12 flex flex-col items-center justify-center text-center">
+        <div class="text-2xl md:text-4xl font-bold m-0 p-0 flex items-center gap-2 md:gap-4 animate-fade-in justify-center">
             <i class="fas fa-user-edit"></i>
             Dashboard
         </div>
-        <p class="dashboard-subtitle">Jelajahi dan Bagikan Pengalamanmu!</p>
+        <p class="opacity-80 mt-2 text-sm md:text-base animate-fade-in">Jelajahi dan Bagikan Pengalamanmu!</p>
     </header>
 
-    <main>
+    <main class="px-4 md:px-8">
         <!-- Profile Section -->
-        <section class="profile-container">
-            <div style="display: flex; align-items: center; gap: 2rem; margin-left: 17px;">                
-                <img src="{% static 'images/profile.jpg' %}" alt="Profile picture of {{ username }}" id="profile_pic_img">
-                <div>
-                    <h2 style="color: #fff; font-size: 2rem; font-weight: 600;">
+        <section class="flex flex-col p-4 md:p-8 mx-auto my-5 w-[95%] md:w-[90%] bg-gradient-to-br from-[#ae7f8a] to-[#925d68] rounded-2xl shadow-lg transform transition-transform duration-300 hover:-translate-y-1">
+            <div class="flex flex-col md:flex-row items-center gap-4 md:gap-8 md:ml-4">                
+                <img src="{% static 'images/profile.jpg' %}" alt="Profile picture of {{ username }}" id="profile_pic_img"
+                     class="w-[100px] h-[100px] md:w-[150px] md:h-[150px] rounded-full object-cover border-[5px] border-[#602231] shadow-lg">
+                <div class="text-center md:text-left">
+                    <h2 class="p-2 text-white text-2xl md:text-4xl font-semibold">
                         <span id="greeting"></span> {{ user.username }}!
                     </h2>
-                    <p style="color: #fff; opacity: 0.9;">Siap Jelajahi Kelezatan Kuliner Hari Ini?</p>
+                    <p class="px-2 text-white opacity-90 text-sm md:text-base">Siap Jelajahi Kelezatan Kuliner Hari Ini?</p>
                 </div>
             </div>
-            <button class="dashboard-btn" id="change-password-btn" style="width: fit-content; margin-top: 1.5rem;">
+            <button class="inline-flex items-center px-4 md:px-5 py-2 w-[160px] md:w-[180px] text-sm md:text-base bg-[#602231] text-white border-none rounded-full gap-2 transition-all duration-300 shadow-lg hover:bg-[#421520] hover:-translate-y-0.5 hover:shadow-xl mt-5 mx-auto md:mx-0" id="change-password-btn">
                 <span>Ubah Kata Sandi</span>
                 <i class="fas fa-arrow-right"></i>
             </button>
         </section>
 
         <!-- Food Products Section -->
-        <div class="flex justify-between items-center mx-12 mt-8">
-            <h2 class="text-2xl font-bold flex items-center gap-2" style="color: #602231;">
+        <div class="flex flex-col md:flex-row justify-between items-center mx-4 md:mx-12 mt-8 gap-4 md:gap-0">
+            <h2 class="text-xl md:text-2xl font-bold flex items-center gap-2 text-[#602231]">
                 <i class="fas fa-bookmark"></i>
                 Koleksi Makanan
             </h2>
-            <button id="add-food-btn" class="dashboard-btn">
+            <button id="add-food-btn" class="w-full md:w-auto inline-flex items-center justify-center px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#602231] text-white border-none rounded-full gap-2 md:gap-2.5 transition-all duration-300 shadow-lg hover:bg-[#421520] hover:-translate-y-0.5 hover:shadow-xl">
                 <i class="fas fa-plus"></i>
                 <span>Tambah Makanan</span>
             </button>
         </div>
 
-        <div id="food-cards" class="food-cards"></div>
+        <div class="relative min-h-screen w-full">
+            <div id="food-cards" class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8 p-8"></div>
+        </div>
     </main>
 
     <!-- Change Password Modal -->
-    <div id="change-password-modal" class="modal">
-        <div class="modal-content text-">
+    <div id="change-password-modal" class="hidden fixed inset-0 z-50 overflow-auto bg-black bg-opacity-40 backdrop-blur-sm">
+        <div class="bg-white mx-4 md:mx-auto my-[10%] md:my-[15%] p-4 md:p-5 border border-gray-300 w-[95%] md:w-4/5 max-w-2xl rounded-lg">
             <div class="flex justify-between items-center mb-4 text-2xl font-bold">
                 <h3><i class="fas fa-key me-2"></i> Change Password</h3>
                 <button type="button" class="close">&times;</button>
             </div>
             <form id="change-password-form">
                 <div class="grid gap-4">
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label for="old_password" class="block text-sm font-medium mb-1">Old Password</label>
-                        <input type="password" id="old_password" name="old_password" required class="form-control">
+                        <input type="password" id="old_password" name="old_password" required 
+                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label for="new_password" class="block text-sm font-medium mb-1">New Password</label>
-                        <input type="password" id="new_password" name="new_password" required class="form-control">
+                        <input type="password" id="new_password" name="new_password" required 
+                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label for="confirm_password" class="block text-sm font-medium mb-1">Confirm Password</label>
-                        <input type="password" id="confirm_password" name="confirm_password" required class="form-control">
+                        <input type="password" id="confirm_password" name="confirm_password" required 
+                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                 </div>
 
                 <div class="flex justify-end gap-3 mt-6">
-                    <button type="button" class="dashboard-btn bg-gray-500" id="cancel-add">Cancel</button>
-                    <button type="submit" class="dashboard-btn">Change Password</button>
+                    <button type="button" class="px-6 py-3 bg-gray-500 text-white rounded-full hover:bg-gray-600" id="cancel-add">Cancel</button>
+                    <button type="submit" class="px-6 py-3 bg-[#602231] text-white rounded-full hover:bg-[#421520]">Change Password</button>
                 </div>
             </form>
         </div>
     </div>
+
     <!-- Add Food Modal -->
-    <div id="add-food-modal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
+    <div id="add-food-modal" class="hidden fixed inset-0 z-50 overflow-auto bg-black bg-opacity-40 backdrop-blur-sm">
+        <div class="bg-white mx-4 md:mx-auto my-[10%] md:my-[15%] p-4 md:p-5 border border-gray-300 w-[95%] md:w-4/5 max-w-2xl rounded-lg">
+            <div class="flex justify-between items-center mb-4 text-2xl font-bold">
                 <h3 class="text-2xl font-bold">
                     <i class="fas fa-utensils"></i>
                     Add New Food Product
                 </h3>
-                <span class="close">&times;</span>
+                <button type="button" class="close-food">&times;</button>
             </div>
             
-            <form id="add-food-form" style="overflow: auto;" enctype="multipart/form-data">
+            <form id="add-food-form" class="overflow-auto" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="grid gap-4">
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Name</label>
-                        <input type="text" name="name" maxlength="100" required class="form-control">
+                        <input type="text" name="name" maxlength="100" required 
+                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Price (Rp)</label>
-                        <input type="number" name="price" required class="form-control" max="999999">
+                        <input type="number" name="price" required max="999999"
+                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Restaurant</label>
-                        <input type="text" name="restaurant" maxlength="50" required class="form-control">
+                        <input type="text" name="restaurant" maxlength="50" required 
+                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Address</label>
-                        <input type="text" name="address" maxlength="100" required class="form-control">
+                        <input type="text" name="address" maxlength="100" required 
+                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Contact</label>
-                        <input type="text" name="contact" maxlength="15" required class="form-control">
+                        <input type="text" name="contact" maxlength="15" required 
+                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Open Time</label>
-                        <input type="time" name="open_time" required class="form-control">
+                        <input type="time" name="open_time" required 
+                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Description</label>
-                        <textarea name="description" maxlength="100" required class="form-control" rows="3"></textarea>
+                        <textarea name="description" maxlength="100" required rows="3"
+                                  class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none"></textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Image</label>
                         <div class="flex items-center space-x-4">
-                            <input type="text" name="image" class="form-control" required>
+                            <input type="text" name="image" required
+                                   class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                         </div>
                     </div>
                 </div>
                 
                 <div class="flex justify-end gap-3 mt-6">
-                    <button type="button" class="dashboard-btn bg-gray-500" id="cancel-add">Cancel</button>
-                    <button type="submit" class="dashboard-btn">Save Food</button>
+                    <button type="button" class="px-6 py-3 bg-gray-500 text-white rounded-full hover:bg-gray-600" id="cancel-add-food">Cancel</button>
+                    <button type="submit" class="px-6 py-3 bg-[#602231] text-white rounded-full hover:bg-[#421520]">Save Food</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Edit Food Modal -->
-    <div id="edit-food-modal" class="modal">
-        <div class="modal-content">
+    <div id="edit-food-modal" class="hidden fixed inset-0 z-50 overflow-auto bg-black bg-opacity-40 backdrop-blur-sm">
+        <div class="bg-white mx-4 md:mx-auto my-[10%] md:my-[15%] p-4 md:p-5 border border-gray-300 w-[95%] md:w-4/5 max-w-2xl rounded-lg">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-2xl font-bold">
                     <i class="fas fa-edit"></i>
                     Edit Food Product
                 </h3>
-                <span class="close">&times;</span>
+                <button type="button" class="close-edit">&times;</button>
             </div>
             
-            <form id="edit-food-form" style="overflow: auto;" enctype="multipart/form-data">
+            <form id="edit-food-form" class="overflow-auto" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" id="edit-food-id" name="food_id">
                 <div class="grid gap-4">
-                    <div class="form-group">
+                    <!-- Same form fields as Add Food Modal but with id attributes -->
+                    <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Name</label>
-                        <input type="text" id="edit-name" name="name" maxlength="100" required class="form-control">
+                        <input type="text" id="edit-name" name="name" maxlength="100" required 
+                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
                     <div class="form-group">
                         <label class="block text-sm font-medium mb-1">Price (Rp)</label>
-                        <input type="number" id="edit-price" name="price" required class="form-control" max="999999">
+                        <input type="number" id="edit-price" name="price" required 
+                                class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none" max="999999">
                     </div>
                     
                     <div class="form-group">
                         <label class="block text-sm font-medium mb-1">Restaurant</label>
-                        <input type="text" id="edit-restaurant" name="restaurant" maxlength="50" required class="form-control">
+                        <input type="text" id="edit-restaurant" name="restaurant" maxlength="50" required 
+                                class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
                     <div class="form-group">
                         <label class="block text-sm font-medium mb-1">Address</label>
-                        <input type="text" id="edit-address" name="address" maxlength="100" required class="form-control">
+                        <input type="text" id="edit-address" name="address" maxlength="100" required 
+                                class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
                     <div class="form-group">
                         <label class="block text-sm font-medium mb-1">Contact</label>
-                        <input type="text" id="edit-contact" name="contact" maxlength="15" required class="form-control">
+                        <input type="text" id="edit-contact" name="contact" maxlength="15" required 
+                                class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
                     <div class="form-group">
                         <label class="block text-sm font-medium mb-1">Open Time</label>
-                        <input type="time" name="open_time" required class="form-control">
+                        <input type="time" id="edit-open_time" name="open_time" required 
+                        class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
                     <div class="form-group">
                         <label class="block text-sm font-medium mb-1">Description</label>
-                        <textarea id="edit-description" name="description" maxlength="100" required class="form-control" rows="3"></textarea>
+                        <textarea id="edit-description" name="description" maxlength="100" required class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none" rows="3"></textarea>
                     </div>
-
+            
                     <div class="form-group">
                         <label class="block text-sm font-medium mb-1">Image</label>
                         <div class="flex items-center space-x-4">
-                            <input type="text" name="image" class="form-control" required>
+                            <input type="text" id="edit-image" name="image" class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                         </div>
                     </div>
                 </div>
                 
                 <div class="flex justify-end gap-3 mt-6">
-                    <button type="button" class="dashboard-btn bg-gray-500" id="cancel-edit">Cancel</button>
-                    <button type="submit" class="dashboard-btn">Save Changes</button>
+                    <button type="button" class="px-6 py-3 bg-gray-500 text-white rounded-full hover:bg-gray-600" id="cancel-edit-food">Cancel</button>
+                    <button type="submit" class="px-6 py-3 bg-[#602231] text-white rounded-full hover:bg-[#421520]">Save Changes</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modal Konfirmasi -->
-    <div id="delete-modal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 backdrop-blur-sm">
         <div class="bg-white rounded-lg p-6 max-w-sm w-full shadow-lg text-center">
             <h2 class="text-lg font-semibold mb-4">Apakah Anda yakin ingin menghapus item ini?</h2>
             <p class="text-gray-500 mb-6">Tindakan ini tidak dapat dibatalkan.</p>
@@ -415,8 +250,11 @@
             </div>
         </div>
     </div>
+</body>
 
     <script>
+        const baseUrl = "{% url 'dashboard:edit_food' '00000000-0000-0000-0000-000000000000' %}".replace('00000000-0000-0000-0000-000000000000', '');
+
         function updateGreeting() {
             const hour = new Date().getHours();
             let greeting = '';
@@ -434,39 +272,51 @@
             document.getElementById('greeting').textContent = greeting;
         }
 
-        function setupModals() {
-            const modals = document.querySelectorAll('.modal');
-            const closeButtons = document.querySelectorAll('.close');
-            const cancelButtons = document.querySelectorAll('[id^="cancel-"]');
-
-            window.addEventListener('click', (e) => {
-                modals.forEach(modal => {
-                    if (e.target === modal) {
-                        closeModal(modal);
-                    }
-                });
-            });
-
-            closeButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const modal = button.closest('.modal');
-                    closeModal(modal);
-                });
-            });
-
-            cancelButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const modal = button.closest('.modal');
-                    closeModal(modal);
-                });
-            });
-        }
-
-        function closeModal(modal) {
+        function closeModal(modal, event = null) {
+            if (event) {
+                event.preventDefault();
+            }
             modal.style.display = 'none';
             const form = modal.querySelector('form');
             if (form) form.reset();
         }
+
+        $(document).ready(function() {
+            var modalAdd = $('#add-food-modal');
+            var spanAdd = $('#cancel-add-food');
+            var modalEdit = $('#edit-food-modal');
+            var spanEdit = $('#cancel-edit-food');
+
+            spanAdd.click(function() {
+                closeModal(modalAdd[0]);
+            });
+
+            spanEdit.click(function() {
+                closeModal(modalEdit[0]);
+            });
+
+            $(window).click(function(event) {
+                if (event.target == modalAdd[0]) {
+                    closeModal(modalAdd[0]);
+                }
+            });
+
+            $(window).click(function(event) {
+                if (event.target == modalEdit[0]) {
+                    closeModal(modalEdit[0]);
+                }
+            });
+
+            $('#cancel-add-food, .close-food').click(function() {
+                closeModal(modalAdd[0]);
+                backdrop.hide();
+            });
+
+            $('#cancel-edit-food, .close-edit').click(function() {
+                closeModal(modalEdit[0]);
+                backdrop.hide();
+            });
+         });
 
         function setupFoodOperations() {
             const addFoodBtn = document.getElementById('add-food-btn');
@@ -483,7 +333,7 @@
                 const formData = new FormData(addFoodForm);
                 
                 try {
-                    const response = await fetch('/add-food/', {
+                    const response = await fetch("{% url 'dashboard:add_food' %}", {
                         method: 'POST',
                         body: formData
                     });
@@ -510,7 +360,7 @@
                 const foodId = document.getElementById('edit-food-id').value;
                 
                 try {
-                    const response = await fetch(`/edit-food/${foodId}/`, {
+                    const response = await fetch(`/profile/edit-food/${foodId}/`, {
                         method: 'POST',
                         headers: {
                             'X-CSRFToken': getCsrfToken()
@@ -535,7 +385,7 @@
 
         async function refreshFoodCards() {
             try {
-                const response = await fetch('/get-user-foods/');
+                const response = await fetch("{% url 'dashboard:get_user_foods' %}");
                 const data = await response.json();
                 
                 if (data.status === 'success') {
@@ -559,7 +409,7 @@
 
         function createEmptyState() {
             const emptyContainer = document.createElement('div');
-            emptyContainer.className = 'items-place-center justify-center min-h-screen w-full';
+            emptyContainer.className = 'absolute inset-0 flex items-center justify-center';
             
             emptyContainer.innerHTML = `
                 <div class="flex flex-col items-center justify-center w-96 h-80 p-4 bg-white rounded-xl shadow-md">
@@ -603,7 +453,12 @@
 
         async function editFood(foodId) {
             try {
-                const response = await fetch(`/get-food/${foodId}/`);
+                const response = await fetch(`/profile/get-food/${foodId}/`, {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRFToken': getCsrfToken()
+                    }
+                });
                 const data = await response.json();
                 
                 if (data.status === 'success') {
@@ -638,7 +493,7 @@
 
             const confirmDelete = async () => {
                 try {
-                    const response = await fetch(`/delete-food/${foodId}/`, {
+                    const response = await fetch(`/profile/delete-food/${foodId}/`, {
                         method: 'POST',
                         headers: {
                             'X-CSRFToken': getCsrfToken()
@@ -680,16 +535,48 @@
         }
 
         function showAlert(message, type) {
+            const existingAlert = document.querySelector('.alert-message');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+
             const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type}`;
-            alertDiv.textContent = message;
-            document.body.appendChild(alertDiv);
+            alertDiv.className = `alert-message fixed top-0 left-1/2 -translate-x-1/2 z-50 
+                ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}
+                text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2
+                transition-all duration-300 ease-in-out transform -translate-y-full opacity-0`;
             
+            alertDiv.innerHTML = `
+                ${type === 'success' 
+                    ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>'
+                    : '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>'
+                }
+                <span class="font-medium">${message}</span>
+                <button class="ml-4 hover:text-gray-200 transition-colors">&times;</button>
+            `;
+
+            document.body.appendChild(alertDiv);
+
             setTimeout(() => {
-                alertDiv.remove();
+                alertDiv.classList.remove('-translate-y-full', 'opacity-0');
+                alertDiv.classList.add('translate-y-4', 'opacity-100');
+            }, 10);
+
+            const closeButton = alertDiv.querySelector('button');
+            closeButton.addEventListener('click', () => {
+                alertDiv.classList.remove('translate-y-4', 'opacity-100');
+                alertDiv.classList.add('-translate-y-full', 'opacity-0');
+                setTimeout(() => alertDiv.remove(), 300);
+            });
+
+            setTimeout(() => {
+                if (alertDiv.parentElement) {
+                    alertDiv.classList.remove('translate-y-4', 'opacity-100');
+                    alertDiv.classList.add('-translate-y-full', 'opacity-0');
+                    setTimeout(() => alertDiv.remove(), 300);
+                }
             }, 3000);
         }
-        const baseUrl = "{% url 'main:profile' %}";
         
         $(document).ready(function() {
             var modal = $('#change-password-modal');
@@ -701,24 +588,24 @@
             });
 
             span.click(function() {
-                modal.hide();
+                closeModal(modal[0]);
             });
 
             $(window).click(function(event) {
                 if (event.target == modal[0]) {
-                    modal.hide();
+                    closeModal(modal[0]);
                 }
             });
 
             $('.close, #cancel-add').click(function() {
-                modal.hide();
+                closeModal(modal[0]);
                 backdrop.hide();
             });
 
             $('#change-password-form').submit(function(event) {
                 event.preventDefault();
                 $.ajax({
-                    url: '{% url "main:change_password" %}',
+                    url: '{% url "dashboard:change_password" %}',
                     type: 'POST',
                     data: {
                         old_password: $('#old_password').val(),
@@ -729,16 +616,19 @@
                     success: function(response) {
                         showAlert('Kata Sandi Berhasil Diperbarui!', 'success');
                         modal.hide();
-                        $('#change-password-form')[0].reset();
+                        closeModal(modal[0]);
                     },
                     error: function(response) {
-                        showAlert('Error Changing Password: ' + error.message, 'error');
+                        let errorMessage = 'Terjadi Eror Saat Memperbarui Kata Sandi';
+                        if (response.responseJSON && response.responseJSON.message) {
+                            errorMessage = response.responseJSON.message;
+                        }
+                        showAlert(errorMessage, 'error');
                     }
                 });
             });
         });
         document.addEventListener('DOMContentLoaded', () => {
-            setupModals();
             setupFoodOperations();
             refreshFoodCards();
             updateGreeting();
