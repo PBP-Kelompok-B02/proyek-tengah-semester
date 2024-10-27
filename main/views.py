@@ -41,10 +41,6 @@ def show_json(request):
     sort = request.GET.get('sort', 'name')
     price_min = request.GET.get('price_min', '')
     price_max = request.GET.get('price_max', '')
-    rating_min = request.GET.get('rating_min', '')
-    rating_max = request.GET.get('rating_max', '')
-    open_time_min = request.GET.get('open_time_min', '')
-    open_time_max = request.GET.get('open_time_max', '')
 
     food = Food.objects.all()
 
@@ -56,24 +52,10 @@ def show_json(request):
     if price_max:
         food = food.filter(price__lte=price_max)
 
-    if rating_min:
-        food = food.filter(rating__gte=rating_min)
-    if rating_max:
-        food = food.filter(rating__lte=rating_max)
-
-    if open_time_min:
-        food = food.filter(open_time__lte=open_time_min)
-    if open_time_max:
-        food = food.filter(open_time__gte=open_time_max)
-
     if sort == 'price-asc':
         food = food.order_by('price')
     elif sort == 'price-desc':
         food = food.order_by('-price')
-    elif sort == 'rating-asc':
-        food = food.order_by('rating')
-    elif sort == 'rating-desc':
-        food = food.order_by('-rating')
 
     return HttpResponse(serializers.serialize("json", food), content_type="application/json")
 
