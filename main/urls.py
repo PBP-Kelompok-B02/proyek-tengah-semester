@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import show_main, show_json, register, login_user, logout_user, show_profile, show_bookmarks,show_forum, change_password, add_food_entry_ajax, edit_food_ajax, delete_food_ajax, get_food_detail, get_user_foods, create_forum, submit_forum, delete_forum, reply_forum, delete_reply,add_products_from_csv
+from .views import show_main, show_json, register, login_user, logout_user, show_profile, show_bookmarks,show_forum, change_password, add_food_entry_ajax, edit_food_ajax, delete_food_ajax, get_food_detail, get_user_foods, create_forum, submit_forum, delete_forum, reply_forum, delete_reply,add_products_from_csv, bookmark_food, bookmark_list, bookmarks_view
+
 app_name = 'main'
 
 urlpatterns = [
@@ -9,7 +10,7 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('json/', show_json, name='show_json'), 
     path('profile/', show_profile, name='profile'),
-    path('bookmark/', show_bookmarks, name='bookmark'),
+    path('bookmarks/', show_bookmarks, name='show_bookmarks'),
     path('forum/', show_forum, name='forum'),
     path('forum/create_forum/', create_forum, name='create_forum'),
     path('forum/submit_forum/', submit_forum, name='submit_forum'),
@@ -23,4 +24,7 @@ urlpatterns = [
     path('delete-food/<uuid:food_id>/', delete_food_ajax, name='delete_food'),
     path('get-food/<uuid:food_id>/', get_food_detail, name='get_food'),
     path('get-user-foods/', get_user_foods, name='get_user_foods'),
+    path('bookmark/<uuid:food_id>/', bookmark_food, name='bookmark_food'),
+    path('bookmarks/<uuid:food_id>', bookmark_list, name='bookmark'),
+    path('bookmarks/', bookmarks_view, name='bookmark_view'),
 ]

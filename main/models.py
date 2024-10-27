@@ -1,6 +1,10 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 import uuid
+
+User = get_user_model()
 
 class Food(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -34,3 +38,11 @@ class Reply(models.Model):
 
     def __str__(self):
         return f'Reply by {self.created_by.username} on {self.forum.title}'
+    
+class Bookmark(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'food')

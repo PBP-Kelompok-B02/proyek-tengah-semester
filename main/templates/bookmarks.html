@@ -24,6 +24,20 @@
         </p>
     </header>
 
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+        {% for bookmark in bookmarks %}
+        <div class="food-card bg-white shadow-md rounded-lg flex flex-col transform transition-transform duration-300 hover:scale-105">
+          <img src="{{ bookmark.food.image }}" alt="{{ bookmark.food.name }}" class="w-full h-48 object-cover rounded-t-2xl">
+          <div class="p-4">
+            <h3 class="font-bold text-xl mb-2">{{ bookmark.food.name }}</h3>
+          <p>Price: {{ bookmark.food.price }}</p>
+          </div>
+        </div>
+        {% empty %}
+        <p class="col-span-full text-center">Belum ada menu yang tersimpan.</p>
+        {% endfor %}
+    </div>
+
     {% block extra_css %}
     <style>
         @keyframes fadeIn {

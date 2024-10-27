@@ -19,7 +19,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import update_session_auth_hash
 from .forms import CSVUploadForm
-from .models import Food
+from .models import Food, Bookmark
 import csv
 from django.shortcuts import render
 
@@ -146,9 +146,11 @@ def show_profile(request):
 
 @login_required
 def show_bookmarks(request):
-    user = request.user
+    bookmarks = Bookmark.objects.filter(user=request.user).select_related('food')
+    # user = request.user
     context = {
-        'user': user,
+        'bookmarks': bookmarks,
+        'user': request.user,
     }
     return render(request, 'bookmarks.html', context)
 
@@ -387,3 +389,62 @@ def get_food_detail(request, food_id):
         return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    
+@login_required
+@csrf_exempt
+@require_POST
+def bookmark_food(request, food_id):
+    try:
+        food = get_object_or_404(Food, id=food_id)
+        bookmark, created = Bookmark.objects.get_or_create(
+            user=request.user,
+            food=food,
+            defaults={'created_at': datetime.datetime.now()}
+        )
+
+        if created:
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Food bookmarked successfully',
+                'is_bookmarked': True
+            })
+        else:
+            # If bookmark already exists, remove it
+            bookmark.delete()
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Bookmark removed successfully',
+                'is_bookmarked': False
+            })
+
+    except Food.DoesNotExist:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Food not found'
+        }, status=404)
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': str(e)
+        }, status=400)
+
+def bookmark_list(request, food_id):
+    try:
+        is_bookmarked = Bookmark.objects.filter(
+            user=request.user,
+            food_id=food_id
+        ).exists()
+        
+        return JsonResponse({
+            'status': 'success',
+            'is_bookmarked': is_bookmarked
+        })
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': str(e)
+        }, status=400)
+
+def bookmarks_view(request):
+    bookmarks = Bookmark.objects.filter(user=request.user)
+    return render(request, 'bookmarks.html', {'bookmarks': bookmarks})
