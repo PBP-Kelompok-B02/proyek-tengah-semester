@@ -5,11 +5,9 @@ from .models import Forum, Reply
 
 class ForumTests(TestCase):
     def setUp(self):
-        # Set up user and client
         self.client = Client()
         self.user = User.objects.create_user(username='testuser', password='12345')
         self.client.login(username='testuser', password='12345')
-        # Set up sample forum data
         self.forum = Forum.objects.create(
             title="Sample Forum",
             description="Sample description",
@@ -27,8 +25,8 @@ class ForumTests(TestCase):
             'title': 'New Forum Title',
             'description': 'New Forum Description',
         })
-        self.assertEqual(response.status_code, 302)  # Should redirect after creating forum
-        self.assertEqual(Forum.objects.count(), 2)  # One initial + one new forum
+        self.assertEqual(response.status_code, 302)  
+        self.assertEqual(Forum.objects.count(), 2)  
         self.assertTrue(Forum.objects.filter(title="New Forum Title").exists())
 
     def test_submit_forum_valid_data(self):
