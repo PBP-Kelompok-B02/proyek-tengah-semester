@@ -131,37 +131,38 @@
     );
   // Assuming you have a function to fetch and display food items
   function displayFood(food) {
-  const itemsDiv = document.getElementById("items");
-  itemsDiv.innerHTML = ""; // Clear existing food
-  itemsDiv.className = "";
+    const itemsDiv = document.getElementById("items");
+    itemsDiv.innerHTML = ""; // Clear existing food
+    itemsDiv.className = "";
 
-  if (food.length === 0) {
-    itemsDiv.className =
-      "flex flex-col items-center justify-center min-h-[24rem] p-6 bg-[#fbfcf8]";
-    itemsDiv.innerHTML = `
+    if (food.length === 0) {
+      itemsDiv.className =
+        "flex flex-col items-center justify-center min-h-[24rem] p-6 bg-[#fbfcf8]";
+      itemsDiv.innerHTML = `
       <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
         <img src="{% static 'image/sad-face.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
         <p class="text-center text-gray-600 mt-4">No food available.</p>
       </div>
     `;
-  } else {
-    itemsDiv.className =
-      "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-[#fbfcf8]";
-    food.forEach((item) => {
-      const foodDiv = document.createElement("div");
-      foodDiv.className =
-        "bg-white shadow-md rounded-lg flex flex-col transform transition-transform duration-300 hover:scale-105";
-      foodDiv.innerHTML = `
+    } else {
+      itemsDiv.className =
+        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-[#fbfcf8]";
+      food.forEach((item) => {
+        const foodDiv = document.createElement("div");
+        foodDiv.className =
+          "bg-white shadow-md rounded-lg flex flex-col transform transition-transform duration-300 hover:scale-105";
+        
+        foodDiv.innerHTML = `
           <div class="w-full h-full rounded-2xl">
             <img src="${item.fields.image}" alt="${DOMPurify.sanitize(
-              item.fields.name
-            )}" class="w-full h-48 object-cover rounded-t-2xl">
+          item.fields.name
+        )}" class="w-full h-48 object-cover rounded-t-2xl">
           </div>
           <div class="p-4">
             <h3 class="font-bold text-xl mb-2">
               <a href="${baseUrl}${item.pk}">${DOMPurify.sanitize(
-        item.fields.name
-      )}</a>
+          item.fields.name
+        )}</a>
             <p class="text-gray-600 mb-2">Price: ${DOMPurify.sanitize(
               item.fields.price
             )}</p>
@@ -172,57 +173,71 @@
             </button>
           </div>
         `;
-      itemsDiv.appendChild(foodDiv);
+        itemsDiv.appendChild(foodDiv);
 
-      // Bookmark button event listener
-      const bookmarkButton = foodDiv.querySelector(".bookmark-button");
-      bookmarkButton.addEventListener("click", async function () {
-        const foodId = this.dataset.id;
-        console.log("Clicked on bookmark button for food ID:", foodId);
+        // Bookmark button event listener
+        
+        const bookmarkButton = foodDiv.querySelector(".bookmark-button");
+        bookmarkButton.addEventListener("click", async function () {
+          event.preventDefault();
+          const foodId = this.dataset.id;
+          console.log("Clicked on bookmark button for food ID:", foodId);
 
-        try {
-          const response = await fetch(`/bookmark/${foodId}/`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-CSRFToken": getCookie("csrftoken"), // Get the CSRF token
-            },
-          });
+          try {
+            const response = await fetch(`/bookmark/${foodId}/`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"), // Get the CSRF token
+              },
+            });
 
-          if (response.ok) {
-            const result = await response.json();
+            if (response.ok) {
+              const result = await response.json();
 
-            // Log the result from the server to the console
-            console.log("API response:", result);
+              // Log the result from the server to the console
+              console.log("API response:", result);
 
-            const icon = this.querySelector("i");
+              // Update all icons with the same food ID on both pages
+              const allBookmarkButtons = document.querySelectorAll(
+                `.bookmark-button[data-id="${foodId}"]`
+              );
+              allBookmarkButtons.forEach((button) => {
+                const icon = button.querySelector("i");
 
-            if (result.is_bookmarked) {
-              icon.classList.add("text-yellow-500");
-              icon.classList.remove("text-gray-400");
-              console.log("Bookmark added, icon color changed to yellow.");
-            } else {
-              icon.classList.add("text-gray-400");
-              icon.classList.remove("text-yellow-500");
-              console.log("Bookmark removed, icon color changed to gray.");
+                if (result.is_bookmarked) {
+                  icon.classList.add("text-yellow-500");
+                  icon.classList.remove("text-gray-400");
+                  console.log("Bookmark added, icon color changed to yellow.");
+                } else {
+                  icon.classList.add("text-gray-400");
+                  icon.classList.remove("text-yellow-500");
+                  console.log("Bookmark removed, icon color changed to gray.");
 
-              // If on the bookmarks page, remove the card
-              if (window.location.pathname.includes('bookmarks')) {
-                  const foodCard = document.querySelector(`[data-food-id="${foodId}"]`);
-                  if (foodCard) {
-                    foodCard.remove();
+                  // If on the bookmarks page, remove the card
+                  if (window.location.pathname.includes("bookmarks")) {
+                    const cardToRemove = button.closest(
+                      ".bookmark-card"
+                    );
+                    if (cardToRemove) {
+                      cardToRemove.remove();
+                    }
                   }
-              }
+                }
+              });
             }
+          } catch (error) {
+            console.error("Error bookmarking item:", error);
           }
-        } catch (error) {
-          console.error("Error bookmarking item:", error);
-        }
-      });
-    });
-  }
-}
+        });
 
+        // // Prevent event propagation on the bookmark button itself to avoid double handling
+        // bookmarkButton.addEventListener("click", function (event) {
+        //   event.stopPropagation();
+        // });
+      });
+    }
+  }
 
   // Fetch food on page load
   document.addEventListener("DOMContentLoaded", fetchFood);
@@ -366,7 +381,7 @@
     return cookieValue;
   }
 
-  const csrftoken = getCookie('csrftoken');
+  const csrftoken = getCookie("csrftoken");
 
   // Refresh food every 60 seconds
   setInterval(fetchFood, 60000);
