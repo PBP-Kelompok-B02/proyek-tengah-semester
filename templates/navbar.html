@@ -59,7 +59,8 @@
   }
 
   function closeModalOnClickOutside(event, modalId) {
-    if (event.target.id === modalId) {
+    const modal = document.getElementById(modalId);
+    if (event.target === modal) {
       closeModal(event, modalId);
     }
   }
