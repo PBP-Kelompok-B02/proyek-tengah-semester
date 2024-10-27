@@ -38,7 +38,6 @@ def create_forum(request):
 def submit_forum(request):
     if request.method == 'POST':
         # Handle form submission here
-        # For example, save the form data to the database
         title = request.POST.get('title')
         description = request.POST.get('description')
 
