@@ -67,7 +67,7 @@
       profile: '{% url "main:profile" %}',
       bookmarks: '{% url "main:bookmark_view" %}',
       logout: '{% url "main:logout" %}',
-      forum: '{% url "main:forum" %}',
+      forum: '{% url "forum:show_forum" %}',
     };
     window.location.href = urls[view];
   }
