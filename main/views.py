@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core import serializers 
-from .models import Food, Forum, Reply
+from .models import Food
 from django.shortcuts import get_object_or_404
 from .forms import CustomUserCreationForm
 import uuid
@@ -19,7 +19,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import update_session_auth_hash
 from .forms import CSVUploadForm
+
 from .models import Food, Bookmark
+from forum.models import Forum, Reply
 import csv
 from django.shortcuts import render
 
@@ -39,10 +41,6 @@ def show_json(request):
     sort = request.GET.get('sort', 'name')
     price_min = request.GET.get('price_min', '')
     price_max = request.GET.get('price_max', '')
-    rating_min = request.GET.get('rating_min', '')
-    rating_max = request.GET.get('rating_max', '')
-    open_time_min = request.GET.get('open_time_min', '')
-    open_time_max = request.GET.get('open_time_max', '')
 
     food = Food.objects.all()
 
@@ -54,24 +52,10 @@ def show_json(request):
     if price_max:
         food = food.filter(price__lte=price_max)
 
-    if rating_min:
-        food = food.filter(rating__gte=rating_min)
-    if rating_max:
-        food = food.filter(rating__lte=rating_max)
-
-    if open_time_min:
-        food = food.filter(open_time__lte=open_time_min)
-    if open_time_max:
-        food = food.filter(open_time__gte=open_time_max)
-
     if sort == 'price-asc':
         food = food.order_by('price')
     elif sort == 'price-desc':
         food = food.order_by('-price')
-    elif sort == 'rating-asc':
-        food = food.order_by('rating')
-    elif sort == 'rating-desc':
-        food = food.order_by('-rating')
 
     return HttpResponse(serializers.serialize("json", food), content_type="application/json")
 
@@ -153,93 +137,6 @@ def show_bookmarks(request):
         'user': request.user,
     }
     return render(request, 'bookmarks.html', context)
-
-def show_forum(request):
-    user = request.user
-    forums = Forum.objects.all().order_by('-created_at')
-
-    context = {
-        'user': user,
-        'forums': forums,
-    }
-    return render(request, 'forum.html', context)
-
-
-
-@login_required
-def create_forum(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-
-        # Buat topik diskusi baru dan assign created_by dengan request.user
-        Forum.objects.create(
-            title=title,
-            description=description,
-            created_by=request.user  # Tambahkan user sebagai pembuat
-        )
-
-        # Redirect setelah forum berhasil dibuat
-        return redirect('main:forum')
-    return render(request, 'create_forum.html')
-
-def submit_forum(request):
-    if request.method == 'POST':
-        # Handle form submission here
-        # For example, save the form data to the database
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-
-        if title and description:
-            new_forum = Forum.objects.create(
-                title=title,
-                description=description,
-                created_by=request.user
-            )
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False, 'message': 'Invalid data'})
-    
-    return JsonResponse({'success': False, 'message': 'Invalid request'})
-
-@login_required
-@require_POST
-def delete_forum(request, forum_id):
-    forum = get_object_or_404(Forum, id=forum_id, created_by=request.user)
-    forum.delete()
-    return JsonResponse({'success': True})
-
-@login_required
-@require_POST
-def reply_forum(request, forum_id):
-    forum = get_object_or_404(Forum, id=forum_id)
-    content = request.POST.get('content')
-    
-    if content:
-        reply = Reply.objects.create(
-            forum=forum,
-            created_by=request.user,
-            content=content
-        )
-        
-        return JsonResponse({
-            'success': True,
-            'reply': {
-                'id': reply.id,
-                'content': reply.content,
-                'username': reply.created_by.username,
-            }
-        })
-    return JsonResponse({'success': False, 'error': 'Content is required'}, status=400)
-
-
-@login_required
-@require_POST
-def delete_reply(request, reply_id):
-    reply = get_object_or_404(Reply, id=reply_id, created_by=request.user)
-    reply.delete()
-    return JsonResponse({'success': True})
-
 
 def add_products_from_csv(request):
     user_now = request.user
