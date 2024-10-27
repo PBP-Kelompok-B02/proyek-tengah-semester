@@ -8,12 +8,10 @@ import uuid
 
 class MainAppTests(TestCase):
     def setUp(self):
-        # Set up user for authentication tests
         self.user = User.objects.create_user(username='testuser', password='testpass')
         self.client = Client()
         self.client.login(username='testuser', password='testpass')
 
-        # Set up sample Food object
         self.food = Food.objects.create(
             name='Nasi Goreng',
             price=20000,
