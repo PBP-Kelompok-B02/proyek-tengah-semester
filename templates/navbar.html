@@ -68,9 +68,9 @@
     const urls = {
       home: '{% url "main:show_main" %}',
       profile: '{% url "dashboard:profile" %}',
-      bookmarks: '{% url "main:bookmark" %}',
+      bookmarks: '{% url "main:bookmark_view" %}',
       logout: '{% url "main:logout" %}',
-      forum: '{% url "main:forum" %}',
+      forum: '{% url "forum:show_forum" %}',
     };
     window.location.href = urls[view];
   }

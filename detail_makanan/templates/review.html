@@ -1,0 +1,27 @@
+<div id="review-container">
+    {% for review in reviews %}
+        <div id="review-{{ review.id }}" class="flex flex-col">
+            <div class="mb-4 shadow-sm py-2">
+                <div class="flex justify-between items-start">
+                    <div class="flex flex-col space-y-1">
+                        <h3 class="font-bold">{{ review.user.username }}</h3>
+                        <p>{{ review.review }}</p>
+                    </div>
+                    {% if review.user == request.user %}
+                    <form method="POST" action="{% url 'detail_makanan:delete_review' review.id %}" class="inline-block">
+                        {% csrf_token %}
+                        <button type="button" class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded delete-review-button" data-review-id="{{ review.id }}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% if review.image_url %}
+                <img class="w-full h-auto object-cover rounded-lg mt-1" src="{{ review.image_url.url }}" style="max-width:30%"/>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p>Hmm belum ada yang review nih. Yuk buat review makanan ini.</p>
+    {% endfor %}
+</div>

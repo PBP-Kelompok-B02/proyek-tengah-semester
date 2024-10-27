@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'main',
     'detail_makanan',
     'dashboard',
+    'forum',
 ]
 
 MIDDLEWARE = [

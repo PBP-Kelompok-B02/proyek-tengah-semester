@@ -1,28 +1,37 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block meta %}
+{% extends 'base.html' %} {% load static %} {% block meta %}
 <title>YumYogya</title>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.css">
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.css"
+/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
-{% endblock meta %}
-
-{% block content %}
-{% include 'navbar.html' %}
+{% endblock meta %} {% block content %} {% include 'navbar.html' %}
 
 <body class="pt-18 bg-[#fbfcf8]">
   <div class="relative">
-    <img src="{% static 'images/yogyakarta.jpg' %}" alt="Yogyakarta" class="w-full h-100 object-cover mb-4">
-    <div class="absolute inset-x-0 bottom-0 mb-24 flex flex-col justify-center items-center">
+    <img
+      src="{% static 'images/yogyakarta.jpg' %}"
+      alt="Yogyakarta"
+      class="w-full h-100 object-cover mb-4"
+    />
+    <div
+      class="absolute inset-x-0 bottom-0 mb-24 flex flex-col justify-center items-center"
+    >
       <h1 class="text-6xl text-white font-bold">YumYogya</h1>
-      <div class="w-full max-w-2xl p-2 bg-white bg-opacity-75 rounded-lg shadow-lg">
-        <input type="text" id="search-bar" class="border p-2 rounded w-full" placeholder="Search for food...">
+      <div
+        class="w-full max-w-2xl p-2 bg-white bg-opacity-75 rounded-lg shadow-lg"
+      >
+        <input
+          type="text"
+          id="search-bar"
+          class="border p-2 rounded w-full"
+          placeholder="Search for food..."
+        />
       </div>
     </div>
   </div>
   <div class="container mx-auto p-6">
-    <button id="filter-button" class="border p-2 rounded mb-4">Filter</button>
     <div class="flex mt-4">
       <select id="sort-options" class="border p-2 rounded w-full">
         <option value="price-asc">Price: Low to High</option>
@@ -34,38 +43,21 @@
       <div class="flex flex-col mb-4">
         <label for="price-filter">Price:</label>
         <select id="price-filter" class="border p-2 rounded">
-          <option value="none">None</option>
-          <option value="over">Over</option>
-          <option value="below">Below</option>
-          <option value="between">Between</option>
+          <option value="none"></option>
+          <option value="over">Harga maksimal</option>
+          <option value="below">Harga Minimal</option>
+          <option value="between">Harga antara</option>
         </select>
-        <div id="price-slider" class="mt-2 hidden"></div>
-        <div class="flex mt-2">
-          <input type="number" id="price-min" class="border p-2 rounded w-20 hidden" placeholder="Min">
-          <span id="price-separator" class="mx-2 hidden">-</span>
-          <input type="number" id="price-max" class="border p-2 rounded w-20 hidden" placeholder="Max">
-        </div>
-      </div>
-      <div class="flex flex-col mb-4">
-        <label for="open-time-filter">Open Time:</label>
-        <select id="open-time-filter" class="border p-2 rounded">
-          <option value="none">None</option>
-          <option value="still-open">Still Open At</option>
-          <option value="already-open">Already Open At</option>
-          <option value="between">Between</option>
-        </select>
-        <div id="open-time-slider" class="mt-2 hidden"></div>
-        <div class="flex mt-2">
-          <input type="time" id="open-time-min" class="border p-2 rounded w-20 hidden">
-          <span id="open-time-separator" class="mx-2 hidden">-</span>
-          <input type="time" id="open-time-max" class="border p-2 rounded w-20 hidden">
+        <div id="select-filter" class="flex mt-2 hidden">
+          <input type="number" id="price-min" class="border p-2 rounded w-20" placeholder="Min">
+          <span id="price-separator" class="mx-2">-</span>
+          <input type="number" id="price-max" class="border p-2 rounded w-20" placeholder="Max">
         </div>
       </div>
     </div>
-    
     <div id="items"></div>
   </div>
-</body>  
+</body>
 
 <script>
   async function getFood(query = '', sort = 'name', filters = {}) {
@@ -84,8 +76,6 @@
     const filters = {
       price_min: document.getElementById('price-min').value,
       price_max: document.getElementById('price-max').value,
-      open_time_min: document.getElementById('open-time-min').value,
-      open_time_max: document.getElementById('open-time-max').value,
     };
     try {
       const food = await getFood(query, sort, filters);
@@ -94,156 +84,184 @@
       console.error('There was a problem with the fetch operation:', error);
     }
   }
-  const baseUrl = "{% url 'detail_makanan:show-food-details' '00000000-0000-0000-0000-000000000000' %}".replace('00000000-0000-0000-0000-000000000000', '');
-  // Assuming you have a function to fetch and display food items
+
+  const baseUrl =
+    "{% url 'detail_makanan:show-food-details' '00000000-0000-0000-0000-000000000000' %}".replace(
+      "00000000-0000-0000-0000-000000000000",
+      ""
+    );
+
   function displayFood(food) {
-    const itemsDiv = document.getElementById('items');
-    itemsDiv.innerHTML = ''; // Clear existing food
-    itemsDiv.className = '';
+    const itemsDiv = document.getElementById("items");
+    itemsDiv.innerHTML = ""; // Clear existing food
+    itemsDiv.className = "";
+
     if (food.length === 0) {
-      itemsDiv.className = "flex flex-col items-center justify-center min-h-[24rem] p-6 bg-[#fbfcf8]";
+      itemsDiv.className =
+        "flex flex-col items-center justify-center min-h-[24rem] p-6 bg-[#fbfcf8]";
       itemsDiv.innerHTML = `
-        <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
-          <img src="{% static 'image/sad-face.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
-          <p class="text-center text-gray-600 mt-4">No food available.</p>
-        </div>
-      `;
+      <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+        <img src="{% static 'image/fork.png' %}" alt="No Food" class="w-32 h-32 mb-4"/>
+        <p class="text-center text-gray-600 mt-4">No food available.</p>
+      </div>
+    `;
     } else {
-      itemsDiv.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-[#fbfcf8]";
-      food.forEach(item => {
-        console.log('Food ID:', item.pk); // Debugging: Log the UUID
-        const foodDiv = document.createElement('div');
-        foodDiv.className = 'bg-white shadow-md rounded-lg flex flex-col transform transition-transform duration-300 hover:scale-105';
+      itemsDiv.className =
+        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-[#fbfcf8]";
+      food.forEach((item) => {
+        const foodDiv = document.createElement("div");
+        foodDiv.className =
+          "bg-white shadow-md rounded-lg flex flex-col transform transition-transform duration-300 hover:scale-105";
+        
         foodDiv.innerHTML = `
-            <div class="w-full h-full rounded-2xl">
-            <img src="${item.fields.image}" alt="${DOMPurify.sanitize(item.fields.name)}" class="w-full h-48 object-cover rounded-t-2xl">
+          <div class="w-full h-full rounded-2xl">
+            <img src="${item.fields.image}" alt="${DOMPurify.sanitize(
+          item.fields.name
+        )}" class="w-full h-48 object-cover rounded-t-2xl">
           </div>
-            <div class="p-4">
+          <div class="p-4">
             <h3 class="font-bold text-xl mb-2">
-              <a href="${baseUrl}${item.pk}">${DOMPurify.sanitize(item.fields.name)}</a>
-            <p class="text-gray-600 mb-2">Price: ${DOMPurify.sanitize(item.fields.price)}</p>
+              <a href="${baseUrl}${item.pk}">${DOMPurify.sanitize(
+          item.fields.name
+        )}</a>
+            <p class="text-gray-600 mb-2">Price: ${DOMPurify.sanitize(
+              item.fields.price
+            )}</p>
             <button class="bookmark-button" data-id="${item.pk}">
-                <i class="fas fa-bookmark ${item.fields.bookmarked ? 'text-yellow-500' : 'text-gray-400'}"></i>
+                <i class="fas fa-bookmark ${
+                  item.fields.bookmarked ? "text-yellow-500" : "text-gray-400"
+                }"></i>
             </button>
-            </div>
+          </div>
         `;
         itemsDiv.appendChild(foodDiv);
+
+        // Bookmark button event listener
+        
+        const bookmarkButton = foodDiv.querySelector(".bookmark-button");
+        bookmarkButton.addEventListener("click", async function () {
+          event.preventDefault();
+          const foodId = this.dataset.id;
+          console.log("Clicked on bookmark button for food ID:", foodId);
+
+          try {
+            const response = await fetch(`/bookmark/${foodId}/`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"), // Get the CSRF token
+              },
+            });
+
+            if (response.ok) {
+              const result = await response.json();
+
+              // Log the result from the server to the console
+              console.log("API response:", result);
+
+              // Update all icons with the same food ID on both pages
+              const allBookmarkButtons = document.querySelectorAll(
+                `.bookmark-button[data-id="${foodId}"]`
+              );
+              allBookmarkButtons.forEach((button) => {
+                const icon = button.querySelector("i");
+
+                if (result.is_bookmarked) {
+                  icon.classList.add("text-yellow-500");
+                  icon.classList.remove("text-gray-400");
+                  console.log("Bookmark added, icon color changed to yellow.");
+                } else {
+                  icon.classList.add("text-gray-400");
+                  icon.classList.remove("text-yellow-500");
+                  console.log("Bookmark removed, icon color changed to gray.");
+
+                  // If on the bookmarks page, remove the card
+                  if (window.location.pathname.includes("bookmarks")) {
+                    const cardToRemove = button.closest(
+                      ".bookmark-card"
+                    );
+                    if (cardToRemove) {
+                      cardToRemove.remove();
+                    }
+                  }
+                }
+              });
+            }
+          } catch (error) {
+            console.error("Error bookmarking item:", error);
+          }
+        });
+
+        // // Prevent event propagation on the bookmark button itself to avoid double handling
+        // bookmarkButton.addEventListener("click", function (event) {
+        //   event.stopPropagation();
+        // });
       });
     }
   }
 
   // Fetch food on page load
-  document.addEventListener('DOMContentLoaded', fetchFood);
+  document.addEventListener("DOMContentLoaded", fetchFood);
 
   // Add event listeners for search, sort, and filter
-  document.getElementById('search-bar').addEventListener('input', fetchFood);
-  document.getElementById('sort-options').addEventListener('change', fetchFood);
-  document.getElementById('price-min').addEventListener('input', fetchFood);
-  document.getElementById('price-max').addEventListener('input', fetchFood);
-  document.getElementById('open-time-min').addEventListener('input', fetchFood);
-  document.getElementById('open-time-max').addEventListener('input', fetchFood);
-
+  document.getElementById("search-bar").addEventListener("input", fetchFood);
+  document.getElementById("sort-options").addEventListener("change", fetchFood);
+  document.getElementById("price-min").addEventListener("input", fetchFood);
+  document.getElementById("price-max").addEventListener("input", fetchFood);
   // Show filter section when filter button is clicked
   document.getElementById('filter-button').addEventListener('click', () => {
     const filterSection = document.getElementById('filter-section');
     filterSection.classList.toggle('hidden');
   });
 
-  // Initialize sliders
-  const priceSlider = document.getElementById('price-slider');
-  const openTimeSlider = document.getElementById('open-time-slider');
-
-  noUiSlider.create(priceSlider, {
-    start: [0, 100000],
-    connect: true,
-    range: {
-      'min': 0,
-      'max': 100000
-    },
-    tooltips: [true, true]
-  }).on('update', (values, handle) => {
-    document.getElementById('price-min').value = values[0];
-    document.getElementById('price-max').value = values[1];
-    fetchFood();
-  });
-
-
-  noUiSlider.create(openTimeSlider, {
-    start: [0, 24],
-    connect: true,
-    range: {
-      'min': 0,
-      'max': 24
-    },
-    tooltips: [true, true],
-    format: {
-      to: (value) => {
-        const hours = Math.floor(value);
-        const minutes = (value - hours) * 60;
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-      },
-      from: (value) => {
-        const [hours, minutes] = value.split(':').map(Number);
-        return hours + minutes / 60;
-      }
-    }
-  }).on('update', (values, handle) => {
-    document.getElementById('open-time-min').value = values[0];
-    document.getElementById('open-time-max').value = values[1];
-    fetchFood();
-  });
-
-
   document.getElementById('price-filter').addEventListener('change', (event) => {
     const value = event.target.value;
     const priceMin = document.getElementById('price-min');
     const priceMax = document.getElementById('price-max');
     const priceSeparator = document.getElementById('price-separator');
+    const selectFilter = document.getElementById('select-filter');
     if (value === 'between') {
-      priceSlider.classList.remove('hidden');
-      priceMin.classList.add('hidden');
-      priceMax.classList.add('hidden');
-      priceSeparator.classList.add('hidden');
-    } else if (value === 'over') {
-      priceSlider.classList.add('hidden');
       priceMin.classList.remove('hidden');
-      priceMax.classList.add('hidden');
-      priceSeparator.classList.add('hidden');
-    } else if (value === 'below') {
-      priceSlider.classList.add('hidden');
+      priceMax.classList.remove('hidden');
+      priceSeparator.classList.remove('hidden');
+      selectFilter.classList.remove('hidden');
+    } else if (value === 'over') {
       priceMin.classList.add('hidden');
       priceMax.classList.remove('hidden');
       priceSeparator.classList.add('hidden');
+      selectFilter.classList.remove('hidden');
+
+    } else if (value === 'below') {
+      priceMin.classList.remove('hidden');
+      priceMax.classList.add('hidden');
+      priceSeparator.classList.add('hidden');
+      selectFilter.classList.remove('hidden');
+
     } else {
-      priceSlider.classList.add('hidden');
       priceMin.classList.add('hidden');
       priceMax.classList.add('hidden');
       priceSeparator.classList.add('hidden');
+      selectFilter.classList.remove('hidden');
+
     }
   });
 
-  document.getElementById('open-time-filter').addEventListener('change', (event) => {
-    const value = event.target.value;
-    const openTimeMin = document.getElementById('open-time-min');
-    const openTimeMax = document.getElementById('open-time-max');
-    const openTimeSeparator = document.getElementById('open-time-separator');
-    if (value === 'between') {
-      openTimeSlider.classList.remove('hidden');
-      openTimeMin.classList.add('hidden');
-      openTimeMax.classList.add('hidden');
-      openTimeSeparator.classList.add('hidden');
-    } else if (value === 'still-open' || value === 'already-open') {
-      openTimeSlider.classList.add('hidden');
-      openTimeMin.classList.remove('hidden');
-      openTimeMax.classList.add('hidden');
-      openTimeSeparator.classList.add('hidden');
-    } else {
-      openTimeSlider.classList.add('hidden');
-      openTimeMin.classList.add('hidden');
-      openTimeMax.classList.add('hidden');
-      openTimeSeparator.classList.add('hidden');
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
     }
-  });
+    return cookieValue;
+  }
+
+  const csrftoken = getCookie("csrftoken");
 
   // Refresh food every 60 seconds
   setInterval(fetchFood, 60000);
