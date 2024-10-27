@@ -20,7 +20,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import update_session_auth_hash
 from .forms import CSVUploadForm
 
-from .models import Food, Bookmark
+from .models import Food
+from bookmark.models import Bookmark
 from forum.models import Forum, Reply
 import csv
 from django.shortcuts import render
