@@ -20,6 +20,9 @@
     <span class="px-6 mr-2  hover:cursor-pointer float-right" onclick="redirectTo(event, 'forum')">
       <span class="mx-1 text-white">Forum</span>
     </span>
+    <span class="px mr-2  hover:cursor-pointer float-right" onclick="redirectTo(event, 'bookmarks')">
+      <span class="mx-1 text-white">Bookmarks</span>
+    </span>
   </div>
 </div>
 
@@ -29,7 +32,7 @@
     <div class="mt-3 text-center">
       <h3 class="text-lg leading-6 font-medium text-gray-900">Options</h3>
       <div class="mt-2 px-5 py-3">
-        <button onclick="redirectTo(event, 'profile')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</button>
+        <button onclick="redirectTo(event, 'profile')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Dashboard</button>
         <button onclick="redirectTo(event, 'bookmarks')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Bookmarks</button>
         <button onclick="redirectTo(event, 'logout')" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</button>
       </div>
@@ -62,7 +65,7 @@
     const urls = {
       home: '{% url "main:show_main" %}',
       profile: '{% url "main:profile" %}',
-      bookmarks: '{% url "main:bookmark" %}',
+      bookmarks: '{% url "main:bookmark_view" %}',
       logout: '{% url "main:logout" %}',
       forum: '{% url "forum:show_forum" %}',
     };

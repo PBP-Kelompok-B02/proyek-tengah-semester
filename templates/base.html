@@ -11,4 +11,8 @@
   <body>
     {% block content %} {% endblock content %}
   </body>
+  
+{% block extra_js %}
+<script src="{% static 'js/bookmark.js' %}"></script>
+{% endblock %}
 </html>

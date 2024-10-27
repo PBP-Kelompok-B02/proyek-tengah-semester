@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block meta %}
-<title>YumYogya</title>
+<title>YumYogya Bookmarks</title>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
 {% endblock meta %}
 
@@ -14,18 +14,102 @@
     <title>Profile Page</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="pt-24">
-    <header>
-        <h1>Profile Page</h1>
+<body class="pt-24 bg-[#F2E8C6]">
+    <header class="text-center mb-12 px-4">
+        <h1 class="text-5xl font-bold text-[#982B1C] mb-4 animate-fade-in">
+            <span class="inline-block transform hover:scale-105 transition-transform duration-300">Bookmarks</span>
+        </h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Simpan makanan dan minuman favoritmu!   
+        </p>
     </header>
-    <main>
-        <section>
-            <h2>About Me</h2>
-            <p>This is a simple bookmark page.</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 {{user.username}} </p>
-    </footer>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6" id="bookmarks-grid">
+        {% for bookmark in bookmarks %}
+        <div class="food-card bg-white shadow-md rounded-lg flex flex-col transform transition-transform duration-300 hover:scale-105" data-id="{{ bookmark.food.id }}">
+          <img src="{{ bookmark.food.image }}" alt="{{ bookmark.food.name }}" class="w-full h-48 object-cover rounded-t-2xl">
+          <div class="p-4">
+            <h3 class="font-bold text-xl mb-2">{{ bookmark.food.name }}</h3>
+            <p>Price: {{ bookmark.food.price }}</p>
+            <button class="remove-bookmark-button" data-id="{{ bookmark.food.id }}">
+                <i class="fas fa-bookmark text-yellow-500"></i>
+            </button>
+          </div>
+        </div>
+        {% empty %}
+        <p class="col-span-full text-center">Belum ada menu yang tersimpan.</p>
+        {% endfor %}
+    </div>
+
+    {% block extra_css %}
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+    {% endblock %}
+    
+    <script>
+        // Add event listener to remove bookmark buttons
+        document.querySelectorAll('.remove-bookmark-button').forEach(button => {
+            button.addEventListener('click', async function(event) {
+                event.preventDefault(); // Prevent default behavior
+
+                const foodId = this.dataset.id; // Get the food ID from the data attribute
+                const cardToRemove = this.closest('.food-card'); // Find the card to remove
+
+                try {
+                    const response = await fetch(`/bookmark/${foodId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken'), // Get the CSRF token
+                        },
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log('API response:', result);
+
+                        if (!result.is_bookmarked) {
+                            // If the item is unbookmarked, remove the card from the DOM
+                            if (cardToRemove) {
+                                cardToRemove.remove();
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error removing bookmark:', error);
+                }
+            });
+        });
+
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
 </body>
 {% endblock content %}

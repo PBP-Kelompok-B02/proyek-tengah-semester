@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-p(x9d7x&_-@@5*54k%af04!+r-j68u6ja5936p1pb0#^((%w49
 # DEBUG = True
 
 PRODUCTION = os.getenv("PRODUCTION", False)
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["localhost","lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "127.0.0.1", "yumyogya.up.railway.app"]
 

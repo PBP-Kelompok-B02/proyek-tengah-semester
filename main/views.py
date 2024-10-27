@@ -19,7 +19,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import update_session_auth_hash
 from .forms import CSVUploadForm
-from .models import Food
+
+from .models import Food, Bookmark
 from forum.models import Forum, Reply
 import csv
 from django.shortcuts import render
@@ -94,7 +95,6 @@ def change_password(request):
         user.set_password(new_password)
         user.save()
 
-        # Update the session to keep the user logged in after the password change
         update_session_auth_hash(request, user)
 
         return JsonResponse({'success': 'Password changed successfully'})
@@ -148,98 +148,13 @@ def show_profile(request):
 
 @login_required
 def show_bookmarks(request):
-    user = request.user
+    bookmarks = Bookmark.objects.filter(user=request.user).select_related('food')
+    # user = request.user
     context = {
-        'user': user,
+        'bookmarks': bookmarks,
+        'user': request.user,
     }
     return render(request, 'bookmarks.html', context)
-
-# def show_forum(request):
-#     user = request.user
-#     forums = Forum.objects.all().order_by('-created_at')
-
-#     context = {
-#         'user': user,
-#         'forums': forums,
-#     }
-#     return render(request, 'forum.html', context)
-
-
-
-# @login_required
-# def create_forum(request):
-#     if request.method == 'POST':
-#         title = request.POST.get('title')
-#         description = request.POST.get('description')
-
-#         # Buat topik diskusi baru dan assign created_by dengan request.user
-#         Forum.objects.create(
-#             title=title,
-#             description=description,
-#             created_by=request.user  # Tambahkan user sebagai pembuat
-#         )
-
-#         # Redirect setelah forum berhasil dibuat
-#         return redirect('main:forum')
-#     return render(request, 'create_forum.html')
-
-# def submit_forum(request):
-#     if request.method == 'POST':
-#         # Handle form submission here
-#         # For example, save the form data to the database
-#         title = request.POST.get('title')
-#         description = request.POST.get('description')
-
-#         if title and description:
-#             new_forum = Forum.objects.create(
-#                 title=title,
-#                 description=description,
-#                 created_by=request.user  # Menggunakan user yang sudah login
-#             )
-#             return JsonResponse({'success': True})
-#         else:
-#             return JsonResponse({'success': False, 'message': 'Invalid data'})
-    
-#     return JsonResponse({'success': False, 'message': 'Invalid request'})
-
-# @login_required
-# @require_POST
-# def delete_forum(request, forum_id):
-#     forum = get_object_or_404(Forum, id=forum_id, created_by=request.user)
-#     forum.delete()
-#     return JsonResponse({'success': True})
-
-# @login_required
-# @require_POST
-# def reply_forum(request, forum_id):
-#     forum = get_object_or_404(Forum, id=forum_id)
-#     content = request.POST.get('content')
-    
-#     if content:
-#         reply = Reply.objects.create(
-#             forum=forum,
-#             created_by=request.user,
-#             content=content
-#         )
-        
-#         return JsonResponse({
-#             'success': True,
-#             'reply': {
-#                 'id': reply.id,
-#                 'content': reply.content,
-#                 'username': reply.created_by.username,
-#             }
-#         })
-#     return JsonResponse({'success': False, 'error': 'Content is required'}, status=400)
-
-
-# @login_required
-# @require_POST
-# def delete_reply(request, reply_id):
-#     reply = get_object_or_404(Reply, id=reply_id, created_by=request.user)
-#     reply.delete()
-#     return JsonResponse({'success': True})
-
 
 def add_products_from_csv(request):
     user_now = request.user
@@ -311,7 +226,7 @@ def add_food_entry_ajax(request):
     
     try:
         new_food = Food(
-            user=request.user,  # Assign the current user
+            user=request.user, 
             name=request.POST.get('name'),
             price=request.POST.get('price'),
             restaurant=request.POST.get('restaurant'),
@@ -335,10 +250,8 @@ def add_food_entry_ajax(request):
 @require_POST
 def edit_food_ajax(request, food_id):
     try:
-        # Get food object that belongs to current user
-        food = get_object_or_404(Food, user=request.user)
-        
-        # Update fields
+        food = Food.objects.get(id=food_id, user=request.user)    
+
         food.name = request.POST.get('name', food.name)
         food.price = request.POST.get('price', food.price)
         food.restaurant = request.POST.get('restaurant', food.restaurant)
@@ -346,9 +259,7 @@ def edit_food_ajax(request, food_id):
         food.contact = request.POST.get('contact', food.contact)
         food.open_time = request.POST.get('open_time', food.open_time)
         food.description = request.POST.get('description', food.description)
-        
-        if 'image' in request.FILES:
-            food.image = request.FILES['image']
+        food.image = request.POST.get('image', food.image)
             
         food.save()
         return JsonResponse({'status': 'success'})
@@ -362,7 +273,6 @@ def edit_food_ajax(request, food_id):
 @require_POST
 def delete_food_ajax(request, food_id):
     try:
-        # Get and delete food object that belongs to current user
         food = get_object_or_404(Food, pk=food_id, user=request.user)
         food.delete()
         return JsonResponse({'status': 'success'})
@@ -375,7 +285,6 @@ def delete_food_ajax(request, food_id):
 @login_required
 def get_food_detail(request, food_id):
     try:
-        # Get food object that belongs to current user
         food = get_object_or_404(Food, pk=food_id, user=request.user)
         return JsonResponse({
             'status': 'success',
@@ -388,10 +297,69 @@ def get_food_detail(request, food_id):
                 'contact': food.contact,
                 'open_time': food.open_time,
                 'description': food.description,
-                'image': food.image.url if food.image else None
+                'image': food.image
             }
         })
     except Food.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    
+@login_required
+@csrf_exempt
+@require_POST
+def bookmark_food(request, food_id):
+    try:
+        food = get_object_or_404(Food, id=food_id)
+        bookmark, created = Bookmark.objects.get_or_create(
+            user=request.user,
+            food=food,
+            defaults={'created_at': datetime.datetime.now()}
+        )
+
+        if created:
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Food bookmarked successfully',
+                'is_bookmarked': True
+            })
+        else:
+            # If bookmark already exists, remove it
+            bookmark.delete()
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Bookmark removed successfully',
+                'is_bookmarked': False
+            })
+
+    except Food.DoesNotExist:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Food not found'
+        }, status=404)
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': str(e)
+        }, status=400)
+
+def bookmark_list(request, food_id):
+    try:
+        is_bookmarked = Bookmark.objects.filter(
+            user=request.user,
+            food_id=food_id
+        ).exists()
+        
+        return JsonResponse({
+            'status': 'success',
+            'is_bookmarked': is_bookmarked
+        })
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': str(e)
+        }, status=400)
+
+def bookmarks_view(request):
+    bookmarks = Bookmark.objects.filter(user=request.user)
+    return render(request, 'bookmarks.html', {'bookmarks': bookmarks})
