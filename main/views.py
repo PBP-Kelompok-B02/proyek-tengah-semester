@@ -93,7 +93,6 @@ def change_password(request):
         user.set_password(new_password)
         user.save()
 
-        # Update the session to keep the user logged in after the password change
         update_session_auth_hash(request, user)
 
         return JsonResponse({'success': 'Password changed successfully'})
@@ -193,7 +192,7 @@ def submit_forum(request):
             new_forum = Forum.objects.create(
                 title=title,
                 description=description,
-                created_by=request.user  # Menggunakan user yang sudah login
+                created_by=request.user
             )
             return JsonResponse({'success': True})
         else:
@@ -310,7 +309,7 @@ def add_food_entry_ajax(request):
     
     try:
         new_food = Food(
-            user=request.user,  # Assign the current user
+            user=request.user, 
             name=request.POST.get('name'),
             price=request.POST.get('price'),
             restaurant=request.POST.get('restaurant'),
@@ -334,10 +333,8 @@ def add_food_entry_ajax(request):
 @require_POST
 def edit_food_ajax(request, food_id):
     try:
-        # Get food object that belongs to current user
-        food = get_object_or_404(Food, user=request.user)
-        
-        # Update fields
+        food = Food.objects.get(id=food_id, user=request.user)    
+
         food.name = request.POST.get('name', food.name)
         food.price = request.POST.get('price', food.price)
         food.restaurant = request.POST.get('restaurant', food.restaurant)
@@ -345,9 +342,7 @@ def edit_food_ajax(request, food_id):
         food.contact = request.POST.get('contact', food.contact)
         food.open_time = request.POST.get('open_time', food.open_time)
         food.description = request.POST.get('description', food.description)
-        
-        if 'image' in request.FILES:
-            food.image = request.FILES['image']
+        food.image = request.POST.get('image', food.image)
             
         food.save()
         return JsonResponse({'status': 'success'})
@@ -361,7 +356,6 @@ def edit_food_ajax(request, food_id):
 @require_POST
 def delete_food_ajax(request, food_id):
     try:
-        # Get and delete food object that belongs to current user
         food = get_object_or_404(Food, pk=food_id, user=request.user)
         food.delete()
         return JsonResponse({'status': 'success'})
@@ -374,7 +368,6 @@ def delete_food_ajax(request, food_id):
 @login_required
 def get_food_detail(request, food_id):
     try:
-        # Get food object that belongs to current user
         food = get_object_or_404(Food, pk=food_id, user=request.user)
         return JsonResponse({
             'status': 'success',
@@ -387,7 +380,7 @@ def get_food_detail(request, food_id):
                 'contact': food.contact,
                 'open_time': food.open_time,
                 'description': food.description,
-                'image': food.image.url if food.image else None
+                'image': food.image
             }
         })
     except Food.DoesNotExist:
