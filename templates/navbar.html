@@ -17,11 +17,14 @@
       <a href="{% url 'main:login' %}" class="text-white">Login</a>
     </div>
     {% endif %}
-    <span class="px-6 mr-2  hover:cursor-pointer float-right" onclick="redirectTo(event, 'forum')">
+    <span class="px-6 mr-2 hover:cursor-pointer float-right" onclick="redirectTo(event, 'forum')">
       <span class="mx-1 text-white">Forum</span>
     </span>
-    <span class="px mr-2  hover:cursor-pointer float-right" onclick="redirectTo(event, 'bookmarks')">
+    <span class="px-6 mr-2 hover:cursor-pointer float-right" onclick="redirectTo(event, 'bookmarks')">
       <span class="mx-1 text-white">Bookmarks</span>
+    </span>
+    <span class="px-6 mr-2 hover:cursor-pointer float-right" onclick="redirectTo(event, 'profile')">
+      <span class="mx-1 text-white">Dashboard</span>
     </span>
   </div>
 </div>
@@ -64,7 +67,7 @@
     event.stopPropagation();
     const urls = {
       home: '{% url "main:show_main" %}',
-      profile: '{% url "main:profile" %}',
+      profile: '{% url "dashboard:profile" %}',
       bookmarks: '{% url "main:bookmark_view" %}',
       logout: '{% url "main:logout" %}',
       forum: '{% url "forum:show_forum" %}',
