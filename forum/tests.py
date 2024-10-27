@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from .models import Forum, Reply
 
 class ForumTests(TestCase):
-
     def setUp(self):
         # Set up user and client
         self.client = Client()
