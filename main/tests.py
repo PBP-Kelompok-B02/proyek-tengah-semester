@@ -1,7 +1,8 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Food, Bookmark
+from .models import Food
+from bookmark.models import Bookmark
 import json
 import uuid
 
@@ -50,7 +51,6 @@ class MainAppTests(TestCase):
         self.assertContains(response, 'Nasi Goreng')
 
    
-
     def test_show_json(self):
         response = self.client.get(reverse('main:show_json'))
         self.assertEqual(response.status_code, 200)
@@ -76,4 +76,3 @@ class MainAppTests(TestCase):
         data = json.loads(response.content)
         self.assertEqual(data['status'], 'success')
         self.assertTrue(data['is_bookmarked'])
-
