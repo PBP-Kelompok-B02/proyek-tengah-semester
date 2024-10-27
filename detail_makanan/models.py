@@ -14,5 +14,3 @@ class FoodReviews(models.Model):
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
     review = models.CharField(max_length=500)
     image_url = models.ImageField(upload_to=upload_to, blank=True, null=True)
-
-
