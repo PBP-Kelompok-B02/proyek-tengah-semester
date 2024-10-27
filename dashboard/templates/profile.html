@@ -137,10 +137,10 @@
                                class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
-                    <div class="mb-4">
+                    <div class="form-group">
                         <label class="block text-sm font-medium mb-1">Open Time</label>
-                        <input type="time" name="open_time" required 
-                               class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
+                        <input type="text" placeholder="Please enter time in format HH:mm-HH:mm (e.g., 07:00-09:00)" id="open_time" name="open_time" required 
+                        class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
                     <div class="mb-4">
@@ -181,7 +181,6 @@
                 {% csrf_token %}
                 <input type="hidden" id="edit-food-id" name="food_id">
                 <div class="grid gap-4">
-                    <!-- Same form fields as Add Food Modal but with id attributes -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Name</label>
                         <input type="text" id="edit-name" name="name" maxlength="100" required 
@@ -214,7 +213,7 @@
                     
                     <div class="form-group">
                         <label class="block text-sm font-medium mb-1">Open Time</label>
-                        <input type="time" id="edit-open_time" name="open_time" required 
+                        <input type="text" placeholder="Please enter time in format HH:mm-HH:mm (e.g., 07:00-09:00)" id="edit-open-time" name="open_time" required 
                         class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg transition-colors focus:border-[#602231] focus:outline-none">
                     </div>
                     
@@ -467,6 +466,7 @@
                     document.getElementById('edit-restaurant').value = food.restaurant;
                     document.getElementById('edit-address').value = food.address;
                     document.getElementById('edit-contact').value = food.contact;
+                    document.getElementById('edit-open-time').value = food.open_time;
                     document.getElementById('edit-description').value = food.description;
                     
                     const modal = document.getElementById('edit-food-modal');
