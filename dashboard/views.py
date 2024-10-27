@@ -87,7 +87,7 @@ def add_food_entry_ajax(request):
             restaurant=strip_tags(request.POST.get('restaurant')),
             address=strip_tags(request.POST.get('address')),
             contact=strip_tags(request.POST.get('contact')),
-            open_time=request.POST.get('open_time'),
+            open_time=strip_tags(request.POST.get('open_time')),
             description=strip_tags(request.POST.get('description')),
             image=strip_tags(request.POST.get('image'))
         )
@@ -112,7 +112,7 @@ def edit_food_ajax(request, id):
         food.restaurant = strip_tags(request.POST.get('restaurant', food.restaurant))
         food.address = strip_tags(request.POST.get('address', food.address))
         food.contact = strip_tags(request.POST.get('contact', food.contact))
-        food.open_time = request.POST.get('open_time', food.open_time)
+        food.open_time = strip_tags(request.POST.get('open_time', food.open_time))
         food.description = strip_tags(request.POST.get('description', food.description))
         food.image = strip_tags(request.POST.get('image', food.image))
         
