@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'detail_makanan'
+    'detail_makanan',
+    'forum'
 ]
 
 MIDDLEWARE = [
