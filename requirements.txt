@@ -7,3 +7,4 @@ urllib3
 Pillow
 psycopg2-binary
 dj-database-url
+django-cors-headers

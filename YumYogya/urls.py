@@ -25,4 +25,5 @@ urlpatterns = [
     path('profile/', include('dashboard.urls')),
     path('food-details/', include('detail_makanan.urls')),
     path('forum/', include(('forum.urls', 'forum'), namespace='forum')),
+    path('auth/', include('authentication.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
