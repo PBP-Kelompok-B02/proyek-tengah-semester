@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-p(x9d7x&_-@@5*54k%af04!+r-j68u6ja5936p1pb0#^((%w49
 PRODUCTION = os.getenv("PRODUCTION", False)
 DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = ["localhost","lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "127.0.0.1", "yumyogya.up.railway.app"]
+ALLOWED_HOSTS = ["localhost","lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "127.0.0.1", "yumyogya.up.railway.app", "10.0.2.2"]
 
 LOGIN_URL = '/login/'
 
@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'dashboard',
     'forum',
     'bookmark',
+    'authentication',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +60,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 
 ROOT_URLCONF = 'YumYogya.urls'
 
