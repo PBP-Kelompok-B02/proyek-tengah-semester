@@ -58,12 +58,16 @@ def register(request):
         # Create the new user
         user = User.objects.create_user(username=username, password=password1)
         user.save()
-        
-        return JsonResponse({
+        response = JsonResponse({
             "username": user.username,
             "status": 'success',
             "message": "User created successfully!"
         }, status=200)
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+
+        return response
     
     else:
         print("not post")
