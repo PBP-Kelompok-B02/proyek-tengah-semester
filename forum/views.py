@@ -16,7 +16,31 @@ def show_forum(request):
     }
     return render(request, 'forum.html', context)
 
+def show_json(request):
+    # Ambil parameter query string dari request
+    query = request.GET.get('query', '')  # Untuk pencarian berdasarkan judul/deskripsi
+    sort = request.GET.get('sort', 'created_at')  # Default sorting by created_at
+    sort_order = request.GET.get('order', 'desc')  # Default descending order
 
+    # Ambil semua data forum
+    forums = Forum.objects.all()
+
+    # Filter berdasarkan query
+    if query:
+        forums = forums.filter(title__icontains=query) | forums.filter(description__icontains=query)
+
+    # Sorting data
+    if sort_order == 'asc':
+        forums = forums.order_by(sort)  # Ascending order
+    else:
+        forums = forums.order_by(f'-{sort}')  # Descending order
+
+    # Konversi ke JSON
+    data = list(forums.values(
+        'id', 'title', 'description', 'created_at', 'created_by__username'
+    ))
+
+    return JsonResponse(data, safe=False)
 
 @login_required
 def create_forum(request):

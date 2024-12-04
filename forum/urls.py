@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import show_forum, create_forum, submit_forum, delete_forum, reply_forum, delete_reply
+from .views import show_forum, create_forum, submit_forum, delete_forum, reply_forum, delete_reply, show_json
 
 app_name = 'forum'
 
 urlpatterns = [
     path('', show_forum, name='show_forum'),
+    path('json/', show_json, name='show_json'), 
     path('create_forum/', create_forum, name='create_forum'),
     path('submit_forum/', submit_forum, name='submit_forum'),
     path('<int:forum_id>/delete/', delete_forum, name='delete_forum'),  
