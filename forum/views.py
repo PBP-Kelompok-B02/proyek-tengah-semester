@@ -35,10 +35,24 @@ def show_json(request):
     else:
         forums = forums.order_by(f'-{sort}')  # Descending order
 
-    # Konversi ke JSON
-    data = list(forums.values(
-        'id', 'title', 'description', 'created_at', 'created_by__username'
-    ))
+    # Ambil semua reply yang terkait dengan forum menggunakan prefetch_related
+    forums = forums.prefetch_related('reply_set')
+
+    # Konversi data forum dan reply ke format JSON
+    data = []
+    for forum in forums:
+        replies = list(forum.reply_set.values(
+            'id', 'content', 'created_at', 'created_by__username'
+        ))
+
+        data.append({
+            'id': forum.id,
+            'title': forum.title,
+            'description': forum.description,
+            'created_at': forum.created_at,
+            'created_by': forum.created_by.username,
+            'replies': replies,  # Menambahkan data reply
+        })
 
     return JsonResponse(data, safe=False)
 
