@@ -17,17 +17,19 @@ def show_forum(request):
     return render(request, 'forum.html', context)
 
 def show_json(request):
+
+     # Ambil semua data forum
+    forums = Forum.objects.prefetch_related('replies').all()
+
     # Ambil parameter query string dari request
     query = request.GET.get('query', '')  # Untuk pencarian berdasarkan judul/deskripsi
     sort = request.GET.get('sort', 'created_at')  # Default sorting by created_at
     sort_order = request.GET.get('order', 'desc')  # Default descending order
 
-    # Ambil semua data forum
-    forums = Forum.objects.all()
-
+   
     # Filter berdasarkan query
     if query:
-        forums = forums.filter(title__icontains=query) | forums.filter(description__icontains=query)
+        forums = forums.filter(title__icontains=query) | forums.filter(description__icontains=query) | forums.filter(reply__content__icontains=query)
 
     # Sorting data
     if sort_order == 'asc':
@@ -35,24 +37,30 @@ def show_json(request):
     else:
         forums = forums.order_by(f'-{sort}')  # Descending order
 
-    # Ambil semua reply yang terkait dengan forum menggunakan prefetch_related
-    forums = forums.prefetch_related('reply_set')
-
     # Konversi data forum dan reply ke format JSON
     data = []
     for forum in forums:
-        replies = list(forum.reply_set.values(
-            'id', 'content', 'created_at', 'created_by__username'
-        ))
-
-        data.append({
+        forum_data = {
             'id': forum.id,
             'title': forum.title,
             'description': forum.description,
             'created_at': forum.created_at,
             'created_by': forum.created_by.username,
-            'replies': replies,  # Menambahkan data reply
-        })
+            'replies': []
+        }
+
+        # Gunakan replies (sesuai related_name)
+        replies = forum.replies.all().order_by('created_at')
+        for reply in replies:
+            reply_data = {
+                'id': reply.id,
+                'content': reply.content,
+                'created_at': reply.created_at,
+                'created_by': reply.created_by.username
+            }
+            forum_data['replies'].append(reply_data)
+
+        data.append(forum_data)
 
     return JsonResponse(data, safe=False)
 
