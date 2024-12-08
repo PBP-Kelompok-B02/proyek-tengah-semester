@@ -5,12 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from main.models import Food
 from django.shortcuts import render
 from django.contrib.auth import update_session_auth_hash
 from django.utils.html import strip_tags
+from django.core import serializers
 
 @login_required
 def show_profile(request):
@@ -186,3 +187,8 @@ def create_food_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
+    
+@csrf_exempt  
+def show_json(request):
+    data = Food.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
