@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -162,3 +163,26 @@ def get_food_detail(request, id):
         return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    
+@csrf_exempt
+def create_food_flutter(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+        new_food = Food.objects.create(
+            user=request.user, 
+            name=data["name"],
+            price=int(data["price"]),
+            restaurant=data["restaurant"],
+            address=data["address"],    
+            contact=data["contact"],
+            open_time=data["open_time"],
+            description=data["description"],
+            image=data["image"]
+        )
+
+        new_food.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
