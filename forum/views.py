@@ -1,3 +1,5 @@
+import json
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.shortcuts import redirect, render
@@ -136,3 +138,63 @@ def delete_reply(request, reply_id):
     reply = get_object_or_404(Reply, id=reply_id, created_by=request.user)
     reply.delete()
     return JsonResponse({'success': True})
+
+@csrf_exempt
+def submit_forum_mobile(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            title = data['title']
+            description = data['description']
+
+            new_forum = Forum.objects.create(
+                title=title,
+                description=description,
+                created_by=request.user
+            )
+            
+            return JsonResponse({
+                "status": "success",
+                "message": "Forum created successfully",
+                "forum": {
+                    "id": new_forum.id,
+                    "title": new_forum.title,
+                    "description": new_forum.description,
+                }
+            })
+        except Exception as e:
+            return JsonResponse({
+                "status": "error",
+                "message": str(e)
+            })
+    return JsonResponse({"status": "error", "message": "Invalid request method"})
+
+@csrf_exempt
+def reply_forum_mobile(request, forum_id):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            content = data['content']
+            forum = Forum.objects.get(id=forum_id)
+            
+            reply = Reply.objects.create(
+                forum=forum,
+                content=content,
+                created_by=request.user
+            )
+            
+            return JsonResponse({
+                "status": "success",
+                "message": "Reply added successfully",
+                "reply": {
+                    "id": reply.id,
+                    "content": reply.content,
+                }
+            })
+        except Exception as e:
+            return JsonResponse({
+                "status": "error",
+                "message": str(e)
+            })
+    return JsonResponse({"status": "error", "message": "Invalid request method"})
+
