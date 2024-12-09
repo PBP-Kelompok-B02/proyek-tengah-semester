@@ -1,0 +1,17 @@
+{% load static %}
+<footer class="bg-[#e0e0e0] py-5 text-center">
+    <div class="container mx-auto">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" class="mx-auto mb-4" style="height: 50px;">
+        <p>&copy; 2024 PBP-B02. Made with love and patience.</p>
+        <ul class="list-none p-0 flex justify-center mt-4">
+            <li class="mx-2">
+                <a href="{% url 'main:show_main' %}" class="text-[#4a1a2b] hover:scale-105">Home</a>
+            </li>
+            <li class="mx-2">
+                <a href="https://github.com/PBP-Kelompok-B02/proyek-tengah-semester.git" target="_blank" class="text-[#4a1a2b]">
+                    <i class="fab fa-github text-2xl text-[#4a1a2b]"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</footer>
