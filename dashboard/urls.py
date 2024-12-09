@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import show_profile, change_password, add_food_entry_ajax, edit_food_ajax, delete_food_ajax, get_food_detail, get_user_foods, create_food_flutter, show_json
+from .views import show_profile, change_password, add_food_entry_ajax, edit_food_ajax, delete_food_ajax, get_food_detail, get_user_foods, create_food_flutter, show_json, edit_food_flutter
 
 app_name = 'dashboard'
 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('get-user-foods/', get_user_foods, name='get_user_foods'),
     path('create-flutter/', create_food_flutter, name='create_food_flutter'),
     path('json/', show_json, name='show_json'),
+    path('edit-flutter/', edit_food_flutter, name='edit_food_flutter')
 ]
