@@ -13,6 +13,6 @@ urlpatterns = [
     path('get-user-foods/', get_user_foods, name='get_user_foods'),
     path('create-flutter/', create_food_flutter, name='create_food_flutter'),
     path('json/', show_json, name='show_json'),
-    path('edit-flutter/<uuid:id>/', edit_food_flutter, name='edit_food_flutter')
+    path('edit-flutter/<uuid:id>/', edit_food_flutter, name='edit_food_flutter'),
     path('change-password-flutter/', change_password_flutter, name='change_password_flutter')
 ]
