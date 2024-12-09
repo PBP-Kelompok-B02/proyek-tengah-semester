@@ -217,3 +217,30 @@ def edit_food_flutter(request, food_id):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+    
+@csrf_exempt
+@login_required
+def change_password_flutter(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            old_password = data.get('old_password')
+            new_password = data.get('new_password')
+            confirm_password = data.get('confirm_password')
+
+            if new_password != confirm_password:
+                return JsonResponse({'status': 'error', 'message': 'Passwords do not match'}, status=400)
+
+            user = request.user
+            if not user.check_password(old_password):
+                return JsonResponse({'status': 'error', 'message': 'Old password is incorrect'}, status=400)
+
+            user.set_password(new_password)
+            user.save()
+            update_session_auth_hash(request, user)  # Penting untuk memperbarui hash autentikasi sesi
+
+            return JsonResponse({'status': 'success', 'message': 'Password changed successfully'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
