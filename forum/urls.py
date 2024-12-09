@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import show_forum, create_forum, submit_forum, delete_forum, reply_forum, delete_reply, show_json, submit_forum_mobile, reply_forum_mobile
+from .views import show_forum, create_forum, submit_forum, delete_forum, reply_forum, delete_reply, show_json, submit_forum_mobile, reply_forum_mobile, delete_forum_mobile, delete_reply_mobile
 
 app_name = 'forum'
 
@@ -13,4 +13,6 @@ urlpatterns = [
     path('<int:reply_id>/delete-reply/', delete_reply, name='delete_reply'),
     path('submit-forum/mobile/', submit_forum_mobile, name='submit_forum_mobile'),  
     path('<int:forum_id>/reply/mobile/', reply_forum_mobile, name='reply_forum_mobile'),  
+    path('<int:forum_id>/delete/mobile/', delete_forum_mobile, name='delete_forum_mobile'),
+    path('<int:reply_id>/delete-reply/mobile/', delete_reply_mobile, name='delete_reply_mobile'),
 ]
