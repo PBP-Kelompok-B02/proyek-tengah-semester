@@ -192,3 +192,28 @@ def create_food_flutter(request):
 def show_json(request):
     data = Food.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+@csrf_exempt
+def edit_food_flutter(request, food_id):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            food = Food.objects.get(id=food_id, user=request.user)
+            
+            food.name = data.get("name", food.name)
+            food.price = int(data.get("price", food.price))
+            food.restaurant = data.get("restaurant", food.restaurant)
+            food.address = data.get("address", food.address)
+            food.contact = data.get("contact", food.contact)
+            food.open_time = data.get("open_time", food.open_time)
+            food.description = data.get("description", food.description)
+            food.image = data.get("image", food.image)
+            food.save()
+            
+            return JsonResponse({'status': 'success', 'message': 'Food updated successfully'})
+        except Food.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
