@@ -198,3 +198,36 @@ def reply_forum_mobile(request, forum_id):
             })
     return JsonResponse({"status": "error", "message": "Invalid request method"})
 
+@csrf_exempt
+def delete_forum_mobile(request, forum_id):
+    if request.method == 'POST':
+        try:
+            forum = get_object_or_404(Forum, id=forum_id, created_by=request.user)
+            forum.delete()
+            return JsonResponse({
+                "status": "success",
+                "message": "Forum deleted successfully"
+            })
+        except Exception as e:
+            return JsonResponse({
+                "status": "error",
+                "message": str(e)
+            })
+    return JsonResponse({"status": "error", "message": "Invalid request method"})
+
+@csrf_exempt
+def delete_reply_mobile(request, reply_id):
+    if request.method == 'POST':
+        try:
+            reply = get_object_or_404(Reply, id=reply_id, created_by=request.user)
+            reply.delete()
+            return JsonResponse({
+                "status": "success",
+                "message": "Reply deleted successfully"
+            })
+        except Exception as e:
+            return JsonResponse({
+                "status": "error",
+                "message": str(e)
+            })
+    return JsonResponse({"status": "error", "message": "Invalid request method"})
