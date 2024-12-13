@@ -244,3 +244,19 @@ def change_password_flutter(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+    
+@csrf_exempt
+@login_required
+def delete_food_flutter(request, id):
+    try:
+        print(f"Attempting to delete food with ID: {id}")
+        food = get_object_or_404(Food, pk=id, user=request.user)
+        food.delete()
+        print(f"Successfully deleted food with ID: {id}")
+        return JsonResponse({'status': 'success'})
+    except Food.DoesNotExist:
+        print(f"Food with ID: {id} not found or access denied")
+        return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
+    except Exception as e:
+        print(f"Error deleting food with ID: {id} - {str(e)}")
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
