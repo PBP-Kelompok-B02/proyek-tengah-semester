@@ -194,11 +194,11 @@ def show_json(request):
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 @csrf_exempt
-def edit_food_flutter(request, food_id):
+def edit_food_flutter(request, id):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            food = Food.objects.get(id=food_id, user=request.user)
+            food = Food.objects.get(id=id, user=request.user)
             
             food.name = data.get("name", food.name)
             food.price = int(data.get("price", food.price))
