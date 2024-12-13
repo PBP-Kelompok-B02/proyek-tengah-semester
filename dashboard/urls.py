@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import show_profile, change_password, add_food_entry_ajax, edit_food_ajax, delete_food_ajax, get_food_detail, get_user_foods, create_food_flutter, show_json, edit_food_flutter, change_password_flutter
+from .views import show_profile, change_password, add_food_entry_ajax, edit_food_ajax, delete_food_ajax, get_food_detail, get_user_foods, create_food_flutter, show_json, edit_food_flutter, change_password_flutter, delete_food_flutter
 
 app_name = 'dashboard'
 
@@ -14,5 +14,6 @@ urlpatterns = [
     path('create-flutter/', create_food_flutter, name='create_food_flutter'),
     path('json/', show_json, name='show_json'),
     path('edit-flutter/<uuid:id>/', edit_food_flutter, name='edit_food_flutter'),
-    path('change-password-flutter/', change_password_flutter, name='change_password_flutter')
+    path('change-password-flutter/', change_password_flutter, name='change_password_flutter'),
+    path('delete-flutter/<uuid:id>/', delete_food_flutter, name='delete_food_flutter'),
 ]
