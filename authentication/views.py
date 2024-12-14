@@ -30,7 +30,7 @@ def login(request):
     else:
         return JsonResponse({
             "status": False,
-            "message": "Login gagal, periksa kembali email atau kata sandi."
+            "message": "Login gagal, periksa kembali username atau kata sandi."
         }, status=401)
     
 @csrf_exempt
@@ -46,14 +46,14 @@ def register(request):
         if password1 != password2:
             return JsonResponse({
                 "status": False,
-                "message": "Passwords do not match."
+                "message": "Kata sandi tidak sama."
             }, status=400)
         
         # Check if the username is already taken
         if User.objects.filter(username=username).exists():
             return JsonResponse({
                 "status": False,
-                "message": "Username already exists."
+                "message": "Username sudah terdaftar."
             }, status=400)
         
         # Create the new user
