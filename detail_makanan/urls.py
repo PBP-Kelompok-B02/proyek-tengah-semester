@@ -13,5 +13,5 @@ urlpatterns = [
 
     # json flutter
     path('json/<uuid:id>/', show_food_details_json, name="show-food-details-json"),
-    path('json/delete-review/<int:id>', delete_food_details_json, name="delete-food-details-json"),
+    path('json/delete-review/<int:id>/', delete_food_details_json, name="delete-food-details-json"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
