@@ -7,14 +7,15 @@
 {% endblock meta %}
 
 {% block content %}
+<main class="flex-grow">
 {% include 'navbar.html' %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body class="pt-24 bg-[#F2E8C6]">
+<body class="pt-24 bg-[#fbfcf8] flex flex-col min-h-screen">
+<body class="pt-24 bg-[#fbfcf8]">
     <header class="text-center mb-12 px-4">
         <h1 class="text-5xl font-bold text-[#982B1C] mb-4 animate-fade-in">
             <span class="inline-block transform hover:scale-105 transition-transform duration-300">Bookmarks</span>
@@ -58,6 +59,7 @@
             animation: fadeIn 0.5s ease-out forwards;
         }
     </style>
+    
     {% endblock %}
     
     <script>
@@ -111,5 +113,7 @@
             return cookieValue;
         }
     </script>
-</body>
+    
+</main>
+{% include 'footer.html' %}
 {% endblock content %}

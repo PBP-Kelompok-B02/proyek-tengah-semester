@@ -1,4 +1,5 @@
 import datetime
+import json
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -20,11 +21,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import update_session_auth_hash
 from .forms import CSVUploadForm
 
-from .models import Food, Bookmark
+from .models import Food
+from bookmark.models import Bookmark
 from forum.models import Forum, Reply
 import csv
 from django.shortcuts import render
-
 import os
 from django.conf import settings
 from pathlib import Path
@@ -58,30 +59,6 @@ def show_json(request):
         food = food.order_by('-price')
 
     return HttpResponse(serializers.serialize("json", food), content_type="application/json")
-
-@csrf_exempt
-@login_required
-def change_password(request):
-    if request.method == 'POST':
-        old_password = request.POST.get('old_password')
-        new_password = request.POST.get('new_password')
-        confirm_password = request.POST.get('confirm_password')
-
-        if new_password != confirm_password:
-            return JsonResponse({'error': 'Passwords do not match'}, status=400)
-
-        user = request.user
-        if not user.check_password(old_password):
-            return JsonResponse({'error': 'Old password is incorrect'}, status=400)
-
-        user.set_password(new_password)
-        user.save()
-
-        update_session_auth_hash(request, user)
-
-        return JsonResponse({'success': 'Password changed successfully'})
-
-    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 def register(request):
     form = CustomUserCreationForm()
@@ -170,122 +147,6 @@ def add_products_from_csv(request):
         form = CSVUploadForm()
 
     return render(request, 'add_products_from_csv.html', {'form': form})
-
-@login_required
-def get_user_foods(request):
-    try:
-        user_foods = Food.objects.filter(user=request.user) 
-        foods_data = []
-        
-        for food in user_foods:
-            foods_data.append({
-                'id': food.id,
-                'name': food.name,
-                'price': food.price,
-                'restaurant': food.restaurant,
-                'address': food.address,
-                'contact': food.contact,
-                'open_time': food.open_time,
-                'description': food.description,
-                'image': food.image
-            })
-
-        return JsonResponse({
-            'status': 'success',
-            'foods': foods_data
-        })
-    except Exception as e:
-        return JsonResponse({
-            'status': 'error',
-            'message': str(e)
-        }, status=400)
-
-@csrf_exempt
-@require_POST
-def add_food_entry_ajax(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({'status': 'error', 'message': 'User not authenticated'}, status=401)
-    
-    try:
-        new_food = Food(
-            user=request.user, 
-            name=request.POST.get('name'),
-            price=request.POST.get('price'),
-            restaurant=request.POST.get('restaurant'),
-            address=request.POST.get('address'),
-            contact=request.POST.get('contact'),
-            open_time=request.POST.get('open_time'),
-            description=request.POST.get('description'),
-            image=request.POST.get('image')
-        )
-        
-        if 'image' in request.FILES:
-            new_food.image = request.FILES['image']
-            
-        new_food.save()
-        return JsonResponse({'status': 'success'})
-        
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-
-@login_required
-@require_POST
-def edit_food_ajax(request, food_id):
-    try:
-        food = Food.objects.get(id=food_id, user=request.user)    
-
-        food.name = request.POST.get('name', food.name)
-        food.price = request.POST.get('price', food.price)
-        food.restaurant = request.POST.get('restaurant', food.restaurant)
-        food.address = request.POST.get('address', food.address)
-        food.contact = request.POST.get('contact', food.contact)
-        food.open_time = request.POST.get('open_time', food.open_time)
-        food.description = request.POST.get('description', food.description)
-        food.image = request.POST.get('image', food.image)
-            
-        food.save()
-        return JsonResponse({'status': 'success'})
-        
-    except Food.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-
-@login_required
-@require_POST
-def delete_food_ajax(request, food_id):
-    try:
-        food = get_object_or_404(Food, pk=food_id, user=request.user)
-        food.delete()
-        return JsonResponse({'status': 'success'})
-        
-    except Food.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-
-@login_required
-def get_food_detail(request, food_id):
-    try:
-        food = get_object_or_404(Food, pk=food_id, user=request.user)
-        return JsonResponse({
-            'status': 'success',
-            'food': {
-                'id': food.id,
-                'name': food.name,
-                'price': food.price,
-                'restaurant': food.restaurant,
-                'address': food.address,
-                'contact': food.contact,
-                'open_time': food.open_time,
-                'description': food.description,
-                'image': food.image
-            }
-        })
-    except Food.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Food not found or access denied'}, status=404)
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     
 @login_required
 @csrf_exempt

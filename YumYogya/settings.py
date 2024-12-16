@@ -27,9 +27,9 @@ SECRET_KEY = 'django-insecure-p(x9d7x&_-@@5*54k%af04!+r-j68u6ja5936p1pb0#^((%w49
 # DEBUG = True
 
 PRODUCTION = os.getenv("PRODUCTION", False)
-DEBUG = True
+DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = ["localhost","lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "127.0.0.1", "yumyogya.up.railway.app"]
+ALLOWED_HOSTS = ["localhost", "*","lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "127.0.0.1", "yumyogya.up.railway.app", "10.0.2.2", 'https://b02.up.railway.app']
 
 LOGIN_URL = '/login/'
 
@@ -44,10 +44,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'detail_makanan',
-    'forum'
+    'dashboard',
+    'forum',
+    'bookmark',
+    'authentication',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -57,6 +62,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 
 ROOT_URLCONF = 'YumYogya.urls'
 
@@ -142,4 +154,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "https://lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "https://yumyogya.up.railway.app"] 
+CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "https://lisa-margaretha-yumyogya.pbp.cs.ui.ac.id", "https://yumyogya.up.railway.app", 'https://b02.up.railway.app', "http://localhost:62726"] 

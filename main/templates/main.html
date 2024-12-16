@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% load static %} {% block meta %}
+
 <title>YumYogya</title>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
 <link
@@ -8,17 +9,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
 {% endblock meta %} {% block content %} {% include 'navbar.html' %}
 
+
 <body class="pt-18 bg-[#fbfcf8]">
+  
   <div class="relative">
     <img
       src="{% static 'images/yogyakarta.jpg' %}"
       alt="Yogyakarta"
-      class="w-full h-100 object-cover mb-4"
+      class="w-full h-100 object-cover mb-4 filter blur-[1px]"
     />
     <div
-      class="absolute inset-x-0 bottom-0 mb-24 flex flex-col justify-center items-center"
+      class="absolute inset-x-0 bottom-0 mb-12 flex flex-col justify-center items-center"
     >
-      <h1 class="text-6xl text-white font-bold">YumYogya</h1>
+      <h1 class="text-6xl text-white font-bold mb-4">YumYogya</h1>
       <div
         class="w-full max-w-2xl p-2 bg-white bg-opacity-75 rounded-lg shadow-lg"
       >
@@ -33,11 +36,11 @@
   </div>
   <div class="container mx-auto p-6">
     <div class="flex mt-4">
-      <select id="sort-options" class="border p-2 rounded w-full">
+      <select id="sort-options" class="border p-2 rounded w-full bg-white text-gray-700 shadow-none">
         <option value="price-asc">Price: Low to High</option>
         <option value="price-desc">Price: High to Low</option>
       </select>
-      <button id="filter-button" class="border p-2 rounded ml-4">Filter</button>
+      <button id="filter-button" class="border p-2 rounded ml-4 bg-[#602234] text-white hover:bg-[#4e1a1b]">Filter</button>
     </div>
     <div id="filter-section" class="hidden mb-4">
       <div class="flex flex-col mb-4">
@@ -58,6 +61,8 @@
     <div id="items"></div>
   </div>
 </body>
+  
+  {% include 'footer.html' %}
 
 <script>
   async function getFood(query = '', sort = 'name', filters = {}) {
@@ -120,19 +125,23 @@
         )}" class="w-full h-48 object-cover rounded-t-2xl">
           </div>
           <div class="p-4">
-            <h3 class="font-bold text-xl mb-2">
-              <a href="${baseUrl}${item.pk}">${DOMPurify.sanitize(
-          item.fields.name
-        )}</a>
+            <h2 class="font-bold text-xl mb-2">${item.fields.name} </h2>
+              
             <p class="text-gray-600 mb-2">Price: ${DOMPurify.sanitize(
               item.fields.price
             )}</p>
-            <button class="bookmark-button" data-id="${item.pk}">
-                <i class="fas fa-bookmark ${
-                  item.fields.bookmarked ? "text-yellow-500" : "text-gray-400"
-                }"></i>
+
+            <div class="flex justify-between items-center">
+                        <button class="bookmark-button" data-id="${item.pk}">
+          <i class="fas fa-bookmark ${
+            item.fields.bookmarked ? "text-yellow-500" : "text-gray-400"
+          }"></i>
             </button>
-          </div>
+              <a href="${baseUrl}${item.pk}" class="font-bold underline text-[#602234] hover:scale-105">
+              View Product Details >
+              </a>
+            </div>
+            </div>
         `;
         itemsDiv.appendChild(foodDiv);
 
@@ -266,4 +275,5 @@
   // Refresh food every 60 seconds
   setInterval(fetchFood, 60000);
 </script>
+
 {% endblock content %}
