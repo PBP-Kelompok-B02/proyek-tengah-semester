@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from .models import FoodReviews
 from main.models import Food
 from .forms import FoodReviewForm
-from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 logger = logging.getLogger(__name__)
 
 def show_food_details(request,id):
@@ -26,13 +26,13 @@ def show_food_details(request,id):
 
             reviews_html = render_to_string('review.html', {'reviews': food_reviews, 'request': request})
             return JsonResponse({'success': True, 'html': reviews_html})
-        
+
         return JsonResponse({'success': False, 'error': form.errors.as_json()}, status=400)
 
     elif request.method == 'GET' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         reviews_html = render_to_string('review.html', {'reviews': food_reviews, 'request': request})
         return JsonResponse({'success': True, 'html': reviews_html})
-    
+
     else:
         form = FoodReviewForm()
 
@@ -41,7 +41,7 @@ def show_food_details(request,id):
         'reviews': food_reviews,
         'form': form
     }
-    
+
     return render(request, 'food-details.html', context)
 
 def delete_food_details(request, id):
@@ -61,7 +61,8 @@ def delete_food_details(request, id):
             return JsonResponse({'error': 'Review not found or not authorized.'}, status=404)
     else:
         return JsonResponse({'error': 'Invalid request method.'}, status=405)
-    
+
+@csrf_exempt
 def show_food_details_json(request, id):
     food = get_object_or_404(Food, pk=id)
 
@@ -118,7 +119,7 @@ def show_food_details_json(request, id):
 
     return JsonResponse({'error': 'Invalid request method.'}, status=405)
 
-
+@csrf_exempt
 def delete_food_details_json(request, id):
     if request.method == 'POST':
         try:
