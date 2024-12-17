@@ -1,5 +1,6 @@
 # views.py
-import os, logging
+import os, logging, json, base64
+from django.core.files.base import ContentFile
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -65,27 +66,39 @@ def delete_food_details(request, id):
 @csrf_exempt
 def show_food_details_json(request, id):
     food = get_object_or_404(Food, pk=id)
-
     food_reviews = food.foodreviews_set.all().order_by('-id')
 
     if request.method == 'POST':
-        form = FoodReviewForm(request.POST, request.FILES)
-        if form.is_valid():
-            food_review = form.save(commit=False)
-            food_review.user = request.user
-            food_review.food = food
+        try:
+            data = json.loads(request.body)
+            review_text = data.get("review", "")
+            base64_image = data.get("image", "no image")
+
+            food_review = FoodReviews(
+                food=food,
+                user=request.user,
+                review=review_text
+            )
+
+            if base64_image != "no image":
+                image_data = ContentFile(
+                    base64.b64decode(base64_image),
+                    name=f"review_image_{id}.jpg"
+                )
+                food_review.image_url = image_data
+
             food_review.save()
 
             new_review = {
                 'id': food_review.id,
                 'user': food_review.user.username if food_review.user else 'Anonymous',
                 'review': food_review.review,
-                'image_url': food_review.image_url.url if food_review.image_url else None,
+                'image_url': request.build_absolute_uri(food_review.image_url.url) if food_review.image_url else None,
             }
 
             return JsonResponse({'success': True, 'new_review': new_review}, status=201)
-
-        return JsonResponse({'success': False, 'error': form.errors.as_json()}, status=400)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
 
     elif request.method == 'GET':
         food_data = {
@@ -95,27 +108,16 @@ def show_food_details_json(request, id):
             'restaurant': food.restaurant,
             'address': food.address,
             'contact': food.contact,
-            'open_time': food.open_time,
-            'description': food.description,
-            'image': food.image,
+            'reviews': [
+                {
+                    'id': review.id,
+                    'user': review.user.username if review.user else 'Anonymous',
+                    'review': review.review,
+                    'image_url': request.build_absolute_uri(review.image_url.url) if review.image_url else None,
+                } for review in food_reviews
+            ]
         }
-
-        reviews_data = [
-            {
-                'id': review.id,
-                'user': review.user.username if review.user else 'Anonymous',
-                'review': review.review,
-                'image_url': review.image_url.url if review.image_url else None,
-            }
-            for review in food_reviews
-        ]
-
-        response_data = {
-            'food': food_data,
-            'reviews': reviews_data,
-        }
-
-        return JsonResponse(response_data, safe=False)
+        return JsonResponse(food_data, status=200)
 
     return JsonResponse({'error': 'Invalid request method.'}, status=405)
 
