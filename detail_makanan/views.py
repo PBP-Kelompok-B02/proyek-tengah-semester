@@ -70,9 +70,13 @@ def show_food_details_json(request, id):
 
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
-            review_text = data.get("review", "")
-            base64_image = data.get("image", "no image")
+            if request.content_type and 'application/json' in request.content_type:
+                data = json.loads(request.body)
+            else:
+                data = request.POST.dict()
+
+            review_text = data['review']
+            base64_image = data['image'] if 'image' in data else "no image"
 
             food_review = FoodReviews(
                 food=food,
@@ -81,8 +85,14 @@ def show_food_details_json(request, id):
             )
 
             if base64_image != "no image":
-                image_flutter = ContentFile(base64.b64decode(base64_image), name=f"{food.name}_review.jpg")
-                food_review.image_url = image_flutter
+                try:
+                    # Remove potential data URL prefix
+                    if ',' in base64_image:
+                        base64_image = base64_image.split(',')[1]
+                    image_flutter = ContentFile(base64.b64decode(base64_image), name=f"{food.name}_review.jpg")
+                    food_review.image_url = image_flutter
+                except Exception as e:
+                    return JsonResponse({'success': False, 'error': 'Invalid image data'}, status=400)
 
             food_review.save()
 
@@ -94,7 +104,11 @@ def show_food_details_json(request, id):
             }
 
             return JsonResponse({'success': True, 'new_review': new_review}, status=201)
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON decode error: {str(e)}")
+            return JsonResponse({'success': False, 'error': 'Invalid JSON format'}, status=400)
         except Exception as e:
+            logger.error(f"Unexpected error: {str(e)}")
             return JsonResponse({'success': False, 'error': str(e)}, status=400)
 
     elif request.method == 'GET':
