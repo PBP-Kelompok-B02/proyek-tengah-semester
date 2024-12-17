@@ -108,16 +108,27 @@ def show_food_details_json(request, id):
             'restaurant': food.restaurant,
             'address': food.address,
             'contact': food.contact,
-            'reviews': [
-                {
-                    'id': review.id,
-                    'user': review.user.username if review.user else 'Anonymous',
-                    'review': review.review,
-                    'image_url': request.build_absolute_uri(review.image_url.url) if review.image_url else None,
-                } for review in food_reviews
-            ]
+            'open_time': food.open_time,
+            'description': food.description,
+            'image': food.image,
         }
-        return JsonResponse(food_data, status=200)
+
+        reviews_data = [
+            {
+                'id': review.id,
+                'user': review.user.username if review.user else 'Anonymous',
+                'review': review.review,
+                'image_url': review.image_url.url if review.image_url else None,
+            }
+            for review in food_reviews
+        ]
+
+        response_data = {
+            'food': food_data,
+            'reviews': reviews_data,
+        }
+
+        return JsonResponse(response_data, safe=False)
 
     return JsonResponse({'error': 'Invalid request method.'}, status=405)
 
