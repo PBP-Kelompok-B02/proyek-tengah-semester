@@ -81,11 +81,8 @@ def show_food_details_json(request, id):
             )
 
             if base64_image != "no image":
-                image_data = ContentFile(
-                    base64.b64decode(base64_image),
-                    name=f"review_image_{id}.jpg"
-                )
-                food_review.image_url = image_data
+                image_flutter = ContentFile(base64.b64decode(base64_image), name=f"{food.name}_review.jpg")
+                food_review.image_url = image_flutter
 
             food_review.save()
 
@@ -93,7 +90,7 @@ def show_food_details_json(request, id):
                 'id': food_review.id,
                 'user': food_review.user.username if food_review.user else 'Anonymous',
                 'review': food_review.review,
-                'image_url': request.build_absolute_uri(food_review.image_url.url) if food_review.image_url else None,
+                'image_url': food_review.image_url.url if food_review.image_url else None,
             }
 
             return JsonResponse({'success': True, 'new_review': new_review}, status=201)
